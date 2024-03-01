@@ -108,6 +108,11 @@ class Calibrolino(object):
 
         series = {serie_link['book']: series_name[serie_link['series']] for serie_link in self.tables['books_series_link']}
         collections = {collection_link['book']: collection_names[collection_link['tag']] for collection_link in self.tables['books_tags_link']}
+        if self.status_is_defined:
+            status = {status_link['book']: status_values[status_link['value']] for status_link in self.tables[self.status_link_table_name]}
+            status_values = {status_value['id']: status_value['name'] for status_value in self.tables[self.status_table_name]}
+        else:
+            status = dict()
 
         authors = dict()
         for author_link in self.tables['books_authors_link']:
@@ -125,6 +130,7 @@ class Calibrolino(object):
             series.get(book_id),
             collections.get(book_id),
             authors.get(book_id),
+            status.get(book_id),
             )
             for book_id, book in book_dict.items()}
 
@@ -152,7 +158,7 @@ class Calibrolino(object):
 
         self._create_books_dict()
 
-        for book_id, (book, data, serie, collection, authors) in self.books.items():
+        for book_id, (book, data, serie, collection, authors, status) in self.books.items():
             book_format = data['format']
             if book_format.upper() in self.accepted_formats:
                 uuid = book['uuid']
@@ -164,7 +170,7 @@ class Calibrolino(object):
                 book_path = self._get_file_path(book, data)
                 if not os.path.exists(book_path):
                     raise FileNotFoundError('maybe the suffix is uppercase')
-                print(title, collection, authors)
+                print(title, status)
 
 def run():
     """ function to be executed as entry point to upload the data
