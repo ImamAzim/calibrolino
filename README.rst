@@ -1,25 +1,29 @@
-pyproject
+calibrolino
 ===================
 
-A template for a python project that can be build into a package and published on Pypi. It follows this `tutorial <https://packaging.python.org/en/latest/tutorials/packaging-projects/>`_ for packaging python projects.
+just a simple script to upload calibre library to the tolino cloud. inspired from https://github.com/darkphoenix/tolino-calibre-sync
+
+Under development!
 
 Installation
 ============
 
 .. code-block:: bash
 
-    pip install pyproject
+    git clone https://github.com/ImamAzim/calibrolino
+    python3 -m venv $HOME/.virtualenvs/calibrolino
+    source $HOME/.virtualenvs/calibrolino/bin/activate
+    pip install calibrolino
 
 Usage
 =====
 
+to run the interactive script
 
-This is an example:
+.. code-block:: bash
 
-.. code-block:: python
-
-    import pyproject
-    pyproject.main()  # comments are usefull here
+    source $HOME/.virtualenvs/calibrolino/bin/activate
+    upload_lib
 
 
 Features
