@@ -9,6 +9,10 @@ import pytolino
 import xdg_base_dirs
 
 
+BOOK_TABLE_NAME ='books'
+DATA_TABLE_NAME = 'data'
+
+
 def get_calibre_db():
     """search in home calibre db
     :returns: path to calibre db
@@ -33,7 +37,22 @@ def get_calibre_db():
 def load_db(db_path):
     con = sqlite3.connect(db_path)
     cur = con.cursor()
+    con.row_factory = sqlite3.Row
     return con, cur
+
+
+def get_table(con, cur, table_name):
+    """load the book table from the calibre db
+
+    :cur: cursor connecting the calibre db
+    :returns: list of books
+
+    """
+    sql = f'SELECT * from {table_name}'
+    res = con.execute(sql)
+    books = res.fetchall()
+
+    return books
 
 
 def run():
@@ -42,8 +61,12 @@ def run():
     """
     print('a script to upload the calibre library')
     print('script not yet ready...')
+    db_path = get_calibre_db()
+    con, cur = load_db(db_path)
+    books = get_table(con, cur, BOOK_TABLE_NAME)
+    for book in books:
+        print(book['title'])
 
 
 if __name__ == '__main__':
-    db_path = get_calibre_db()
-    con, cur = load_db(db_path)
+    run()
