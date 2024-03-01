@@ -2,6 +2,7 @@
 
 import os
 import json
+import sqlite3
 
 
 import pytolino
@@ -29,6 +30,12 @@ def get_calibre_db():
         return None
 
 
+def load_db(db_path):
+    con = sqlite3.connect(db_path)
+    cur = con.cursor()
+    return con, cur
+
+
 def run():
     """ function to be executed as entry point to upload the data
 
@@ -38,5 +45,5 @@ def run():
 
 
 if __name__ == '__main__':
-    path = get_calibre_db()
-    print(path)
+    db_path = get_calibre_db()
+    con, cur = load_db(db_path)
