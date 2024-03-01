@@ -26,10 +26,20 @@ class Calibrolino(object):
             books_tags_link='books_tags_link',
             authors='authors',
             books_authors_link='books_authors_link',
+            custom_columns='custom_columns',
             )
 
-    def __init__(self, accepted_formats={'EPUB'}):
+    calibre_column_status_name = 'statut'
+
+    def __init__(self,
+            accepted_formats={'EPUB'},
+            column_status_name='status',
+            ):
+        """
+        column_status_name: the name of a custom column in calibre that tells if the book is Read or not.
+        """
         self.accepted_formats = accepted_formats
+        self.column_status_name = column_status_name
 
     def _get_calibre_db(self):
         """search in home calibre db
@@ -74,12 +84,28 @@ class Calibrolino(object):
         for table_name in self.calibre_db_table.keys():
             self.tables[table_name] = self._get_table(self.calibre_db_table[table_name])
 
+        custom_column_id = None
+        for custom_column in self.tables['custom_columns']:
+            if custom_column['name'] == self.column_status_name:
+                custom_column_id = custom_column['id']
+        if custom_column_id is not None:
+            self.status_table_name = f'custom_column_{custom_column_id}'
+            self.status_link_table_name = f'books_custom_column_{custom_column_id}_link'
+            table_names = self.status_table_name, self.status_link_table_name
+            for table_name in table_names:
+                self.tables[table_name] = self._get_table(self.calibre_db_table[table_name])
+            self.status_is_defined = True
+        else:
+            self.status_is_defined = False
+
     def _create_books_dict(self):
         data_dict = {data['book']: data for data in self.tables['data']}
         book_dict = {book['id']: book for book in self.tables['books']}
+
         series_name = {serie['id']: serie['name'] for serie in self.tables['series']}
         collection_names = {collection['id']: collection['name'] for collection in self.tables['tags']}
         authors_names = {author['id']: author['name'] for author in self.tables['authors']}
+
         series = {serie_link['book']: series_name[serie_link['series']] for serie_link in self.tables['books_series_link']}
         collections = {collection_link['book']: collection_names[collection_link['tag']] for collection_link in self.tables['books_tags_link']}
 
@@ -92,7 +118,6 @@ class Calibrolino(object):
                 authors[book] = [author_name]
             else:
                 authors[book].append(author_name)
-
 
         books = {book_id: (
             book,
