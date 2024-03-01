@@ -63,9 +63,18 @@ def run():
     print('script not yet ready...')
     db_path = get_calibre_db()
     con, cur = load_db(db_path)
-    books = get_table(con, cur, BOOK_TABLE_NAME)
-    for book in books:
+
+    book_table = get_table(con, cur, BOOK_TABLE_NAME)
+    data_table = get_table(con, cur, DATA_TABLE_NAME)
+    print(data_table[0].keys())
+
+    data_dict = {data['book']: data for data in data_table}
+    book_dict = {book['id']: book for book in book_table}
+    books = {book['uuid']: (book, data_dict[key]) for key, book in book_dict.items()}
+    for uuid, (book, data) in books.items():
+        print(uuid)
         print(book['title'])
+        print(data['name'])
 
 
 if __name__ == '__main__':
