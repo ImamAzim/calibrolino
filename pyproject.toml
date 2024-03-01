@@ -3,13 +3,13 @@ requires = ['setuptools>=61.0', 'wheel']
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pyproject"
+name = "calibrolino"
 version = "0.1"
 authors = [
     {name="Imam Usmani"},
 ]
 readme = "README.rst"
-requires-python = ">=3.7"
+requires-python = ">=3.10"
 classifiers = [
     "Intended Audience :: Developers",
     "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
@@ -17,8 +17,9 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: POSIX :: Linux",
 ]
-description = "template for python package project"
+description = "a script to upload calibre library to the tolino cloud"
 dependencies = [
+        'pytolino',
 ]
 
 [project.optional-dependencies]
@@ -33,5 +34,4 @@ dev = [
 ]
 
 [project.urls]
-"Source Code" = "https://github.com/ImamAzim/pyproject"
-"Documentation" = "https://pyproject.readthedocs.io/en/latest/index.html"
+"Source Code" = "https://github.com/ImamAzim/calibrolino"
