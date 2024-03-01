@@ -35,3 +35,6 @@ dev = [
 
 [project.urls]
 "Source Code" = "https://github.com/ImamAzim/calibrolino"
+
+[projects.scripts]
+upload_lib = "calibrolino:run"
