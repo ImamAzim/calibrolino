@@ -3,6 +3,7 @@
 import os
 import json
 import sqlite3
+import sys
 
 
 import pytolino
@@ -29,11 +30,10 @@ class Calibrolino(object):
             custom_columns='custom_columns',
             )
 
-    calibre_column_status_name = 'statut'
 
     def __init__(self,
             accepted_formats={'EPUB'},
-            column_status_name='status',
+            column_status_name='statut',
             ):
         """
         column_status_name: the name of a custom column in calibre that tells if the book is Read or not.
@@ -93,10 +93,11 @@ class Calibrolino(object):
             self.status_link_table_name = f'books_custom_column_{custom_column_id}_link'
             table_names = self.status_table_name, self.status_link_table_name
             for table_name in table_names:
-                self.tables[table_name] = self._get_table(self.calibre_db_table[table_name])
+                self.tables[table_name] = self._get_table(table_name)
             self.status_is_defined = True
         else:
             self.status_is_defined = False
+
 
     def _create_books_dict(self):
         data_dict = {data['book']: data for data in self.tables['data']}
