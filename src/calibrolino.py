@@ -3,6 +3,14 @@
 import pytolino
 
 
+def get_calibre_db():
+    """search in home calibre db
+    :returns: path to calibre db
+
+    """
+    pass
+
+
 def run():
     """ function to be executed as entry point to upload the data
 
@@ -12,4 +20,5 @@ def run():
 
 
 if __name__ == '__main__':
-    pass
+    path = get_calibre_db()
+    print(path)
