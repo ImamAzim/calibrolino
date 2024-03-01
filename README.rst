@@ -10,7 +10,7 @@ Installation
 
 .. code-block:: bash
 
-    git clone https://github.com/ImamAzim/calibrolino
+    git clone https://github.com/ImamAzim/calibrolino.git
     python3 -m venv $HOME/.virtualenvs/calibrolino
     source $HOME/.virtualenvs/calibrolino/bin/activate
     pip install calibrolino
