@@ -56,6 +56,17 @@ def get_table(con, cur, table_name):
 
     return books
 
+def create_books_dict(book_table, data_table, book_series_link_table, series_table):
+    data_dict = {data['book']: data for data in data_table}
+    book_dict = {book['id']: book for book in book_table}
+    series_name = {serie['id']: serie['name'] for serie in series_table}
+    series = {serie_link['book']: series_name[serie_link['series']] for serie_link in book_series_link_table}
+
+    books = {book_id: (book, data_dict[book_id], series.get(book_id)) for book_id, book in book_dict.items()}
+
+    return books
+
+
 
 def run():
     """ function to be executed as entry point to upload the data
@@ -71,21 +82,17 @@ def run():
     book_series_link_table = get_table(con, cur, BOOK_SERIES_LINK_NAME)
     series_table = get_table(con, cur, SERIES_TABLE_NAME)
 
-    data_dict = {data['book']: data for data in data_table}
-    book_dict = {book['id']: book for book in book_table}
-    series_name = {serie['id']: serie['name'] for serie in series_table}
-    series = {serie_link['book']: series_name[serie_link['series']] for serie_link in book_series_link_table}
+    books = create_books_dict(book_table, data_table, book_series_link_table, series_table)
 
-    books = {book_id: (book, data_dict[book_id]) for book_id, book in book_dict.items()}
 
-    for book_id, (book, data) in books.items():
+    for book_id, (book, data, serie) in books.items():
         uuid = book['uuid']
         title = book['title']
         # print(uuid)
         # series_index = book['series_index']
-        if book_id in series:
+        if serie is not None:
             print(title)
-            print(series[book_id])
+            print(serie)
             print(book['series_index'])
 
 
