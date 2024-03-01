@@ -15,6 +15,14 @@ SERIES_TABLE_NAME = 'series'
 BOOK_SERIES_LINK_NAME = 'books_series_link'
 
 
+"""
+select by format
+collections
+read status
+file path
+"""
+
+
 def get_calibre_db():
     """search in home calibre db
     :returns: path to calibre db
@@ -31,7 +39,7 @@ def get_calibre_db():
     db_folder = config[library_config_key]
     db_path = os.path.join(db_folder, db_fn)
     if os.path.exists(db_path):
-        return db_path
+        return db_path, db_folder
     else:
         return None
 
@@ -79,6 +87,11 @@ def create_new_title(title, serie_index, serie_name):
     return new_title
 
 
+def get_file_path(db_folder, book, data):
+    sub_folder = book['path']
+    filename = f"{data['name']}.{data['format'].lower()}"
+    path = os.path.join(db_folder, sub_folder, filename)
+    return path
 
 
 def run():
@@ -87,7 +100,7 @@ def run():
     """
     print('a script to upload the calibre library')
     print('script not yet ready...')
-    db_path = get_calibre_db()
+    db_path, db_folder = get_calibre_db()
     con, cur = load_db(db_path)
     tables = get_all_tables(con, cur)
 
@@ -99,7 +112,10 @@ def run():
         if serie is not None:
             serie_index = book['series_index']
             title = create_new_title(title, serie_index, serie)
-            print(title)
+            # print(title)
+        book_path = get_file_path(db_folder, book, data)
+        if not os.path.exists(book_path):
+            raise FileNotFoundError('maybe the suffix is uppercase')
 
 
 if __name__ == '__main__':
