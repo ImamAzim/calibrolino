@@ -15,11 +15,12 @@ SERIES_TABLE_NAME = 'series'
 BOOK_SERIES_LINK_NAME = 'books_series_link'
 
 
+ACCEPTED_FORMAT = {'EPUB'}
+
+
 """
-select by format
 collections
 read status
-file path
 """
 
 
@@ -107,15 +108,17 @@ def run():
     books = create_books_dict(*tables)
 
     for book_id, (book, data, serie) in books.items():
-        uuid = book['uuid']
-        title = book['title']
-        if serie is not None:
-            serie_index = book['series_index']
-            title = create_new_title(title, serie_index, serie)
-            # print(title)
-        book_path = get_file_path(db_folder, book, data)
-        if not os.path.exists(book_path):
-            raise FileNotFoundError('maybe the suffix is uppercase')
+        book_format = data['format']
+        if book_format.upper() in ACCEPTED_FORMAT:
+            uuid = book['uuid']
+            title = book['title']
+            if serie is not None:
+                serie_index = book['series_index']
+                title = create_new_title(title, serie_index, serie)
+                # print(title)
+            book_path = get_file_path(db_folder, book, data)
+            if not os.path.exists(book_path):
+                raise FileNotFoundError('maybe the suffix is uppercase')
 
 
 if __name__ == '__main__':
