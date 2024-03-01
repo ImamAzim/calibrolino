@@ -66,15 +66,16 @@ def run():
 
     book_table = get_table(con, cur, BOOK_TABLE_NAME)
     data_table = get_table(con, cur, DATA_TABLE_NAME)
-    print(data_table[0].keys())
 
     data_dict = {data['book']: data for data in data_table}
     book_dict = {book['id']: book for book in book_table}
-    books = {book['uuid']: (book, data_dict[key]) for key, book in book_dict.items()}
-    for uuid, (book, data) in books.items():
+    books = {book_id: (book, data_dict[book_id]) for book_id, book in book_dict.items()}
+    for book_id, (book, data) in books.items():
+        uuid = book['uuid']
         print(uuid)
         print(book['title'])
-        print(data['name'])
+        # series_index = book['series_index']
+        return
 
 
 if __name__ == '__main__':
