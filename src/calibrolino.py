@@ -9,116 +9,122 @@ import pytolino
 import xdg_base_dirs
 
 
-BOOK_TABLE_NAME ='books'
-DATA_TABLE_NAME = 'data'
-SERIES_TABLE_NAME = 'series'
-BOOK_SERIES_LINK_NAME = 'books_series_link'
-
-
-ACCEPTED_FORMAT = {'EPUB'}
-
-
 """
 collections
 read status
+author
 """
 
 
-def get_calibre_db():
-    """search in home calibre db
-    :returns: path to calibre db
+class Calibrolino(object):
 
-    """
-    calibre_config_fn = 'global.py.json'
-    calibre_folder = 'calibre'
-    db_fn = 'metadata.db'
-    library_config_key = 'library_path'
-    folder = os.path.join(xdg_base_dirs.xdg_config_home(), calibre_folder)
-    calibre_config_path = os.path.join(folder, calibre_config_fn)
-    with open(calibre_config_path) as myfile:
-        config = json.load(myfile)
-    db_folder = config[library_config_key]
-    db_path = os.path.join(db_folder, db_fn)
-    if os.path.exists(db_path):
-        return db_path, db_folder
-    else:
-        return None
+    """prepare and upload the calibre library to the cloud"""
+    calibre_db_table = dict(
+            books='books',
+            data='data',
+            series='series',
+            books_series_link='books_series_link',
+            tags='tags',
+            books_tags_link='books_tags_link',
+            )
 
+    def __init__(self, accepted_formats={'EPUB'}):
+        self.accepted_formats = accepted_formats
 
-def load_db(db_path):
-    con = sqlite3.connect(db_path)
-    cur = con.cursor()
-    con.row_factory = sqlite3.Row
-    return con, cur
+    def _get_calibre_db(self):
+        """search in home calibre db
 
+        """
+        calibre_config_fn = 'global.py.json'
+        calibre_folder = 'calibre'
+        db_fn = 'metadata.db'
+        library_config_key = 'library_path'
+        folder = os.path.join(xdg_base_dirs.xdg_config_home(), calibre_folder)
+        calibre_config_path = os.path.join(folder, calibre_config_fn)
+        with open(calibre_config_path) as myfile:
+            config = json.load(myfile)
 
-def get_table(con, cur, table_name):
-    """load the book table from the calibre db
+        self.db_folder = config[library_config_key]
+        self.db_path = os.path.join(self.db_folder, db_fn)
 
-    :cur: cursor connecting the calibre db
-    :returns: list of books
+    def _load_db(self):
+        con = sqlite3.connect(self.db_path)
+        cur = con.cursor()
+        con.row_factory = sqlite3.Row
 
-    """
-    sql = f'SELECT * from {table_name}'
-    res = con.execute(sql)
-    books = res.fetchall()
-
-    return books
-
-def create_books_dict(book_table, data_table, book_series_link_table, series_table):
-    data_dict = {data['book']: data for data in data_table}
-    book_dict = {book['id']: book for book in book_table}
-    series_name = {serie['id']: serie['name'] for serie in series_table}
-    series = {serie_link['book']: series_name[serie_link['series']] for serie_link in book_series_link_table}
-
-    books = {book_id: (book, data_dict[book_id], series.get(book_id)) for book_id, book in book_dict.items()}
-
-    return books
-
-def get_all_tables(con, cur):
-    book_table = get_table(con, cur, BOOK_TABLE_NAME)
-    data_table = get_table(con, cur, DATA_TABLE_NAME)
-    book_series_link_table = get_table(con, cur, BOOK_SERIES_LINK_NAME)
-    series_table = get_table(con, cur, SERIES_TABLE_NAME)
-
-    return book_table, data_table, book_series_link_table, series_table
-
-def create_new_title(title, serie_index, serie_name):
-    new_title = f'{serie_name}: {serie_index} - {title}'
-    return new_title
+        self.con = con
+        self.cur = cur
 
 
-def get_file_path(db_folder, book, data):
-    sub_folder = book['path']
-    filename = f"{data['name']}.{data['format'].lower()}"
-    path = os.path.join(db_folder, sub_folder, filename)
-    return path
+    def _get_table(self, table_name):
+        """load the book table from the calibre db
 
+
+        """
+        sql = f'SELECT * from {table_name}'
+        res = self.con.execute(sql)
+        table = res.fetchall()
+
+        return table
+
+    def get_all_tables(self):
+
+        self.tables = dict()
+
+        for table_name in self.calibre_db_table.keys():
+            self.tables[table_name] = self._get_table(self.calibre_db_table[table_name])
+
+    def _create_books_dict(self):
+        data_dict = {data['book']: data for data in self.tables['data']}
+        book_dict = {book['id']: book for book in self.tables['books']}
+        series_name = {serie['id']: serie['name'] for serie in self.tables['series']}
+        series = {serie_link['book']: series_name[serie_link['series']] for serie_link in self.tables['books_series_link']}
+
+        books = {book_id: (book, data_dict[book_id], series.get(book_id)) for book_id, book in book_dict.items()}
+
+        self.books = books
+
+
+    def _create_new_title(self, title, serie_index, serie_name):
+        new_title = f'{serie_name}: {serie_index} - {title}'
+        return new_title
+
+
+    def _get_file_path(self, book, data):
+        sub_folder = book['path']
+        filename = f"{data['name']}.{data['format'].lower()}"
+        path = os.path.join(self.db_folder, sub_folder, filename)
+        return path
+
+
+    def run(self):
+        print('a script to upload the calibre library')
+        print('script not yet ready...')
+        self._get_calibre_db()
+        self._load_db()
+        self.get_all_tables()
+
+        self._create_books_dict()
+
+        for book_id, (book, data, serie) in self.books.items():
+            book_format = data['format']
+            if book_format.upper() in self.accepted_formats:
+                uuid = book['uuid']
+                title = book['title']
+                if serie is not None:
+                    serie_index = book['series_index']
+                    title = self._create_new_title(title, serie_index, serie)
+                    # print(title)
+                book_path = self._get_file_path(book, data)
+                if not os.path.exists(book_path):
+                    raise FileNotFoundError('maybe the suffix is uppercase')
 
 def run():
     """ function to be executed as entry point to upload the data
 
     """
-    print('a script to upload the calibre library')
-    print('script not yet ready...')
-    db_path, db_folder = get_calibre_db()
-    con, cur = load_db(db_path)
-    tables = get_all_tables(con, cur)
-
-    books = create_books_dict(*tables)
-
-    for book_id, (book, data, serie) in books.items():
-        book_format = data['format']
-        if book_format.upper() in ACCEPTED_FORMAT:
-            uuid = book['uuid']
-            title = book['title']
-            if serie is not None:
-                serie_index = book['series_index']
-                title = create_new_title(title, serie_index, serie)
-                # print(title)
-            book_path = get_file_path(db_folder, book, data)
-            if not os.path.exists(book_path):
-                raise FileNotFoundError('maybe the suffix is uppercase')
+    my_calibrolino = Calibrolino()
+    my_calibrolino.run()
 
 
 if __name__ == '__main__':
