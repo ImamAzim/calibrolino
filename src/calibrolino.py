@@ -66,6 +66,19 @@ def create_books_dict(book_table, data_table, book_series_link_table, series_tab
 
     return books
 
+def get_all_tables(con, cur):
+    book_table = get_table(con, cur, BOOK_TABLE_NAME)
+    data_table = get_table(con, cur, DATA_TABLE_NAME)
+    book_series_link_table = get_table(con, cur, BOOK_SERIES_LINK_NAME)
+    series_table = get_table(con, cur, SERIES_TABLE_NAME)
+
+    return book_table, data_table, book_series_link_table, series_table
+
+def create_new_title(title, serie_index, serie_name):
+    new_title = f'{serie_name}: {serie_index} - {title}'
+    return new_title
+
+
 
 
 def run():
@@ -76,24 +89,17 @@ def run():
     print('script not yet ready...')
     db_path = get_calibre_db()
     con, cur = load_db(db_path)
+    tables = get_all_tables(con, cur)
 
-    book_table = get_table(con, cur, BOOK_TABLE_NAME)
-    data_table = get_table(con, cur, DATA_TABLE_NAME)
-    book_series_link_table = get_table(con, cur, BOOK_SERIES_LINK_NAME)
-    series_table = get_table(con, cur, SERIES_TABLE_NAME)
-
-    books = create_books_dict(book_table, data_table, book_series_link_table, series_table)
-
+    books = create_books_dict(*tables)
 
     for book_id, (book, data, serie) in books.items():
         uuid = book['uuid']
         title = book['title']
-        # print(uuid)
-        # series_index = book['series_index']
         if serie is not None:
+            serie_index = book['series_index']
+            title = create_new_title(title, serie_index, serie)
             print(title)
-            print(serie)
-            print(book['series_index'])
 
 
 if __name__ == '__main__':
