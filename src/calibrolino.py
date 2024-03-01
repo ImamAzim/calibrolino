@@ -110,7 +110,7 @@ class Calibrolino(object):
         series = {serie_link['book']: series_name[serie_link['series']] for serie_link in self.tables['books_series_link']}
         collections = {collection_link['book']: collection_names[collection_link['tag']] for collection_link in self.tables['books_tags_link']}
         if self.status_is_defined:
-            status_values = {status_value['id']: status_value['name'] for status_value in self.tables[self.status_table_name]}
+            status_values = {status_value['id']: status_value['value'] for status_value in self.tables[self.status_table_name]}
             status = {status_link['book']: status_values[status_link['value']] for status_link in self.tables[self.status_link_table_name]}
         else:
             status = dict()
