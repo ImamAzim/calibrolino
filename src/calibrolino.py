@@ -11,6 +11,8 @@ import xdg_base_dirs
 
 BOOK_TABLE_NAME ='books'
 DATA_TABLE_NAME = 'data'
+SERIES_TABLE_NAME = 'series'
+BOOK_SERIES_LINK_NAME = 'books_series_link'
 
 
 def get_calibre_db():
@@ -66,16 +68,25 @@ def run():
 
     book_table = get_table(con, cur, BOOK_TABLE_NAME)
     data_table = get_table(con, cur, DATA_TABLE_NAME)
+    book_series_link_table = get_table(con, cur, BOOK_SERIES_LINK_NAME)
+    series_table = get_table(con, cur, SERIES_TABLE_NAME)
 
     data_dict = {data['book']: data for data in data_table}
     book_dict = {book['id']: book for book in book_table}
+    series_name = {serie['id']: serie['name'] for serie in series_table}
+    series = {serie_link['book']: series_name[serie_link['series']] for serie_link in book_series_link_table}
+
     books = {book_id: (book, data_dict[book_id]) for book_id, book in book_dict.items()}
+
     for book_id, (book, data) in books.items():
         uuid = book['uuid']
-        print(uuid)
-        print(book['title'])
+        title = book['title']
+        # print(uuid)
         # series_index = book['series_index']
-        return
+        if book_id in series:
+            print(title)
+            print(series[book_id])
+            print(book['series_index'])
 
 
 if __name__ == '__main__':
