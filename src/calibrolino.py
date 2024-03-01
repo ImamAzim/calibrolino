@@ -10,9 +10,7 @@ import xdg_base_dirs
 
 
 """
-collections
 read status
-author
 """
 
 
@@ -26,6 +24,8 @@ class Calibrolino(object):
             books_series_link='books_series_link',
             tags='tags',
             books_tags_link='books_tags_link',
+            authors='authors',
+            books_authors_link='books_authors_link',
             )
 
     def __init__(self, accepted_formats={'EPUB'}):
@@ -79,14 +79,27 @@ class Calibrolino(object):
         book_dict = {book['id']: book for book in self.tables['books']}
         series_name = {serie['id']: serie['name'] for serie in self.tables['series']}
         collection_names = {collection['id']: collection['name'] for collection in self.tables['tags']}
+        authors_names = {author['id']: author['name'] for author in self.tables['authors']}
         series = {serie_link['book']: series_name[serie_link['series']] for serie_link in self.tables['books_series_link']}
         collections = {collection_link['book']: collection_names[collection_link['tag']] for collection_link in self.tables['books_tags_link']}
+
+        authors = dict()
+        for author_link in self.tables['books_authors_link']:
+            book = author_link['book']
+            author_id = author_link['author']
+            author_name = authors_names[author_id]
+            if book not in authors:
+                authors[book] = [author_name]
+            else:
+                authors[book].append(author_name)
+
 
         books = {book_id: (
             book,
             data_dict[book_id],
             series.get(book_id),
             collections.get(book_id),
+            authors.get(book_id),
             )
             for book_id, book in book_dict.items()}
 
@@ -114,7 +127,7 @@ class Calibrolino(object):
 
         self._create_books_dict()
 
-        for book_id, (book, data, serie, collection) in self.books.items():
+        for book_id, (book, data, serie, collection, authors) in self.books.items():
             book_format = data['format']
             if book_format.upper() in self.accepted_formats:
                 uuid = book['uuid']
@@ -126,7 +139,7 @@ class Calibrolino(object):
                 book_path = self._get_file_path(book, data)
                 if not os.path.exists(book_path):
                     raise FileNotFoundError('maybe the suffix is uppercase')
-                print(title, collection)
+                print(title, collection, authors)
 
 def run():
     """ function to be executed as entry point to upload the data
