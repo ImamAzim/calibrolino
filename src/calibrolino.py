@@ -10,11 +10,6 @@ import pytolino
 import xdg_base_dirs
 
 
-"""
-read status
-"""
-
-
 class Calibrolino(object):
 
     """prepare and upload the calibre library to the cloud"""
