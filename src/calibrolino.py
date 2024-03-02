@@ -138,10 +138,10 @@ class CalibreDBReader(object):
         return new_title
 
 
-    def get_file_path(self, book, data):
+    def _get_file_path(self, book, data):
         sub_folder = book['path']
         filename = f"{data['name']}.{data['format'].lower()}"
-        path = os.path.join(self.db_folder, sub_folder, filename)
+        path = os.path.join(self._db_folder, sub_folder, filename)
         return path
 
     def read_db(self,
