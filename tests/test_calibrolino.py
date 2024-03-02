@@ -27,7 +27,8 @@ class TestCalibreDBReader(unittest.TestCase):
         title = 'mytitle'
         serie_name = 'myserie'
         serie_index = '42'
-        new_title = self.calibre_db_reader.get_serie_title(tile, serie_index, serie_name)
+        new_title = self.calibre_db_reader.get_serie_title(title, serie_index, serie_name)
+        self.assertIsInstance(new_title, str)
         self.assertIn(title, new_title)
         self.assertIn(serie_name, new_title)
         self.assertIn(serie_index, new_title)
