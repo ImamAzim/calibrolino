@@ -27,14 +27,13 @@ class CalibreDBReader(object):
 
 
     def __init__(self,
-            accepted_formats={'EPUB'},
-            column_status_name='statut',
             ):
         """
-        column_status_name: the name of a custom column in calibre that tells if the book is Read or not.
+        finds the calibre db and connect to it
         """
-        self.accepted_formats = accepted_formats
-        self.column_status_name = column_status_name
+
+        self._get_calibre_db()
+        self._load_db()
 
     def _get_calibre_db(self):
         """search in home calibre db
@@ -49,16 +48,19 @@ class CalibreDBReader(object):
         with open(calibre_config_path) as myfile:
             config = json.load(myfile)
 
-        self.db_folder = config[library_config_key]
-        self.db_path = os.path.join(self.db_folder, db_fn)
+        self._db_folder = config[library_config_key]
+        self._db_path = os.path.join(self.db_folder, db_fn)
+
+        if not os.path.exists(self._db_path):
+            raise FileExistsError('could not found the calibre db. is calibre installed?')
 
     def _load_db(self):
-        con = sqlite3.connect(self.db_path)
+        con = sqlite3.connect(self._db_path)
         cur = con.cursor()
         con.row_factory = sqlite3.Row
 
-        self.con = con
-        self.cur = cur
+        self._con = con
+        self._cur = cur
 
 
     def _get_table(self, table_name):
@@ -144,14 +146,20 @@ class CalibreDBReader(object):
         path = os.path.join(self.db_folder, sub_folder, filename)
         return path
 
-    def read_db(self):
+    def read_db(self,
+            accepted_formats={'EPUB'},
+            column_status_name='statut',
+            )
         """load the calibre db and create a dictionnary of the books with metadata
         :returns: books: dict
 
         """
+        """
+        column_status_name: the name of a custom column in calibre that tells if the book is Read or not.
+        """
+        self.accepted_formats = accepted_formats
+        self.column_status_name = column_status_name
 
-        self._get_calibre_db()
-        self._load_db()
         self._get_all_tables()
 
         self._create_books_dict()
