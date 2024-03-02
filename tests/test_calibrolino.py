@@ -18,10 +18,19 @@ class TestCalibreDBReader(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        pass
+        cls.calibre_db_reader = CalibreDBReader()
 
     def test_init(self):
         CalibreDBReader()
+
+    def test_serie_title(self):
+        title = 'mytitle'
+        serie_name = 'myserie'
+        serie_index = '42'
+        new_title = self.calibre_db_reader.get_serie_title(tile, serie_index, serie_name)
+        self.assertIn(title, new_title)
+        self.assertIn(serie_name, new_title)
+        self.assertIn(serie_index, new_title)
 
 
 """ script tests """

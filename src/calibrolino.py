@@ -133,7 +133,7 @@ class CalibreDBReader(object):
         self.books = books
 
 
-    def create_new_title(self, title, serie_index, serie_name):
+    def get_serie_title(self, title, serie_index, serie_name):
         new_title = f'{serie_name}: {serie_index} - {title}'
         return new_title
 
