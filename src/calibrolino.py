@@ -10,7 +10,7 @@ import pytolino
 import xdg_base_dirs
 
 
-class Calibrolino(object):
+class CalibreDBReader(object):
 
     """prepare and upload the calibre library to the cloud"""
     calibre_db_table = dict(
@@ -144,13 +144,19 @@ class Calibrolino(object):
         path = os.path.join(self.db_folder, sub_folder, filename)
         return path
 
+    def read_db(self):
+        """load the calibre db and create a dictionnary of the books with metadata
+        :returns: books: dict
 
-    def run(self):
+        """
+
         self._get_calibre_db()
         self._load_db()
         self._get_all_tables()
 
         self._create_books_dict()
+
+        return self.books
 
         for book_id, (book, data, serie, collection, authors, status) in self.books.items():
             book_format = data['format']
@@ -170,9 +176,11 @@ def run():
     """ function to be executed as entry point to upload the data
 
     """
-    my_calibrolino = Calibrolino()
-    my_calibrolino.run()
+    pass
+    # my_calibrolino = Calibrolino()
+    # my_calibrolino.run()
 
 
 if __name__ == '__main__':
-    run()
+    calibre_db = CalibreDBReader()
+    books = calibre_db.read()
