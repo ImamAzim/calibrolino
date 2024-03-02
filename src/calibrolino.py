@@ -133,12 +133,12 @@ class CalibreDBReader(object):
         self.books = books
 
 
-    def _create_new_title(self, title, serie_index, serie_name):
+    def create_new_title(self, title, serie_index, serie_name):
         new_title = f'{serie_name}: {serie_index} - {title}'
         return new_title
 
 
-    def _get_file_path(self, book, data):
+    def get_file_path(self, book, data):
         sub_folder = book['path']
         filename = f"{data['name']}.{data['format'].lower()}"
         path = os.path.join(self.db_folder, sub_folder, filename)
@@ -158,19 +158,19 @@ class CalibreDBReader(object):
 
         return self.books
 
-        for book_id, (book, data, serie, collection, authors, status) in self.books.items():
-            book_format = data['format']
-            if book_format.upper() in self.accepted_formats:
-                uuid = book['uuid']
-                title = book['title']
-                if serie is not None:
-                    serie_index = book['series_index']
-                    title = self._create_new_title(title, serie_index, serie)
-                    # print(title)
-                book_path = self._get_file_path(book, data)
-                if not os.path.exists(book_path):
-                    raise FileNotFoundError('maybe the suffix is uppercase')
-                print(title, status)
+        # for book_id, (book, data, serie, collection, authors, status) in self.books.items():
+            # book_format = data['format']
+            # if book_format.upper() in self.accepted_formats:
+                # uuid = book['uuid']
+                # title = book['title']
+                # if serie is not None:
+                    # serie_index = book['series_index']
+                    # title = self._create_new_title(title, serie_index, serie)
+                    # # print(title)
+                # book_path = self._get_file_path(book, data)
+                # if not os.path.exists(book_path):
+                    # raise FileNotFoundError('maybe the suffix is uppercase')
+                # print(title, status)
 
 def run():
     """ function to be executed as entry point to upload the data
