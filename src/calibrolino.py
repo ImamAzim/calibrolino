@@ -47,7 +47,7 @@ class CalibreDBReader(object):
             config = json.load(myfile)
 
         self._db_folder = config[library_config_key]
-        self._db_path = os.path.join(self.db_folder, db_fn)
+        self._db_path = os.path.join(self._db_folder, db_fn)
 
         if not os.path.exists(self._db_path):
             raise FileExistsError(
