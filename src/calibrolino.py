@@ -25,9 +25,7 @@ class CalibreDBReader(object):
             custom_columns='custom_columns',
             )
 
-
-    def __init__(self,
-            ):
+    def __init__(self):
         """
         finds the calibre db and connect to it
         """
@@ -52,7 +50,8 @@ class CalibreDBReader(object):
         self._db_path = os.path.join(self.db_folder, db_fn)
 
         if not os.path.exists(self._db_path):
-            raise FileExistsError('could not found the calibre db. is calibre installed?')
+            raise FileExistsError(
+                    'could not found the calibre db. is calibre installed?')
 
     def _load_db(self):
         con = sqlite3.connect(self._db_path)
@@ -61,7 +60,6 @@ class CalibreDBReader(object):
 
         self._con = con
         self._cur = cur
-
 
     def _get_table(self, table_name):
         """load the book table from the calibre db
@@ -79,7 +77,8 @@ class CalibreDBReader(object):
         self.tables = dict()
 
         for table_name in self.calibre_db_table.keys():
-            self.tables[table_name] = self._get_table(self.calibre_db_table[table_name])
+            self.tables[table_name] = self._get_table(
+                    self.calibre_db_table[table_name])
 
         custom_column_id = None
         for custom_column in self.tables['custom_columns']:
@@ -94,7 +93,6 @@ class CalibreDBReader(object):
             self.status_is_defined = True
         else:
             self.status_is_defined = False
-
 
     def _create_books_dict(self):
         data_dict = {data['book']: data for data in self.tables['data']}
@@ -149,7 +147,7 @@ class CalibreDBReader(object):
     def read_db(self,
             accepted_formats={'EPUB'},
             column_status_name='statut',
-            )
+            ):
         """load the calibre db and create a dictionnary of the books with metadata
         :returns: books: dict
 
