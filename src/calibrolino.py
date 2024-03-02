@@ -95,42 +95,54 @@ class CalibreDBReader(object):
             self._status_is_defined = False
 
     def _create_books_dict(self):
+        self._books = dict()
+
         data_dict = {data['book']: data for data in self._tables['data']}
         book_dict = {book['id']: book for book in self._tables['books']}
 
-        series_name = {serie['id']: serie['name'] for serie in self._tables['series']}
-        collection_names = {collection['id']: collection['name'] for collection in self._tables['tags']}
-        authors_names = {author['id']: author['name'] for author in self._tables['authors']}
+        # series_name = {serie['id']: serie['name'] for serie in self._tables['series']}
+        # collection_names = {collection['id']: collection['name'] for collection in self._tables['tags']}
+        # authors_names = {author['id']: author['name'] for author in self._tables['authors']}
 
-        series = {serie_link['book']: series_name[serie_link['series']] for serie_link in self._tables['books_series_link']}
-        collections = {collection_link['book']: collection_names[collection_link['tag']] for collection_link in self._tables['books_tags_link']}
+        data_names = dict()
+        datas = 'series', 'tags', 'authots'
         if self._status_is_defined:
-            status_values = {status_value['id']: status_value['value'] for status_value in self._tables[self._status_table_name]}
-            status = {status_link['book']: status_values[status_link['value']] for status_link in self._tables[self._status_link_table_name]}
-        else:
-            status = dict()
+            datas.append(self._status_table_name)
+        for data in datas:
+            data_names[data] = dict()
+            for row in self._tables[data]:
+                data_names[data][row['id']] = row.get('name', row.get('value'))
+        print(data_names)
 
-        authors = dict()
-        for author_link in self._tables['books_authors_link']:
-            book = author_link['book']
-            author_id = author_link['author']
-            author_name = authors_names[author_id]
-            if book not in authors:
-                authors[book] = [author_name]
-            else:
-                authors[book].append(author_name)
+        # series = {serie_link['book']: series_name[serie_link['series']] for serie_link in self._tables['books_series_link']}
+        # collections = {collection_link['book']: collection_names[collection_link['tag']] for collection_link in self._tables['books_tags_link']}
+        # if self._status_is_defined:
+            # # status_values = {status_value['id']: status_value['value'] for status_value in self._tables[self._status_table_name]}
+            # status = {status_link['book']: status_values[status_link['value']] for status_link in self._tables[self._status_link_table_name]}
+        # else:
+            # status = dict()
 
-        books = {book_id: (
-            book,
-            data_dict[book_id],
-            series.get(book_id),
-            collections.get(book_id),
-            authors.get(book_id),
-            status.get(book_id),
-            )
-            for book_id, book in book_dict.items()}
+        # authors = dict()
+        # for author_link in self._tables['books_authors_link']:
+            # book = author_link['book']
+            # author_id = author_link['author']
+            # author_name = authors_names[author_id]
+            # if book not in authors:
+                # authors[book] = [author_name]
+            # else:
+                # authors[book].append(author_name)
 
-        self._books = books
+        # books = {book_id: (
+            # book,
+            # data_dict[book_id],
+            # series.get(book_id),
+            # collections.get(book_id),
+            # authors.get(book_id),
+            # status.get(book_id),
+            # )
+            # for book_id, book in book_dict.items()}
+
+        # self._books = books
 
 
     def get_serie_title(self, title, serie_index, serie_name):
@@ -148,18 +160,16 @@ class CalibreDBReader(object):
             accepted_formats={'EPUB'},
             column_status_name='statut',
             ):
-        """load the calibre db and create a dictionnary of the books with metadata
+        """
+        load the calibre db and create a list of the books with metadata
+        :column_status_name: the name of a custom column in calibre that tells if the book is Read or not.
         :returns: books: dict
 
-        """
-        """
-        column_status_name: the name of a custom column in calibre that tells if the book is Read or not.
         """
         self._accepted_formats = accepted_formats
         self._column_status_name = column_status_name
 
         self._get_all_tables()
-
         self._create_books_dict()
 
         return self._books
@@ -189,4 +199,4 @@ def run():
 
 if __name__ == '__main__':
     calibre_db = CalibreDBReader()
-    books = calibre_db.read()
+    books = calibre_db.read_db()
