@@ -105,6 +105,7 @@ class CalibreDBReader(object):
         # authors_names = {author['id']: author['name'] for author in self._tables['authors']}
 
         data_names = dict()
+        metadata = dict()
         datas = 'series', 'tags', 'authors'
         if self._status_is_defined:
             datas.append(self._status_table_name)
@@ -115,6 +116,7 @@ class CalibreDBReader(object):
                     data_names[data][row['id']] = row['name']
                 else:
                     data_names[data][row['id']] = row['value']
+            table_link_name = 'TODO'
         print(data_names)
 
         # series = {serie_link['book']: series_name[serie_link['series']] for serie_link in self._tables['books_series_link']}
