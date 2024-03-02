@@ -9,15 +9,20 @@ import os
 import unittest
 
 
-class TestMyClass(unittest.TestCase):
+from calibrolino import CalibreDBReader
 
-    """all test concerning my class. """
+
+class TestCalibreDBReader(unittest.TestCase):
+
+    """all test concerning CalibreDBReader. """
 
     @classmethod
     def setUpClass(cls):
         pass
 
-    pass
+    def test_init(self):
+        CalibreDBReader()
+
 
 """ script tests """
 
