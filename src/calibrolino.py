@@ -72,7 +72,7 @@ class Calibrolino(object):
 
         return table
 
-    def get_all_tables(self):
+    def _get_all_tables(self):
 
         self.tables = dict()
 
@@ -146,11 +146,9 @@ class Calibrolino(object):
 
 
     def run(self):
-        print('a script to upload the calibre library')
-        print('script not yet ready...')
         self._get_calibre_db()
         self._load_db()
-        self.get_all_tables()
+        self._get_all_tables()
 
         self._create_books_dict()
 
