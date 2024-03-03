@@ -86,7 +86,6 @@ class CalibreDBReader(object):
                 custom_column_id = custom_column['id']
         if custom_column_id is not None:
             self._status_table_name = f'custom_column_{custom_column_id}'
-            self._status_link_table_name = f'books_custom_column_{custom_column_id}_link'
             table_names = self._status_table_name, self._status_link_table_name
             for table_name in table_names:
                 self._tables[table_name] = self._get_table(table_name)
@@ -95,47 +94,34 @@ class CalibreDBReader(object):
             self._status_is_defined = False
 
     def _create_books_dict(self):
-        self._books = dict()
 
         data_dict = {data['book']: data for data in self._tables['data']}
-        book_dict = {book['id']: book for book in self._tables['books']}
-
-        # series_name = {serie['id']: serie['name'] for serie in self._tables['series']}
-        # collection_names = {collection['id']: collection['name'] for collection in self._tables['tags']}
-        # authors_names = {author['id']: author['name'] for author in self._tables['authors']}
 
         data_names = dict()
         metadata = dict()
-        datas = 'series', 'tags', 'authors'
+        datas = [('series', 'series'), ('tags', 'tag'), ('authors', 'author')]
         if self._status_is_defined:
-            datas.append(self._status_table_name)
-        for data in datas:
+            datas.append((self._status_table_name, 'value'))
+        for data, column_name in datas:
             data_names[data] = dict()
             for row in self._tables[data]:
                 if 'name' in row.keys():
                     data_names[data][row['id']] = row['name']
                 else:
                     data_names[data][row['id']] = row['value']
-            table_link_name = 'TODO'
+            metadata[data] = dict()
+            table_link_name = f'books_{data}_link'
+            for row in self._tables[table_link_name]:
+                book_id = row['book']
+                data_id = row[column_name]
+                metadata_value = data_names[data][data_id]
+                if book_id not in metadata[data]:
+                    metadata[data][book_id] = [metadata_value]
+                else:
+                    metadata[data][book_id].append(metadata_value)
+
         print(data_names)
-
-        # series = {serie_link['book']: series_name[serie_link['series']] for serie_link in self._tables['books_series_link']}
-        # collections = {collection_link['book']: collection_names[collection_link['tag']] for collection_link in self._tables['books_tags_link']}
-        # if self._status_is_defined:
-            # # status_values = {status_value['id']: status_value['value'] for status_value in self._tables[self._status_table_name]}
-            # status = {status_link['book']: status_values[status_link['value']] for status_link in self._tables[self._status_link_table_name]}
-        # else:
-            # status = dict()
-
-        # authors = dict()
-        # for author_link in self._tables['books_authors_link']:
-            # book = author_link['book']
-            # author_id = author_link['author']
-            # author_name = authors_names[author_id]
-            # if book not in authors:
-                # authors[book] = [author_name]
-            # else:
-                # authors[book].append(author_name)
+        print(metadata)
 
         # books = {book_id: (
             # book,
