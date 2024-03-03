@@ -157,6 +157,7 @@ class CalibreDBReader(object):
                     pubdate=book_row['pubdate'],
                     languages=metadata['languages'].get(book_id),
                     cover_path=cover_path,
+                    has_cover=book_row['has_cover'],
                     )
             self._books.append(book)
 

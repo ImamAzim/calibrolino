@@ -50,6 +50,7 @@ class TestCalibreDBReader(unittest.TestCase):
                 'pubdate',
                 'languages',
                 'cover_path',
+                'has_cover',
                 }
         for book in books:
             self.assertLess(expected_keys, book.keys())
