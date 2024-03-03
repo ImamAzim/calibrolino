@@ -152,8 +152,8 @@ class CalibreDBReader(object):
                     serie_name=serie_name,
                     tags=metadata['tags'].get(book_id),
                     status=status,
-                    # isbn,
-                    # pubdate,
+                    isbn=book_row['isbn'],
+                    pubdate=book_row['pubdate'],
                     # language,
                     # cover_path,
                     )
