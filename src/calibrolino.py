@@ -138,16 +138,17 @@ class CalibreDBReader(object):
             if serie_name is not None:
                 serie_name = serie_name[0]
             if self._status_is_defined:
-                status = metadata[self._status_table_name][book_id]
+                status = metadata[self._status_table_name].get(book_id)
             else:
                 status = None
+            cover_path = self._get_cover_path(book_row, file_data)
 
             book = dict(
                     title=book_row['title'],
-                    authors=metadata['authors'][book_id],
+                    authors=metadata['authors'].get(book_id),
                     uuid=book_row['uuid'],
                     file_path=file_path,
-                    publishers=metadata['publishers'][book_id],
+                    publishers=metadata['publishers'].get(book_id),
                     series_index=book_row['series_index'],
                     serie_name=serie_name,
                     tags=metadata['tags'].get(book_id),
@@ -155,7 +156,7 @@ class CalibreDBReader(object):
                     isbn=book_row['isbn'],
                     pubdate=book_row['pubdate'],
                     languages=metadata['languages'].get(book_id),
-                    # cover_path,
+                    cover_path=cover_path,
                     )
             self._books.append(book)
 
@@ -168,6 +169,12 @@ class CalibreDBReader(object):
     def _get_file_path(self, book, data):
         sub_folder = book['path']
         filename = f"{data['name']}.{data['format'].lower()}"
+        path = os.path.join(self._db_folder, sub_folder, filename)
+        return path
+
+    def _get_cover_path(self, book, data):
+        sub_folder = book['path']
+        filename = 'cover.jpg'
         path = os.path.join(self._db_folder, sub_folder, filename)
         return path
 
