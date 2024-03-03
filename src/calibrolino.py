@@ -137,6 +137,10 @@ class CalibreDBReader(object):
             serie_name=metadata['series'].get('book_id')
             if serie_name is not None:
                 serie_name = serie_name[0]
+            if self._status_is_defined:
+                status = metadata[self._status_table_name][book_id]
+            else:
+                status = None
 
             book = dict(
                     title=book_row['title'],
@@ -147,7 +151,7 @@ class CalibreDBReader(object):
                     series_index=book_row['series_index'],
                     serie_name=serie_name,
                     tags=metadata['tags'].get(book_id),
-                    # status,
+                    status=status,
                     # isbn,
                     # pubdate,
                     # language,
