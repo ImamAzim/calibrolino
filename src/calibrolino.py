@@ -134,16 +134,19 @@ class CalibreDBReader(object):
             book_id = book_row['id']
             file_data = files_data[book_id]
             file_path=self._get_file_path(book_row, file_data),
+            serie_name=metadata['series'].get('book_id')
+            if serie_name is not None:
+                serie_name = serie_name[0]
 
             book = dict(
                     title=book_row['title'],
                     authors=metadata['authors'][book_id],
                     uuid=book_row['uuid'],
                     file_path=file_path,
-                    # publisher,
-                    # series_index,
-                    # serie_name,
-                    # collection,
+                    publishers=metadata['publishers'][book_id],
+                    series_index=book_row['series_index'],
+                    serie_name=serie_name,
+                    tags=metadata['tags'].get(book_id),
                     # status,
                     # isbn,
                     # pubdate,
@@ -151,8 +154,6 @@ class CalibreDBReader(object):
                     # cover_path,
                     )
             self._books.append(book)
-
-        print(self._books)
 
         # books = {book_id: (
             # book,
@@ -222,3 +223,7 @@ def run():
 if __name__ == '__main__':
     calibre_db = CalibreDBReader()
     books = calibre_db.read_db()
+    for book in books:
+        print('==========')
+        for key, value in book.items():
+            print(f'{key}: {value}')
