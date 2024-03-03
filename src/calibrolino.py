@@ -22,6 +22,10 @@ class CalibreDBReader(object):
             'books_tags_link',
             'authors',
             'books_authors_link',
+            'publishers',
+            'books_publishers_link',
+            'languages',
+            'books_languages_link',
             'custom_columns',
             ]
 
@@ -98,16 +102,21 @@ class CalibreDBReader(object):
 
         data_names = dict()
         metadata = dict()
-        datas = [('series', 'series'), ('tags', 'tag'), ('authors', 'author')]
+        datas = [
+                ('series', 'name', 'series'),
+                ('tags', 'name', 'tag'),
+                ('authors', 'name', 'author'),
+                ('publishers', 'name', 'publisher'),
+                ('languages', 'lang_code', 'lang_code'),
+                ]
         if self._status_is_defined:
-            datas.append((self._status_table_name, 'value'))
-        for data, column_name in datas:
+            datas.append(
+                    (self._status_table_name, 'value' 'value')
+                    )
+        for data, column_name0, column_name in datas:
             data_names[data] = dict()
             for row in self._tables[data]:
-                if 'name' in row.keys():
-                    data_names[data][row['id']] = row['name']
-                else:
-                    data_names[data][row['id']] = row['value']
+                data_names[data][row['id']] = row[column_name0]
             metadata[data] = dict()
             table_link_name = f'books_{data}_link'
             for row in self._tables[table_link_name]:
