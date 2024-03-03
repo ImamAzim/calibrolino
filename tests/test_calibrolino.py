@@ -53,7 +53,7 @@ class TestCalibreDBReader(unittest.TestCase):
                 'has_cover',
                 }
         for book in books:
-            self.assertLess(expected_keys, book.keys())
+            self.assertLessEqual(expected_keys, book.keys())
 
 
 """ script tests """
