@@ -154,22 +154,10 @@ class CalibreDBReader(object):
                     status=status,
                     isbn=book_row['isbn'],
                     pubdate=book_row['pubdate'],
-                    # language,
+                    languages=metadata['languages'].get(book_id),
                     # cover_path,
                     )
             self._books.append(book)
-
-        # books = {book_id: (
-            # book,
-            # data_dict[book_id],
-            # series.get(book_id),
-            # collections.get(book_id),
-            # authors.get(book_id),
-            # status.get(book_id),
-            # )
-            # for book_id, book in book_dict.items()}
-
-        # self._books = books
 
 
     def get_serie_title(self, title, serie_index, serie_name):

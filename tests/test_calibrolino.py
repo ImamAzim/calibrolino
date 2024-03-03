@@ -48,7 +48,7 @@ class TestCalibreDBReader(unittest.TestCase):
                 'status',
                 'isbn',
                 'pubdate',
-                'language',
+                'languages',
                 'cover_path',
                 }
         for book in books:
