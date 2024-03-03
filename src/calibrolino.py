@@ -128,10 +128,28 @@ class CalibreDBReader(object):
                 else:
                     metadata[data][book_id].append(metadata_value)
 
-        print(data_names)
-        print(metadata)
-
         self._books = list()
+
+        for book_row in self._tables['books']:
+            book = dict(
+                    title=book_row['title'],
+                    # title,
+                    # authors,
+                    # uuid,
+                    # file_path,
+                    # publisher,
+                    # series_index,
+                    # serie_name,
+                    # collection,
+                    # status,
+                    # isbn,
+                    # pubdate,
+                    # language,
+                    # cover_path,
+                    )
+            self._books.append(book)
+
+        print(self._books)
 
         # books = {book_id: (
             # book,

@@ -34,7 +34,6 @@ class TestCalibreDBReader(unittest.TestCase):
         self.assertIn(serie_index, new_title)
 
     def test_read_db(self):
-        self.assertLess({1}, {1, 2})
         books = self.calibre_db_reader.read_db()
         self.assertGreater(len(books), 0)
         expected_keys = (
