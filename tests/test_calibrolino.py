@@ -36,7 +36,7 @@ class TestCalibreDBReader(unittest.TestCase):
     def test_read_db(self):
         books = self.calibre_db_reader.read_db()
         self.assertGreater(len(books), 0)
-        expected_keys = (
+        expected_keys = {
                 'title',
                 'authors',
                 'uuid',
@@ -50,7 +50,7 @@ class TestCalibreDBReader(unittest.TestCase):
                 'pubdate',
                 'language',
                 'cover_path',
-                )
+                }
         for book in books:
             self.assertLess(expected_keys, book.keys())
 
