@@ -13,17 +13,17 @@ import xdg_base_dirs
 class CalibreDBReader(object):
 
     """prepare and upload the calibre library to the cloud"""
-    _calibre_db_table = dict(
-            books='books',
-            data='data',
-            series='series',
-            books_series_link='books_series_link',
-            tags='tags',
-            books_tags_link='books_tags_link',
-            authors='authors',
-            books_authors_link='books_authors_link',
-            custom_columns='custom_columns',
-            )
+    _calibre_db_table = [
+            'books',
+            'data',
+            'series',
+            'books_series_link',
+            'tags',
+            'books_tags_link',
+            'authors',
+            'books_authors_link',
+            'custom_columns',
+            ]
 
     def __init__(self):
         """
@@ -76,9 +76,8 @@ class CalibreDBReader(object):
 
         self._tables = dict()
 
-        for table_name in self._calibre_db_table.keys():
-            self._tables[table_name] = self._get_table(
-                    self._calibre_db_table[table_name])
+        for table_name in self._calibre_db_table:
+            self._tables[table_name] = self._get_table(table_name)
 
         custom_column_id = None
         for custom_column in self._tables['custom_columns']:
@@ -122,6 +121,8 @@ class CalibreDBReader(object):
 
         print(data_names)
         print(metadata)
+
+        self._books = list()
 
         # books = {book_id: (
             # book,
