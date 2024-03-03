@@ -98,7 +98,7 @@ class CalibreDBReader(object):
 
     def _create_books_dict(self):
 
-        data_dict = {data['book']: data for data in self._tables['data']}
+        files_data = {row['book']: row for row in self._tables['data']}
 
         data_names = dict()
         metadata = dict()
@@ -131,12 +131,15 @@ class CalibreDBReader(object):
         self._books = list()
 
         for book_row in self._tables['books']:
+            book_id = book_row['id']
+            file_data = files_data[book_id]
+            file_path=self._get_file_path(book_row, file_data),
+
             book = dict(
                     title=book_row['title'],
-                    # title,
-                    # authors,
-                    # uuid,
-                    # file_path,
+                    authors=metadata['authors'][book_id],
+                    uuid=book_row['uuid'],
+                    file_path=file_path,
                     # publisher,
                     # series_index,
                     # serie_name,
