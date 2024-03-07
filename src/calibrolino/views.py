@@ -33,6 +33,7 @@ class CalibrolinoShellView(object):
         self._running = True
         self._calibre_db = None
         self._books = list()
+        self._books_to_upload = list()
 
         self._init_dbreader()
         if self._calibre_db is not None:
@@ -60,6 +61,10 @@ class CalibrolinoShellView(object):
         print(self._welcome_msg)
         while self._running:
             self._print_menu()
+            print(
+                    f'I found {len(self._books)} in your calibre library',
+                    f'there are {len(self._books_to_upload)} books that you can upload',
+                    )
             choice = input('please select:\n')
             try:
                 self._menu[choice]['method']()
