@@ -197,28 +197,6 @@ class CalibreDBReader(object):
 
         return self._books
 
-        # for book_id, (book, data, serie, collection, authors, status) in self.books.items():
-            # book_format = data['format']
-            # if book_format.upper() in self.accepted_formats:
-                # uuid = book['uuid']
-                # title = book['title']
-                # if serie is not None:
-                    # serie_index = book['series_index']
-                    # title = self._create_new_title(title, serie_index, serie)
-                    # # print(title)
-                # book_path = self._get_file_path(book, data)
-                # if not os.path.exists(book_path):
-                    # raise FileNotFoundError('maybe the suffix is uppercase')
-                # print(title, status)
-
-def run():
-    """ function to be executed as entry point to upload the data
-
-    """
-    pass
-    # my_calibrolino = Calibrolino()
-    # my_calibrolino.run()
-
 
 if __name__ == '__main__':
     calibre_db = CalibreDBReader()

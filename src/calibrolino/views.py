@@ -1,3 +1,6 @@
+from calibrolino.models import CalibreDBReader
+
+
 class CalibrolinoShellView(object):
 
     """view in shell with a menu to run calibrolino"""
@@ -28,6 +31,7 @@ class CalibrolinoShellView(object):
                     ),
                 }
         self._running = True
+        
 
     def start(self):
         print(self._welcome_msg)
