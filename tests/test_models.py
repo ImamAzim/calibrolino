@@ -9,7 +9,7 @@ import os
 import unittest
 
 
-from calibrolino import CalibreDBReader
+from calibrolino.models import CalibreDBReader
 
 
 class TestCalibreDBReader(unittest.TestCase):
