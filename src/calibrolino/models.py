@@ -10,6 +10,10 @@ import pytolino
 import xdg_base_dirs
 
 
+class CalibrolinoException(Exception):
+    pass
+
+
 class CalibreDBReader(object):
 
     """prepare and upload the calibre library to the cloud"""
@@ -54,7 +58,7 @@ class CalibreDBReader(object):
         self._db_path = os.path.join(self._db_folder, db_fn)
 
         if not os.path.exists(self._db_path):
-            raise FileExistsError(
+            raise CalibrolinoException(
                     'could not found the calibre db. is calibre installed?')
 
     def _load_db(self):
