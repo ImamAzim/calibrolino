@@ -32,6 +32,13 @@ class CalibrolinoShellView(object):
                 }
         self._running = True
 
+        self._calibre_db = None
+        self._init_dbreader()
+        if self._calibre_db is not None:
+            self._read_db()
+        else:
+            print('please initiate the calibre db reader first')
+
     def _init_dbreader():
         """create an instance of CalibreDBReader"""
         try:
