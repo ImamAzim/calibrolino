@@ -1,4 +1,4 @@
-from calibrolino.models import CalibreDBReader
+from calibrolino.models import CalibreDBReader, CalibrolinoException
 
 
 class CalibrolinoShellView(object):
@@ -34,13 +34,19 @@ class CalibrolinoShellView(object):
 
     def _init_dbreader():
         """create an instance of CalibreDBReader"""
-        self._calibre_db = CalibreDBReader()
+        try:
+            self._calibre_db = CalibreDBReader()
+        except CalibrolinoException:
+            print('failed to create an instance of calibre db reader')
 
     def _read_db(self):
         """read the calibre library and get books
 
         """
-        self._books = self._calibre_db.read_db()
+        try:
+            self._books = self._calibre_db.read_db()
+        except CalibrolinoException:
+            print('failed to read the db')
 
     def start(self):
         print(self._welcome_msg)
