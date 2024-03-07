@@ -31,8 +31,9 @@ class CalibrolinoShellView(object):
                     ),
                 }
         self._running = True
-
         self._calibre_db = None
+        self._books = list()
+
         self._init_dbreader()
         if self._calibre_db is not None:
             self._read_db()
