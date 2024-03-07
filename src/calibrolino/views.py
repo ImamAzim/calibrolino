@@ -10,6 +10,18 @@ class CalibrolinoShellView(object):
                     display='change credentials',
                     method=self._change_credentials,
                     ),
+                '2': dict(
+                    display='connect',
+                    method=self._connect,
+                    ),
+                '3': dict(
+                    display='upload all the calibre library',
+                    method=self._upload_all,
+                    ),
+                '4': dict(
+                    display='upload only one book',
+                    method=self._upload_one,
+                    ),
                 'q': dict(
                     display='quit',
                     method=self._quit,
@@ -39,6 +51,27 @@ class CalibrolinoShellView(object):
 
         """
         print('enter the new credentials')
+
+    def _connect(self):
+        """connect to the cloud and get inventory of books
+        :returns: TODO
+
+        """
+        pass
+
+    def _upload_all(self):
+        """upload the whole library
+        :returns: TODO
+
+        """
+        pass
+
+    def _upload_one(self):
+        """upload only one book (for a test)
+        :returns: TODO
+
+        """
+        pass
 
     def _quit(self):
         """
