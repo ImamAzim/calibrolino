@@ -25,6 +25,10 @@ class CalibrolinoShellView(object):
                     display='upload only one book',
                     method=self._upload_one,
                     ),
+                '5': dict(
+                    display='show all my books',
+                    method=self._print_books,
+                    ),
                 'q': dict(
                     display='quit',
                     method=self._quit,
@@ -62,7 +66,7 @@ class CalibrolinoShellView(object):
         while self._running:
             self._print_menu()
             print(
-                    f'I found {len(self._books)} in your calibre library',
+                    f'I found {len(self._books)} books in your calibre library',
                     f'there are {len(self._books_to_upload)} books that you can upload',
                     )
             choice = input('please select:\n')
@@ -104,6 +108,12 @@ class CalibrolinoShellView(object):
 
         """
         pass
+
+    def _print_books(self):
+        for book in self._books:
+            print('==========')
+            for key, value in book.items():
+                print(f'{key}: {value}')
 
     def _quit(self):
         """
