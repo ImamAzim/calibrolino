@@ -31,7 +31,16 @@ class CalibrolinoShellView(object):
                     ),
                 }
         self._running = True
-        
+
+    def _init_dbreader():
+        """create an instance of CalibreDBReader"""
+        self._calibre_db = CalibreDBReader()
+
+    def _read_db(self):
+        """read the calibre library and get books
+
+        """
+        self._books = self._calibre_db.read_db()
 
     def start(self):
         print(self._welcome_msg)
