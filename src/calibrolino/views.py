@@ -41,7 +41,7 @@ class CalibrolinoShellView(object):
         else:
             print('please initiate the calibre db reader first')
 
-    def _init_dbreader():
+    def _init_dbreader(self):
         """create an instance of CalibreDBReader"""
         try:
             self._calibre_db = CalibreDBReader()
