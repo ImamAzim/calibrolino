@@ -47,3 +47,9 @@ class CalibrolinoShellView(object):
         """
         print('goodbye')
         self._running = False
+
+
+if __name__ == '__main__':
+    view = CalibrolinoShellView()
+    view.start()
+    pass
