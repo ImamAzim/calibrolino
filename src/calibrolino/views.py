@@ -1,4 +1,5 @@
 import getpass
+from varboxes import VarBox
 
 
 from pytolino.tolino_cloud import Client, PytolinoException, PARTNERS
@@ -44,7 +45,7 @@ class CalibrolinoShellView(object):
         self._calibre_db = None
         self._books = list()
         self._books_to_upload = list()
-        self._credentials = dict()
+        self._credentials = VarBox('calibrolino')
 
         self._init_dbreader()
         if self._calibre_db is not None:
@@ -106,11 +107,14 @@ class CalibrolinoShellView(object):
             except IndexError:
                 print('failed! you must enter a valid number partner number')
             else:
-                self._credentials['server_name'] = user_partner
+                self._credentials.server_name = user_partner
                 username = input('username: ')
-                self._credentials['username'] = username
+                self._credentials.username = username
                 password = getpass.getpass()
-                self._credentials['password']
+                self._credentials.password
+                print('warning! your credentials are saved on the disk!',
+                        'if you wish to delete them, you can change them again',
+                        'and put empty entry')
 
 
     def _connect(self):
@@ -118,7 +122,7 @@ class CalibrolinoShellView(object):
         :returns: TODO
 
         """
-        if self._credentials:
+        if hasattr(self._credentials, 'password'):
             print(self._credentials)
         else:
             print('please enter first your credentials with the menu')
