@@ -1,3 +1,6 @@
+from pytolino.tolino_cloud import Client, PytolinoException, PARTNERS
+
+
 from calibrolino.models import CalibreDBReader, CalibrolinoException
 
 
@@ -86,7 +89,21 @@ class CalibrolinoShellView(object):
         optionnally save them for next time
 
         """
-        print('enter the new credentials')
+        for i, partner in enumerate(PARTNERS):
+            print(f'{i}: {partner}')
+        id_partner = input('please enter the number of the tolino partner you want:')
+        try:
+            i = int(id_partner)
+        except ValueError:
+            print('failed! you must enter a valid number partner number')
+        else:
+            try:
+                user_partner = PARTNERS[i]
+            except IndexError:
+                print('failed! you must enter a valid number partner number')
+            else:
+                username = input('username: ')
+
 
     def _connect(self):
         """connect to the cloud and get inventory of books
