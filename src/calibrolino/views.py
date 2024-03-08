@@ -1,3 +1,6 @@
+import getpass
+
+
 from pytolino.tolino_cloud import Client, PytolinoException, PARTNERS
 
 
@@ -41,6 +44,7 @@ class CalibrolinoShellView(object):
         self._calibre_db = None
         self._books = list()
         self._books_to_upload = list()
+        self._credentials = dict()
 
         self._init_dbreader()
         if self._calibre_db is not None:
@@ -102,7 +106,11 @@ class CalibrolinoShellView(object):
             except IndexError:
                 print('failed! you must enter a valid number partner number')
             else:
+                self._credentials['server_name'] = user_partner
                 username = input('username: ')
+                self._credentials['username'] = username
+                password = getpass.getpass()
+                self._credentials['password']
 
 
     def _connect(self):
@@ -110,7 +118,11 @@ class CalibrolinoShellView(object):
         :returns: TODO
 
         """
-        pass
+        if self._credentials:
+            print(self._credentials)
+        else:
+            print('please enter first your credentials with the menu')
+
 
     def _upload_all(self):
         """upload the whole library
