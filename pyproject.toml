@@ -20,7 +20,8 @@ classifiers = [
 description = "a script to upload calibre library to the tolino cloud"
 dependencies = [
         'pytolino>=1.4',
-        'xdg-base-dirs'
+        'xdg-base-dirs',
+        'varboxes',
 ]
 
 [project.optional-dependencies]
