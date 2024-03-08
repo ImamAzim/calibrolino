@@ -111,7 +111,7 @@ class CalibrolinoShellView(object):
                 username = input('username: ')
                 self._credentials.username = username
                 password = getpass.getpass()
-                self._credentials.password
+                self._credentials.password = password
                 print('warning! your credentials are saved on the disk!',
                         'if you wish to delete them, you can change them again',
                         'and put empty entry')
@@ -123,7 +123,8 @@ class CalibrolinoShellView(object):
 
         """
         if hasattr(self._credentials, 'password'):
-            print(self._credentials)
+            for var, value in self._credentials.__dict__.items():
+                print(var, value)
         else:
             print('please enter first your credentials with the menu')
 
