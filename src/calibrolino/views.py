@@ -129,6 +129,7 @@ class CalibrolinoShellView(object):
                             self._credentials.password,
                             )
                 except PytolinoException:
+                    print('failed to use these credentials')
                     self._tolino_cloud = None
                 print('warning! your credentials are saved on the disk!',
                         'if you wish to delete them, you can change them again',
@@ -152,10 +153,10 @@ class CalibrolinoShellView(object):
             uploaded_books = self._tolino_cloud.get_uploaded_books()
             books_to_upload = list()
             for book in self._books:
-                if not in book['uuid'] in uploaded_books:
+                if book['uuid'] not in uploaded_books:
                     books_to_upload.append(book)
+            print(f'uploading {len(books_to_upload)} books...')
             self._tolino_cloud.upload_books(books_to_upload)
-                    
         else:
             print('please enter first your credentials in the main menu')
 
