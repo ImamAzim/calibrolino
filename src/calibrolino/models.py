@@ -287,7 +287,10 @@ class TolinoCloud(object):
         """private method that upload the metadata
 
         """
-        pass
+        metadata = dict(
+                title=book['title'],
+                )
+        self._client.upload_metadata(book_id, **metadata)
 
 
 if __name__ == '__main__':
