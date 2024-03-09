@@ -254,6 +254,8 @@ class TolinoCloud(object):
         """
         for tag in book['tags']:
             self._client.add_to_collection(book_id, tag)
+        status = book['status']
+        self._client.add_to_collection(book_id, status)
 
 
     def upload_metadata(self, book, book_id):
