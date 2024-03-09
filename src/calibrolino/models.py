@@ -242,7 +242,10 @@ class TolinoCloud(object):
             for tag in book['tags']:
                 self._client.add_to_collection(book_id, tag)
             if book['has_cover']:
-                pass
+                cover_path = book['cover_path']
+                self._client.add_cover(book_id, cover_path)
+                self._upload_meta(book, book_id)
+            
 
 
         self._client.unregister()
@@ -256,6 +259,13 @@ class TolinoCloud(object):
 
         title = book['title']
         print(f'uploading {title} on id={book_id}')
+        self._upload_meta(book, book_id)
+
+    def _upload_meta(self, book, book_id):
+        """private method that upload the metadata
+
+        """
+        pass
 
 
 if __name__ == '__main__':
