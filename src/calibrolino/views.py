@@ -182,7 +182,7 @@ class CalibrolinoShellView(object):
                 if self._tolino_cloud is not None:
                     uploaded_books = self._tolino_cloud.get_uploaded_books()
                     if book_to_upload['uuid'] not in uploaded_books:
-                        books_to_upload = list(book_to_upload)
+                        books_to_upload = [book_to_upload]
                         self._tolino_cloud.upload_books(books_to_upload)
                     else:
                         print(
