@@ -220,10 +220,10 @@ class TolinoCloud(object):
 
     def get_uploaded_books(self):
         """connect to the cloud and get the list of the books that where already uploaded
-        :returns: list of uuid of the uploaded books
+        :returns: dict of uploaded books (uuid: books_id)
 
         """
-        return list()
+        return dict()
 
     def upload_books(self, books):
         """upload to the cloud the selected books
