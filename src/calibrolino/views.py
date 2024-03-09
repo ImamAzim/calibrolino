@@ -189,6 +189,7 @@ class CalibrolinoShellView(object):
                                 'I will only upload the metadata',
                                 )
                         book_id = uploaded_books[book_to_upload['uuid']]
+                        self._tolino_cloud.upload_metadata(book_to_upload, book_id)
                 else:
                     print('please enter first your credentials in the main menu')
 

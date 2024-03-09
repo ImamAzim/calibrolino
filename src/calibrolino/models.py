@@ -233,6 +233,13 @@ class TolinoCloud(object):
         """
         pass
 
+    def upload_metadata(self, book, book_id):
+        """upload the metadata and cover of a book,
+        :book: dict with title, file path an metadata of the book
+        :book_id: ref on the cloud pointing to the book"""
+
+        print(f'uploading {book['title']} on id={book_id}')
+
 
 if __name__ == '__main__':
     calibre_db = CalibreDBReader()
