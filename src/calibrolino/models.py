@@ -6,7 +6,7 @@ import sqlite3
 import sys
 
 
-import pytolino
+from pytolino.tolino_cloud import Client
 import xdg_base_dirs
 
 
@@ -200,6 +200,23 @@ class CalibreDBReader(object):
         self._create_books_dict()
 
         return self._books
+
+
+class TolinoCloud(object):
+
+    """Docstring for TolinoCloud. """
+
+    def __init__(self, partner, username, password):
+        """
+        create instance of pytolino.Client
+        :partner: str: address of tolino cloud partner
+        :username: str
+        :password: str
+        """
+
+        self._username = username
+        self._password = password
+        self._client = Client(server_name=partner)
 
 
 if __name__ == '__main__':
