@@ -225,6 +225,14 @@ class TolinoCloud(object):
         """
         pass
 
+    def upload_books(self, books):
+        """upload to the cloud the selected books
+
+        :books: list of books (dict with metada and path to the file)
+
+        """
+        pass
+
 
 if __name__ == '__main__':
     calibre_db = CalibreDBReader()

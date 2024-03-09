@@ -20,19 +20,19 @@ class CalibrolinoShellView(object):
                     display='change credentials',
                     method=self._change_credentials,
                     ),
+                # '2': dict(
+                    # display='connect',
+                    # method=self._connect,
+                    # ),
                 '2': dict(
-                    display='connect',
-                    method=self._connect,
-                    ),
-                '3': dict(
                     display='upload all the calibre library',
                     method=self._upload_all,
                     ),
-                '4': dict(
+                '3': dict(
                     display='upload only one book',
                     method=self._upload_one,
                     ),
-                '5': dict(
+                '4': dict(
                     display='show all my books',
                     method=self._print_books,
                     ),
