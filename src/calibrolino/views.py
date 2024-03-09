@@ -146,7 +146,6 @@ class CalibrolinoShellView(object):
 
     def _upload_all(self):
         """upload the whole library
-        :returns: TODO
 
         """
         if self._tolino_cloud is not None:
@@ -162,10 +161,36 @@ class CalibrolinoShellView(object):
 
     def _upload_one(self):
         """upload only one book (for a test)
-        :returns: TODO
 
         """
-        pass
+
+        for book_index, book in enumerate(self._books):
+            print(f'{book_index}: {book['title']}')
+        book_index_choice = input('enter the book number you want to upload:\n')
+
+        try:
+            i = int(book_index_choice)
+        except ValueError:
+            print('failed! you must enter a valid number')
+        else:
+            try:
+                book_to_upload = self._books[i]
+            except IndexError:
+                print('failed! you must enter the book number you want to upload')
+            else:
+                if self._tolino_cloud is not None:
+                    uploaded_books = self._tolino_cloud.get_uploaded_books()
+                    if book_to_upload['uuid'] not in uploaded_books:
+                        books_to_upload = list(book_to_upload)
+                        self._tolino_cloud.upload_books(books_to_upload)
+                    else:
+                        print(
+                                'the book you chose is already on the cloud',
+                                'I will only upload the metadata',
+                                )
+                        book_id = uploaded_books[book_to_upload['uuid']]
+                else:
+                    print('please enter first your credentials in the main menu')
 
     def _print_books(self):
         for book in self._books:
