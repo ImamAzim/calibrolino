@@ -218,6 +218,13 @@ class TolinoCloud(object):
         self._password = password
         self._client = Client(server_name=partner)
 
+    def get_uploaded_books(self):
+        """connect to the cloud and get the list of the books that where already uploaded
+        :returns: list of uuid of the uploaded books
+
+        """
+        pass
+
 
 if __name__ == '__main__':
     calibre_db = CalibreDBReader()
