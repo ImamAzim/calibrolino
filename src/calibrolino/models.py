@@ -231,9 +231,22 @@ class TolinoCloud(object):
         :books: list of books (dict with metada and path to the file)
 
         """
+        self._client.login(self._username, self._password)
+        self._client.register()
+
         for book in books:
             title = book['title']
             print(f'uploading {title}')
+            file_path = book['file_path']
+            book_id = self._client.upload(file_path)
+            for tag in book['tags']:
+                self._client.add_to_collection(book_id, tag)
+            if book['has_cover']:
+                pass
+
+
+        self._client.unregister()
+        self._client.logout()
 
 
     def upload_metadata(self, book, book_id):

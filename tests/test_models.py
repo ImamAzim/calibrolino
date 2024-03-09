@@ -60,4 +60,11 @@ class TestCalibreDBReader(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    pass
+    print('ok')
+    calibre_db_reader = CalibreDBReader()
+    books = calibre_db_reader.read_db()
+    book = books[0]
+    has_cover = book['has_cover']
+    print(has_cover, type(has_cover))
+    if has_cover:
+        print('has a cover!')
