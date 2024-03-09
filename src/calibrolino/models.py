@@ -289,6 +289,11 @@ class TolinoCloud(object):
         """
         metadata = dict(
                 title=book['title'],
+                isbn=book['isbn'],
+                language=book['languages'][0],
+                publisher=', '.join(book['publishers']),
+                issued=book['pubdate'],
+                author=', '.join(book['authors']),
                 )
         self._client.upload_metadata(book_id, **metadata)
 
