@@ -219,7 +219,7 @@ class TolinoCloud(object):
         self._client = Client(server_name=partner)
 
     def get_uploaded_books(self):
-        """connect to the cloud and get the list of the books that where already uploaded
+        """connect to the cloud and get the books that where already uploaded
         :returns: dict of uploaded books (uuid: books_id)
 
         """
@@ -231,7 +231,9 @@ class TolinoCloud(object):
         :books: list of books (dict with metada and path to the file)
 
         """
-        pass
+        for book in books:
+            print(f'uploading {book['title']}}')
+
 
     def upload_metadata(self, book, book_id):
         """upload the metadata and cover of a book,
