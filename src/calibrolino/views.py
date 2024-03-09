@@ -165,7 +165,7 @@ class CalibrolinoShellView(object):
         """
 
         for book_index, book in enumerate(self._books):
-            print(f'{book_index}: {book['title']}')
+            print(f"{book_index}: {book['title']}")
         book_index_choice = input('enter the book number you want to upload:\n')
 
         try:
