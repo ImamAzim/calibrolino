@@ -5,7 +5,7 @@ from varboxes import VarBox
 from pytolino.tolino_cloud import Client, PytolinoException, PARTNERS
 
 
-from calibrolino.models import CalibreDBReader, CalibrolinoException
+from calibrolino.models import CalibreDBReader, CalibrolinoException, TolinoCloud
 
 
 class CalibrolinoShellView(object):
@@ -46,6 +46,18 @@ class CalibrolinoShellView(object):
         self._books = list()
         self._books_to_upload = list()
         self._credentials = VarBox('calibrolino')
+
+        if hasattr(self._credentials, 'password'):
+            try:
+                self._tolino_cloud = TolinoCloud(
+                        self._credentials.server_name,
+                        self._credentials.username,
+                        self._credentials.password,
+                        )
+            except PytolinoException:
+                self._tolino_cloud = None
+        else:
+            self._tolino_cloud = None
 
         self._init_dbreader()
         if self._calibre_db is not None:
@@ -112,6 +124,14 @@ class CalibrolinoShellView(object):
                 self._credentials.username = username
                 password = getpass.getpass()
                 self._credentials.password = password
+                try:
+                    self._tolino_cloud = TolinoCloud(
+                            self._credentials.server_name,
+                            self._credentials.username,
+                            self._credentials.password,
+                            )
+                except PytolinoException:
+                    self._tolino_cloud = None
                 print('warning! your credentials are saved on the disk!',
                         'if you wish to delete them, you can change them again',
                         'and put empty entry')
@@ -122,11 +142,7 @@ class CalibrolinoShellView(object):
         :returns: TODO
 
         """
-        if hasattr(self._credentials, 'password'):
-            for var, value in self._credentials.__dict__.items():
-                print(var, value)
-        else:
-            print('please enter first your credentials with the menu')
+        pass
 
 
     def _upload_all(self):
