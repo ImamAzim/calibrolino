@@ -239,17 +239,21 @@ class TolinoCloud(object):
             print(f'uploading {title}')
             file_path = book['file_path']
             book_id = self._client.upload(file_path)
-            for tag in book['tags']:
-                self._client.add_to_collection(book_id, tag)
-            if book['has_cover']:
-                cover_path = book['cover_path']
-                self._client.add_cover(book_id, cover_path)
-                self._upload_meta(book, book_id)
-            
+            self._add_to_collection(book, book_id)
+            self._upload_cover(book, book_id)
+            self._upload_meta(book, book_id)
 
 
         self._client.unregister()
         self._client.logout()
+
+    def _add_to_collection(self, book, book_id):
+        """
+        private methode to add to collection
+
+        """
+        for tag in book['tags']:
+            self._client.add_to_collection(book_id, tag)
 
 
     def upload_metadata(self, book, book_id):
@@ -259,7 +263,25 @@ class TolinoCloud(object):
 
         title = book['title']
         print(f'uploading {title} on id={book_id}')
+
+        self._client.login(self._username, self._password)
+        self._client.register()
+
+        self._add_to_collection(book, book_id)
+        self._upload_cover(book, book_id)
         self._upload_meta(book, book_id)
+
+        self._client.unregister()
+        self._client.logout()
+
+    def _upload_cover(self, book, book_id):
+        """private method to upload the cover
+
+
+        """
+        if book['has_cover']:
+            cover_path = book['cover_path']
+            self._client.add_cover(book_id, cover_path)
 
     def _upload_meta(self, book, book_id):
         """private method that upload the metadata
