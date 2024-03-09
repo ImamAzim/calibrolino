@@ -44,7 +44,6 @@ class CalibrolinoShellView(object):
         self._running = True
         self._calibre_db = None
         self._books = list()
-        self._books_to_upload = list()
         self._credentials = VarBox('calibrolino')
 
         if hasattr(self._credentials, 'password'):
@@ -87,7 +86,6 @@ class CalibrolinoShellView(object):
             self._print_menu()
             print(
                     f'I found {len(self._books)} books in your calibre library',
-                    f'there are {len(self._books_to_upload)} books that you can upload',
                     )
             choice = input('please select:\n')
             try:
@@ -150,7 +148,16 @@ class CalibrolinoShellView(object):
         :returns: TODO
 
         """
-        pass
+        if self._tolino_cloud is not None:
+            uploaded_books = self._tolino_cloud.get_uploaded_books()
+            books_to_upload = list()
+            for book in self._books:
+                if not in book['uuid'] in uploaded_books:
+                    books_to_upload.append(book)
+            self._tolino_cloud.upload_books(books_to_upload)
+                    
+        else:
+            print('please enter first your credentials in the main menu')
 
     def _upload_one(self):
         """upload only one book (for a test)

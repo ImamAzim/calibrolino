@@ -223,7 +223,7 @@ class TolinoCloud(object):
         :returns: list of uuid of the uploaded books
 
         """
-        pass
+        return list()
 
     def upload_books(self, books):
         """upload to the cloud the selected books
