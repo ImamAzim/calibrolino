@@ -148,7 +148,7 @@ class CalibreDBReader(object):
                 status = None
             cover_path = self._get_cover_path(book_row, file_data)
 
-            issued_datetime = datetime.datetime.fromisoformat(book_row['pubdate'])
+            issued_datetime = int(datetime.datetime.fromisoformat(book_row['pubdate']))
             issued_timestamps = issued_datetime.timestamp()
 
             book = dict(
