@@ -149,17 +149,17 @@ class CalibreDBReader(object):
 
             book = dict(
                     title=book_row['title'],
-                    authors=metadata['authors'].get(book_id),
+                    authors=metadata['authors'].get(book_id, []),
                     uuid=book_row['uuid'],
                     file_path=file_path,
-                    publishers=metadata['publishers'].get(book_id),
+                    publishers=metadata['publishers'].get(book_id, []),
                     series_index=book_row['series_index'],
                     serie_name=serie_name,
-                    tags=metadata['tags'].get(book_id),
+                    tags=metadata['tags'].get(book_id, []),
                     status=status,
                     isbn=book_row['isbn'],
                     pubdate=book_row['pubdate'],
-                    languages=metadata['languages'].get(book_id),
+                    languages=metadata['languages'].get(book_id, []),
                     cover_path=cover_path,
                     has_cover=book_row['has_cover'],
                     )
@@ -252,9 +252,8 @@ class TolinoCloud(object):
 
         """
         tags = book['tags']
-        if tags is not None:
-            for tag in tags:
-                self._client.add_to_collection(book_id, tag)
+        for tag in tags:
+            self._client.add_to_collection(book_id, tag)
         status = book['status']
         if status is not None:
             self._client.add_to_collection(book_id, status)
@@ -299,10 +298,10 @@ class TolinoCloud(object):
         metadata = dict(
                 title=title,
                 isbn=book['isbn'],
-                # language=book['languages'][0],
-                # publisher=', '.join(book['publishers']),
+                language=book['languages'][0],
+                publisher=', '.join(book['publishers']),
                 issued=book['pubdate'],
-                # author=', '.join(book['authors']),
+                author=', '.join(book['authors']),
                 )
         self._client.upload_metadata(book_id, **metadata)
 
