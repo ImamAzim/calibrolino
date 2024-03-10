@@ -148,6 +148,9 @@ class CalibreDBReader(object):
                 status = None
             cover_path = self._get_cover_path(book_row, file_data)
 
+            issued_datetime = datetime.datetime.fromisoformat(book_row['pubdate'])
+            issued_timestamps = issued_datetime.timestamp()
+
             book = dict(
                     title=book_row['title'],
                     authors=metadata['authors'].get(book_id, []),
@@ -160,6 +163,7 @@ class CalibreDBReader(object):
                     status=status,
                     isbn=book_row['isbn'],
                     pubdate=book_row['pubdate'],
+                    issued=issued_timestamps,
                     languages=metadata['languages'].get(book_id, []),
                     cover_path=cover_path,
                     has_cover=book_row['has_cover'],
