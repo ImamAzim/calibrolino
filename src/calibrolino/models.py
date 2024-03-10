@@ -240,7 +240,7 @@ class TolinoCloud(object):
                 for book in inventory:
                     issued = book['epubMetaData']['issued']
                     book_id = book['publicationId']
-                    uploaded_book[issued] = book_id
+                    uploaded_books[issued] = book_id
                 return uploaded_books()
             except PytolinoException:
                 print('failed to get inventory')
