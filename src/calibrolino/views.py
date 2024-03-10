@@ -152,7 +152,7 @@ class CalibrolinoShellView(object):
             uploaded_books = self._tolino_cloud.get_uploaded_books()
             books_to_upload = list()
             for book in self._books:
-                if book['uuid'] not in uploaded_books:
+                if book['issued'] not in uploaded_books:
                     books_to_upload.append(book)
             print(f'uploading {len(books_to_upload)} books...')
             self._tolino_cloud.upload_books(books_to_upload)
@@ -181,7 +181,7 @@ class CalibrolinoShellView(object):
             else:
                 if self._tolino_cloud is not None:
                     uploaded_books = self._tolino_cloud.get_uploaded_books()
-                    if book_to_upload['uuid'] not in uploaded_books:
+                    if book_to_upload['issued'] not in uploaded_books:
                         books_to_upload = [book_to_upload]
                         self._tolino_cloud.upload_books(books_to_upload)
                     else:
@@ -189,7 +189,7 @@ class CalibrolinoShellView(object):
                                 'the book you chose is already on the cloud',
                                 'I will only upload the metadata',
                                 )
-                        book_id = uploaded_books[book_to_upload['uuid']]
+                        book_id = uploaded_books[book_to_upload['issued']]
                         self._tolino_cloud.upload_metadata(book_to_upload, book_id)
                 else:
                     print('please enter first your credentials in the main menu')
