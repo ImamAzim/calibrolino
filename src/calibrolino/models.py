@@ -94,7 +94,7 @@ class CalibreDBReader(object):
                 custom_column_id = custom_column['id']
         if custom_column_id is not None:
             self._status_table_name = f'custom_column_{custom_column_id}'
-            table_names = self._status_table_name, self._status_link_table_name
+            table_names = self._status_table_name, f'books_{self._status_table_name}_link'
             for table_name in table_names:
                 self._tables[table_name] = self._get_table(table_name)
             self._status_is_defined = True
