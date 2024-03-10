@@ -312,14 +312,12 @@ class TolinoCloud(object):
         if serie_name is not None:
             series_index = book['series_index']
             title = get_serie_title(title, series_index, serie_name)
-        issued_datetime = datetime.datetime.fromisoformat(book['pubdate'])
-        issued_timestamps = issued_datetime.timestamp()
         metadata = dict(
                 title=title,
                 isbn=book['isbn'],
                 language=book['languages'][0],
                 publisher=', '.join(book['publishers']),
-                issued=issued_timestamps,
+                issued=book['issued'],
                 author=', '.join(book['authors']),
                 )
         self._client.upload_metadata(book_id, **metadata)
