@@ -116,7 +116,7 @@ class CalibreDBReader(object):
                 ]
         if self._status_is_defined:
             datas.append(
-                    (self._status_table_name, 'value' 'value')
+                    (self._status_table_name, 'value', 'value')
                     )
         for data, column_name0, column_name in datas:
             data_names[data] = dict()
