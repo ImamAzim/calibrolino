@@ -251,8 +251,10 @@ class TolinoCloud(object):
         private methode to add to collection
 
         """
-        for tag in book['tags']:
-            self._client.add_to_collection(book_id, tag)
+        tags = book['tags']
+        if tags is not None:
+            for tag in tags:
+                self._client.add_to_collection(book_id, tag)
         status = book['status']
         if status is not None:
             self._client.add_to_collection(book_id, status)
