@@ -139,7 +139,7 @@ class CalibreDBReader(object):
             book_id = book_row['id']
             file_data = files_data[book_id]
             file_path=self._get_file_path(book_row, file_data)
-            serie_name=metadata['series'].get('book_id')
+            serie_name=metadata['series'].get(book_id)
             if serie_name is not None:
                 serie_name = serie_name[0]
             if self._status_is_defined:
