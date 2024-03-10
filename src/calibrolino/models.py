@@ -6,7 +6,7 @@ import sqlite3
 import sys
 
 
-from pytolino.tolino_cloud import Client
+from pytolino.tolino_cloud import Client, PytolinoException
 import xdg_base_dirs
 
 
@@ -237,10 +237,13 @@ class TolinoCloud(object):
             title = book['title']
             print(f'uploading {title}')
             file_path = book['file_path']
-            book_id = self._client.upload(file_path)
-            self._add_to_collection(book, book_id)
-            self._upload_cover(book, book_id)
-            self._upload_meta(book, book_id)
+            try:
+                book_id = self._client.upload(file_path)
+                self._add_to_collection(book, book_id)
+                self._upload_cover(book, book_id)
+                self._upload_meta(book, book_id)
+            except PytolinoException:
+                print('failed in upload!')
 
 
         self._client.unregister()
