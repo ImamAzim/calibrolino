@@ -267,12 +267,23 @@ class TolinoCloud(object):
                 file_path = book['file_path']
                 try:
                     book_id = self._client.upload(file_path)
-                    self._add_to_collection(book, book_id)
-                    self._upload_cover(book, book_id)
-                    self._upload_meta(book, book_id)
                 except PytolinoException:
                     print('failed in upload!')
-
+                else:
+                    try:
+                        self._add_to_collection(book, book_id)
+                    except PytolinoException:
+                        print('failed to add the collections!')
+                    try:
+                        self._upload_cover(book, book_id)
+                    except PytolinoException:
+                        print('failed to upload the cover!')
+                    try:
+                        self._upload_meta(book, book_id)
+                    except PytolinoException:
+                        print('failed to upload the metadata')
+                    print('book uploaded')
+            print('done')
 
             self._client.unregister()
             self._client.logout()
