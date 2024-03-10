@@ -9,7 +9,7 @@ import os
 import unittest
 
 
-from calibrolino.models import CalibreDBReader
+from calibrolino.models import CalibreDBReader, get_serie_title
 
 
 class TestCalibreDBReader(unittest.TestCase):
@@ -23,15 +23,6 @@ class TestCalibreDBReader(unittest.TestCase):
     def test_init(self):
         CalibreDBReader()
 
-    def test_serie_title(self):
-        title = 'mytitle'
-        serie_name = 'myserie'
-        serie_index = '42'
-        new_title = self.calibre_db_reader.get_serie_title(title, serie_index, serie_name)
-        self.assertIsInstance(new_title, str)
-        self.assertIn(title, new_title)
-        self.assertIn(serie_name, new_title)
-        self.assertIn(serie_index, new_title)
 
     def test_read_db(self):
         books = self.calibre_db_reader.read_db()
@@ -55,6 +46,16 @@ class TestCalibreDBReader(unittest.TestCase):
         for book in books:
             self.assertLessEqual(expected_keys, book.keys())
 
+def test_serie_title():
+    title = 'mytitle'
+    serie_name = 'myserie'
+    serie_index = '42'
+    new_title = get_serie_title(title, serie_index, serie_name)
+    self.assertIsInstance(new_title, str)
+    self.assertIn(title, new_title)
+    self.assertIn(serie_name, new_title)
+    self.assertIn(serie_index, new_title)
+
 
 """ script tests """
 
@@ -68,3 +69,12 @@ if __name__ == '__main__':
     print(has_cover, type(has_cover))
     if has_cover:
         print('has a cover!')
+    def test_serie_title(self):
+        title = 'mytitle'
+        serie_name = 'myserie'
+        serie_index = '42'
+        new_title = self.calibre_db_reader.get_serie_title(title, serie_index, serie_name)
+        self.assertIsInstance(new_title, str)
+        self.assertIn(title, new_title)
+        self.assertIn(serie_name, new_title)
+        self.assertIn(serie_index, new_title)

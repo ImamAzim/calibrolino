@@ -165,12 +165,6 @@ class CalibreDBReader(object):
                     )
             self._books.append(book)
 
-
-    def get_serie_title(self, title, serie_index, serie_name):
-        new_title = f'{serie_name}: {serie_index} - {title}'
-        return new_title
-
-
     def _get_file_path(self, book, data):
         sub_folder = book['path']
         filename = f"{data['name']}.{data['format'].lower()}"
@@ -200,6 +194,11 @@ class CalibreDBReader(object):
         self._create_books_dict()
 
         return self._books
+
+
+def get_serie_title(title, serie_index, serie_name):
+    new_title = f'{serie_name}: {serie_index} - {title}'
+    return new_title
 
 
 class TolinoCloud(object):
@@ -290,8 +289,13 @@ class TolinoCloud(object):
         """private method that upload the metadata
 
         """
+        title = book['title']
+        serie_name = book['serie_name']
+        if serie_name is not None:
+            series_index = book['series_index']
+            title = get_serie_title(title, series_index, serie_name)
         metadata = dict(
-                title=book['title'],
+                title=title,
                 isbn=book['isbn'],
                 language=book['languages'][0],
                 publisher=', '.join(book['publishers']),
