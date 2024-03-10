@@ -287,7 +287,7 @@ class TolinoCloud(object):
             self._client.add_to_collection(book_id, tag)
         statuses = book['status']
         if statuses is not None:
-            for status in statuses;
+            for status in statuses:
                 self._client.add_to_collection(book_id, status)
 
 
