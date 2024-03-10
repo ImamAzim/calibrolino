@@ -230,24 +230,27 @@ class TolinoCloud(object):
         :books: list of books (dict with metada and path to the file)
 
         """
-        self._client.login(self._username, self._password)
-        self._client.register()
+        try:
+            self._client.login(self._username, self._password)
+            self._client.register()
+        except PytolinoException:
+            print('fail to login')
+        else:
+            for book in books:
+                title = book['title']
+                print(f'uploading {title}')
+                file_path = book['file_path']
+                try:
+                    book_id = self._client.upload(file_path)
+                    self._add_to_collection(book, book_id)
+                    self._upload_cover(book, book_id)
+                    self._upload_meta(book, book_id)
+                except PytolinoException:
+                    print('failed in upload!')
 
-        for book in books:
-            title = book['title']
-            print(f'uploading {title}')
-            file_path = book['file_path']
-            try:
-                book_id = self._client.upload(file_path)
-                self._add_to_collection(book, book_id)
-                self._upload_cover(book, book_id)
-                self._upload_meta(book, book_id)
-            except PytolinoException:
-                print('failed in upload!')
 
-
-        self._client.unregister()
-        self._client.logout()
+            self._client.unregister()
+            self._client.logout()
 
     def _add_to_collection(self, book, book_id):
         """
@@ -270,15 +273,21 @@ class TolinoCloud(object):
         title = book['title']
         print(f'uploading {title} on id={book_id}')
 
-        self._client.login(self._username, self._password)
-        self._client.register()
-
-        self._add_to_collection(book, book_id)
-        self._upload_cover(book, book_id)
-        self._upload_meta(book, book_id)
-
-        self._client.unregister()
-        self._client.logout()
+        try:
+            self._client.login(self._username, self._password)
+            self._client.register()
+        except PytolinoException:
+            print('fail to login')
+        else:
+            try:
+                self._add_to_collection(book, book_id)
+                self._upload_cover(book, book_id)
+                self._upload_meta(book, book_id)
+            except:
+                print('fail to upload')
+            finally:
+                self._client.unregister()
+                self._client.logout()
 
     def _upload_cover(self, book, book_id):
         """private method to upload the cover
