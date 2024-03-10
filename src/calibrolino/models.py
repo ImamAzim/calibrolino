@@ -138,37 +138,39 @@ class CalibreDBReader(object):
         for book_row in self._tables['books']:
             book_id = book_row['id']
             file_data = files_data[book_id]
-            file_path=self._get_file_path(book_row, file_data)
-            serie_name=metadata['series'].get(book_id)
-            if serie_name is not None:
-                serie_name = serie_name[0]
-            if self._status_is_defined:
-                status = metadata[self._status_table_name].get(book_id)
-            else:
-                status = None
-            cover_path = self._get_cover_path(book_row, file_data)
+            book_format = file_data['format']
+            if book_format in self._accepted_formats:
+                file_path=self._get_file_path(book_row, file_data)
+                serie_name=metadata['series'].get(book_id)
+                if serie_name is not None:
+                    serie_name = serie_name[0]
+                if self._status_is_defined:
+                    status = metadata[self._status_table_name].get(book_id)
+                else:
+                    status = None
+                cover_path = self._get_cover_path(book_row, file_data)
 
-            issued_datetime = datetime.datetime.fromisoformat(book_row['pubdate'])
-            issued_timestamps = int(issued_datetime.timestamp())
+                issued_datetime = datetime.datetime.fromisoformat(book_row['pubdate'])
+                issued_timestamps = int(issued_datetime.timestamp())
 
-            book = dict(
-                    title=book_row['title'],
-                    authors=metadata['authors'].get(book_id, []),
-                    uuid=book_row['uuid'],
-                    file_path=file_path,
-                    publishers=metadata['publishers'].get(book_id, []),
-                    series_index=book_row['series_index'],
-                    serie_name=serie_name,
-                    tags=metadata['tags'].get(book_id, []),
-                    status=status,
-                    isbn=book_row['isbn'],
-                    pubdate=book_row['pubdate'],
-                    issued=issued_timestamps,
-                    languages=metadata['languages'].get(book_id, []),
-                    cover_path=cover_path,
-                    has_cover=book_row['has_cover'],
-                    )
-            self._books.append(book)
+                book = dict(
+                        title=book_row['title'],
+                        authors=metadata['authors'].get(book_id, []),
+                        uuid=book_row['uuid'],
+                        file_path=file_path,
+                        publishers=metadata['publishers'].get(book_id, []),
+                        series_index=book_row['series_index'],
+                        serie_name=serie_name,
+                        tags=metadata['tags'].get(book_id, []),
+                        status=status,
+                        isbn=book_row['isbn'],
+                        pubdate=book_row['pubdate'],
+                        issued=issued_timestamps,
+                        languages=metadata['languages'].get(book_id, []),
+                        cover_path=cover_path,
+                        has_cover=book_row['has_cover'],
+                        )
+                self._books.append(book)
 
     def _get_file_path(self, book, data):
         sub_folder = book['path']
