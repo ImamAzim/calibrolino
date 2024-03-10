@@ -137,7 +137,7 @@ class CalibreDBReader(object):
         for book_row in self._tables['books']:
             book_id = book_row['id']
             file_data = files_data[book_id]
-            file_path=self._get_file_path(book_row, file_data),
+            file_path=self._get_file_path(book_row, file_data)
             serie_name=metadata['series'].get('book_id')
             if serie_name is not None:
                 serie_name = serie_name[0]
@@ -307,3 +307,4 @@ if __name__ == '__main__':
         print('==========')
         for key, value in book.items():
             print(f'{key}: {value}')
+            print(type(value))
