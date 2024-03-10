@@ -235,7 +235,13 @@ class TolinoCloud(object):
             return None
         else:
             try:
-                return dict()
+                inventory = self._client.get_inventory()
+                uploaded_books = dict()
+                for book in inventory:
+                    issued = book['epubMetaData']['issued']
+                    book_id = book['publicationId']
+                    uploaded_book[issued] = book_id
+                return uploaded_books()
             except:
                 print('failed to get inventory')
                 return None
