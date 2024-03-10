@@ -242,7 +242,7 @@ class TolinoCloud(object):
                     book_id = book['publicationId']
                     uploaded_book[issued] = book_id
                 return uploaded_books()
-            except:
+            except PytolinoException:
                 print('failed to get inventory')
                 return None
             finally:
@@ -308,7 +308,7 @@ class TolinoCloud(object):
                 self._add_to_collection(book, book_id)
                 self._upload_cover(book, book_id)
                 self._upload_meta(book, book_id)
-            except:
+            except PytolinoException:
                 print('fail to upload')
             finally:
                 self._client.unregister()
