@@ -227,7 +227,21 @@ class TolinoCloud(object):
         :returns: dict of uploaded books (issued: books_id)
 
         """
-        return dict()
+        try:
+            self._client.login(self._username, self._password)
+            self._client.register()
+        except PytolinoException:
+            print('fail to login')
+            return None
+        else:
+            try:
+                return dict()
+            except:
+                print('failed to get inventory')
+                return None
+            finally:
+                self._client.unregister()
+                self._client.logout()
 
     def upload_books(self, books):
         """upload to the cloud the selected books
