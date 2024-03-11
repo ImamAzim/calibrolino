@@ -348,7 +348,7 @@ class TolinoCloud(object):
 
         """
         full_title = book['full_title']
-        language = book['language'][0] if book['language'] else ''
+        language = book['languages'][0] if book['languages'] else ''
         metadata = dict(
                 title=full_title,
                 isbn=book['isbn'],
