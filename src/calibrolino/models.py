@@ -143,7 +143,7 @@ class CalibreDBReader(object):
                 file_path=self._get_file_path(book_row, file_data)
                 title = book_row['title']
                 serie_name=metadata['series'].get(book_id)
-                series_index=book_row['series_index'],
+                series_index=book_row['series_index']
                 if serie_name is not None:
                     serie_name = serie_name[0]
                     full_title = get_serie_title(title, series_index, serie_name)
