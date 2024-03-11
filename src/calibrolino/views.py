@@ -153,7 +153,7 @@ class CalibrolinoShellView(object):
             if uploaded_books is not None:
                 books_to_upload = list()
                 for book in self._books:
-                    if book['issued'] not in uploaded_books:
+                    if book['full_title'] not in uploaded_books:
                         books_to_upload.append(book)
                 print(f'uploading {len(books_to_upload)} books...')
                 self._tolino_cloud.upload_books(books_to_upload)
@@ -186,7 +186,7 @@ class CalibrolinoShellView(object):
                 if self._tolino_cloud is not None:
                     uploaded_books = self._tolino_cloud.get_uploaded_books()
                     if uploaded_books is not None:
-                        if book_to_upload['issued'] not in uploaded_books:
+                        if book_to_upload['full_title'] not in uploaded_books:
                             books_to_upload = [book_to_upload]
                             self._tolino_cloud.upload_books(books_to_upload)
                         else:
