@@ -29,6 +29,7 @@ class TestCalibreDBReader(unittest.TestCase):
         self.assertGreater(len(books), 0)
         expected_keys = {
                 'title',
+                'full_title',
                 'authors',
                 'uuid',
                 'file_path',
