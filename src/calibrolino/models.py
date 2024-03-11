@@ -347,13 +347,9 @@ class TolinoCloud(object):
         """private method that upload the metadata
 
         """
-        title = book['title']
-        serie_name = book['serie_name']
-        if serie_name is not None:
-            series_index = book['series_index']
-            title = get_serie_title(title, series_index, serie_name)
+        full_title = book['full_title']
         metadata = dict(
-                title=title,
+                title=full_title,
                 isbn=book['isbn'],
                 language=book['languages'][0],
                 publisher=', '.join(book['publishers']),
