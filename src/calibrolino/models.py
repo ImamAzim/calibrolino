@@ -232,7 +232,7 @@ class TolinoCloud(object):
 
     def get_uploaded_books(self):
         """connect to the cloud and get the books that where already uploaded
-        :returns: dict of uploaded books (issued: books_id)
+        :returns: dict of uploaded books (full_title: books_id)
 
         """
         try:
@@ -246,9 +246,9 @@ class TolinoCloud(object):
                 inventory = self._client.get_inventory()
                 uploaded_books = dict()
                 for book in inventory:
-                    issued = book['epubMetaData']['issued']
+                    full_title = book['epubMetaData']['title']
                     book_id = book['publicationId']
-                    uploaded_books[issued] = book_id
+                    uploaded_books[full_title] = book_id
                 return uploaded_books
             except PytolinoException:
                 print('failed to get inventory')
