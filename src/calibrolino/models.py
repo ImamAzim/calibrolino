@@ -141,9 +141,14 @@ class CalibreDBReader(object):
             book_format = file_data['format']
             if book_format in self._accepted_formats:
                 file_path=self._get_file_path(book_row, file_data)
+                title = book_row['title']
                 serie_name=metadata['series'].get(book_id)
+                series_index=book_row['series_index'],
                 if serie_name is not None:
                     serie_name = serie_name[0]
+                    full_title = get_serie_title(title, series_index, serie_name)
+                else:
+                    full_title = title
                 if self._status_is_defined:
                     status = metadata[self._status_table_name].get(book_id)
                 else:
@@ -154,12 +159,13 @@ class CalibreDBReader(object):
                 issued_timestamps = int(issued_datetime.timestamp())
 
                 book = dict(
-                        title=book_row['title'],
+                        title=title,
+                        full_title=full_title,
                         authors=metadata['authors'].get(book_id, []),
                         uuid=book_row['uuid'],
                         file_path=file_path,
                         publishers=metadata['publishers'].get(book_id, []),
-                        series_index=book_row['series_index'],
+                        series_index=series_index,
                         serie_name=serie_name,
                         tags=metadata['tags'].get(book_id, []),
                         status=status,
