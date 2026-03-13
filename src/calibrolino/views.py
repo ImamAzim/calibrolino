@@ -104,7 +104,8 @@ class CalibrolinoShellView(object):
         optionnally save them for next time
 
         """
-        for i, partner in enumerate(PARTNERS):
+        partners_list = list(PARTNERS)
+        for i, partner in enumerate(partners_list):
             print(f'{i}: {partner}')
         id_partner = input('please enter the number of the tolino partner you want:')
         try:
@@ -113,7 +114,7 @@ class CalibrolinoShellView(object):
             print('failed! you must enter a valid number partner number')
         else:
             try:
-                user_partner = PARTNERS[i]
+                user_partner = partners_list[i]
             except IndexError:
                 print('failed! you must enter a valid number partner number')
             else:
