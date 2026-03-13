@@ -311,8 +311,7 @@ class TolinoCloud(object):
         print(f'uploading {title} on id={book_id}')
 
         try:
-            self._client.login(self._username, self._password)
-            self._client.register()
+            self._client.login(self._password)
         except PytolinoException:
             print('fail to login')
         else:
@@ -322,9 +321,6 @@ class TolinoCloud(object):
                 self._upload_meta(book, book_id)
             except PytolinoException:
                 print('fail to upload')
-            finally:
-                self._client.unregister()
-                self._client.logout()
 
     def _upload_cover(self, book, book_id):
         """private method to upload the cover
