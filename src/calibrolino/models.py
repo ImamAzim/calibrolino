@@ -5,6 +5,7 @@ import json
 import sqlite3
 import sys
 import datetime
+from pathlib import Path
 
 
 from pytolino.tolino_cloud import Client, PytolinoException
@@ -259,8 +260,7 @@ class TolinoCloud(object):
 
         """
         try:
-            self._client.login(self._username, self._password)
-            self._client.register()
+            self._client.login(self._password)
         except PytolinoException:
             print('fail to login')
         else:
@@ -287,9 +287,6 @@ class TolinoCloud(object):
                         print('failed to upload the metadata')
                     print('book uploaded')
             print('done')
-
-            self._client.unregister()
-            self._client.logout()
 
     def _add_to_collection(self, book, book_id):
         """
