@@ -226,9 +226,8 @@ class TolinoCloud(object):
         :password: str
         """
 
-        self._username = username
         self._password = password
-        self._client = Client(server_name=partner)
+        self._client = Client(server_name=partner, username=username)
 
     def get_uploaded_books(self):
         """connect to the cloud and get the books that where already uploaded
