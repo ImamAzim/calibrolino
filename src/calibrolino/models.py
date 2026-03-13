@@ -235,8 +235,7 @@ class TolinoCloud(object):
 
         """
         try:
-            self._client.login(self._username, self._password)
-            self._client.register()
+            self._client.login(self._password)
         except PytolinoException:
             print('fail to login')
             return None
@@ -252,9 +251,6 @@ class TolinoCloud(object):
             except PytolinoException:
                 print('failed to get inventory')
                 return None
-            finally:
-                self._client.unregister()
-                self._client.logout()
 
     def upload_books(self, books):
         """upload to the cloud the selected books
