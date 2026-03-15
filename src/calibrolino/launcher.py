@@ -2,7 +2,7 @@ import logging
 import argparse
 
 
-from calibrolino.apps import CalibrolinoShellApp
+from calibrolino.apps import CalibrolinoShellApp, CalibrolinoTkinterApp
 
 
 def start_calibrolino():
@@ -31,5 +31,5 @@ def start_calibrolino():
     if args.textmode:
         app = CalibrolinoShellApp()
     else:
-        print('TODO: lauch GUI')
+        app = CalibrolinoTkinterApp()
     app.start()
