@@ -39,4 +39,4 @@ dev = [
 "Source Code" = "https://github.com/ImamAzim/calibrolino"
 
 [project.scripts]
-calibrolino = "calibrolino.apps:start_calibrolino_shell"
+calibrolino = "calibrolino.launcher:start_calibrolino"
