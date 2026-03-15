@@ -29,7 +29,7 @@ class CalibrolinoShellView(View):
                     display='change credentials',
                     method=self._change_credentials,
                     ),
-                '2': dict(
+                '99': dict(
                     display='show credentials',
                     method=self._show_credentials,
                     ),
