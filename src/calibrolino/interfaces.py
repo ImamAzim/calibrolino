@@ -4,7 +4,13 @@ from abc import ABCMeta, abstractmethod, abstractproperty
 class Controller(metaclass=ABCMeta):
 
     """Controller for calibrolino """
-    pass
+
+    @abstractproperty
+    def credentials(self) -> dict:
+        """credentials that can be saved and loaded from disk
+
+        """
+        pass
 
 
 class View(metaclass=ABCMeta):
