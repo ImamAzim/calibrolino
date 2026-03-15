@@ -6,7 +6,7 @@ from pytolino.tolino_cloud import Client, PytolinoException, PARTNERS
 
 
 from calibrolino.models import CalibreDBReader, CalibrolinoException, TolinoCloud
-from calibrolino.interfaces import View
+from calibrolino.interfaces import View, Controller
 
 
 class CalibrolinoShellView(View):
@@ -14,6 +14,14 @@ class CalibrolinoShellView(View):
     """view in shell with a menu to run calibrolino"""
 
     _welcome_msg = 'welcome to the calibrolino menu'
+
+    @property
+    def controller(self) -> Controller:
+        return self._controller
+
+    @controller.setter
+    def controller(self, value: Controller):
+        self._controller = value
 
     def __init__(self):
         self._menu = {
