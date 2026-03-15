@@ -1,7 +1,7 @@
 from abc import ABCMeta, abstractmethod, abstractproperty
 
 
-class Controller(metaclasse=ABCMeta):
+class Controller(metaclass=ABCMeta):
 
     """Controller for calibrolino """
     pass
