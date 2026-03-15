@@ -1,7 +1,13 @@
 from abc import ABCMeta, abstractmethod, abstractproperty
 
 
-class GUI(metaclass=ABCMeta):
+class Controller(metaclasse=ABCMeta):
+
+    """Controller for calibrolino """
+    pass
+
+
+class View(metaclass=ABCMeta):
 
     """GUI interface for calibrolino"""
 
@@ -13,4 +19,13 @@ class GUI(metaclass=ABCMeta):
     @abstractmethod
     def __init__(self):
         """gui interface. controller must be set after init """
+        pass
+
+    @abstractmethod
+    def start(self):
+        """start the gui (in a loop)
+
+        :returns: TODO
+
+        """
         pass

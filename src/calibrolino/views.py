@@ -6,9 +6,10 @@ from pytolino.tolino_cloud import Client, PytolinoException, PARTNERS
 
 
 from calibrolino.models import CalibreDBReader, CalibrolinoException, TolinoCloud
+from calibrolino.interfaces import View
 
 
-class CalibrolinoShellView(object):
+class CalibrolinoShellView(View):
 
     """view in shell with a menu to run calibrolino"""
 
