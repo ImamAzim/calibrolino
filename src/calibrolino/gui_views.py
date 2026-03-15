@@ -5,7 +5,8 @@ from varboxes import VarBox
 from pytolino.tolino_cloud import Client, PytolinoException, PARTNERS
 
 
-from calibrolino.models import CalibreDBReader, CalibrolinoException, TolinoCloud
+from calibrolino.models import CalibreDBReader, CalibrolinoException
+from calibrolino.modely import TolinoCloud
 
 
 class CalibrolinoGUIView(object):
