@@ -14,16 +14,14 @@ class CalibrolinoShellApp(object):
     def __init__(self):
         """init mvc model """
         self._view = CalibrolinoShellView()
-        controller = CalibrolinoController()
-        table: BaseTable = Table(self._gui)
-        self._gui.table = table
-        self._gui.place_card_on_table
+        controller = CalibrolinoController(self._view)
+        self._view.controller = controller
 
     def start(self):
-        """start the pycard app
+        """start calibrolino
 
         """
-        self._gui.run()
+        self._view.start()
 
 
 def start_calibrolino_shell():
@@ -39,5 +37,5 @@ def start_calibrolino_shell():
     args = parser.parse_args()
     if args.verbose:
         logging.basicConfig(level=logging.INFO)
-    view = CalibrolinoShellView()
-    view.start()
+    app = CalibrolinoShellApp()
+    app.start()
