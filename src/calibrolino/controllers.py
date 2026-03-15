@@ -27,4 +27,6 @@ class CalibrolinoController(Controller):
 
     @credentials.setter
     def credentials(self, value: dict):
-        self._credentials = value
+        self._varbox.partner = value['partner']
+        self._varbox.username = value['username']
+        self._varbox.password = value['password']
