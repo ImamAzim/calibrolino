@@ -72,11 +72,11 @@ class CalibrolinoShellView(View):
 
     def start(self):
 
-        self._credentials = self.controller.credentials
-        if self._credentials:
+        credentials = self.controller.credentials
+        if credentials:
             try:
                 self._tolino_cloud = TolinoCloud(
-                        **self._credentials)
+                        **credentials)
             except PytolinoException:
                 self._tolino_cloud = None
         else:
@@ -106,7 +106,8 @@ class CalibrolinoShellView(View):
             print(key, element['display'])
 
     def _show_credentials(self):
-        print(self._credentials)
+        credentials = self.controller.credentials
+        print(credentials)
 
     def _change_credentials(self):
         """
@@ -128,24 +129,21 @@ class CalibrolinoShellView(View):
             except IndexError:
                 print('failed! you must enter a valid number partner number')
             else:
-                self._credentials.server_name = user_partner
                 username = input('username: ')
-                self._credentials.username = username
                 password = getpass.getpass()
-                self._credentials.password = password
+                credentials = dict(partner=user_partner,
+                                   username=username,
+                                   password=password,)
+                self._controller.credentials = credentials
                 try:
                     self._tolino_cloud = TolinoCloud(
-                            self._credentials.server_name,
-                            self._credentials.username,
-                            self._credentials.password,
-                            )
+                            **credentials)
                 except PytolinoException:
                     print('failed to use these credentials')
                     self._tolino_cloud = None
                 print('warning! your credentials are saved on the disk!',
                         'if you wish to delete them, you can change them again',
                         'and put empty entry')
-
 
     def _connect(self):
         """connect to the cloud and get inventory of books
