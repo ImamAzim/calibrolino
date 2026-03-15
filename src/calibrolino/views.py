@@ -29,10 +29,10 @@ class CalibrolinoShellView(View):
                     display='change credentials',
                     method=self._change_credentials,
                     ),
-                # '2': dict(
-                    # display='connect',
-                    # method=self._connect,
-                    # ),
+                '2': dict(
+                    display='show credentials',
+                    method=self._show_credentials,
+                    ),
                 '2': dict(
                     display='upload all the calibre library',
                     method=self._upload_all,
@@ -53,25 +53,6 @@ class CalibrolinoShellView(View):
         self._running = True
         self._calibre_db = None
         self._books = list()
-        self._credentials = VarBox('calibrolino')
-
-        if hasattr(self._credentials, 'password'):
-            try:
-                self._tolino_cloud = TolinoCloud(
-                        self._credentials.server_name,
-                        self._credentials.username,
-                        self._credentials.password,
-                        )
-            except PytolinoException:
-                self._tolino_cloud = None
-        else:
-            self._tolino_cloud = None
-
-        self._init_dbreader()
-        if self._calibre_db is not None:
-            self._read_db()
-        else:
-            print('please initiate the calibre db reader first')
 
     def _init_dbreader(self):
         """create an instance of CalibreDBReader"""
@@ -90,6 +71,23 @@ class CalibrolinoShellView(View):
             print('failed to read the db')
 
     def start(self):
+
+        self._credentials = self.controller.credentials
+        if self._credentials:
+            try:
+                self._tolino_cloud = TolinoCloud(
+                        **self._credentials)
+            except PytolinoException:
+                self._tolino_cloud = None
+        else:
+            self._tolino_cloud = None
+
+        self._init_dbreader()
+        if self._calibre_db is not None:
+            self._read_db()
+        else:
+            print('please initiate the calibre db reader first')
+
         print(self._welcome_msg)
         while self._running:
             self._print_menu()
@@ -106,6 +104,9 @@ class CalibrolinoShellView(View):
     def _print_menu(self):
         for key, element in self._menu.items():
             print(key, element['display'])
+
+    def _show_credentials(self):
+        print(self._credentials)
 
     def _change_credentials(self):
         """
