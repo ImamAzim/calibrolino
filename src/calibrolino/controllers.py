@@ -68,19 +68,19 @@ class CalibrolinoController(Controller):
         return self._local_books
 
     def get_online_books(self) -> dict:
-        self._online_books = None
+        online_books = None
         if self._tolino_cloud is not None:
             try:
-                online_books = self._tolino_cloud.get_uploaded_books()
+                ob = self._tolino_cloud.get_uploaded_books()
             except TolinoCloudException as e:
                 self._view.showerror(e)
                 self._view.showerror('could not get online books inv')
             else:
-                self._online_books = online_books
+                online_books = ob
         else:
             msg = 'please enter first your credentials in the main menu'
             self._view.showinfo(msg)
-        return self._online_books
+        return online_books
 
     def sync_upload(self) -> None:
         raise NotImplementedError
