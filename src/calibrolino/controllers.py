@@ -22,16 +22,21 @@ class CalibrolinoController(Controller):
             self._calibre_db = None
             self._view.showerror('could not read calibre library!')
 
+        self._tolino_cloud = None
         credentials = self.credentials
         if credentials:
-            try:
-                tc = TolinoCloud(**credentials)
-            except PytolinoException:
-                self._tolino_cloud = None
-            else:
-                self._tolino_cloud = tc
+            self._init_tolino_cloud(credentials)
+
+    def _init_tolino_cloud(self, credentials):
+        try:
+            tc = TolinoCloud(**credentials)
+        except PytolinoException as e:
+            self._view.showerror(e)
+            self._view.showerror('could not use the credentials. bad format?')
+            return False
         else:
-            self._tolino_cloud = None
+            self._tolino_cloud = tc
+            return True
 
     @property
     def credentials(self) -> dict:
@@ -47,9 +52,11 @@ class CalibrolinoController(Controller):
 
     @credentials.setter
     def credentials(self, value: dict):
-        self._varbox.partner = value['partner']
-        self._varbox.username = value['username']
-        self._varbox.password = value['password']
+        success = self._init_tolino_cloud(credentials)
+        if success:
+            self._varbox.partner = value['partner']
+            self._varbox.username = value['username']
+            self._varbox.password = value['password']
 
     @property
     def local_books(self) -> list[dict]:
