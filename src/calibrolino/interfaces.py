@@ -26,6 +26,13 @@ class Controller(metaclass=ABCMeta):
         """
         pass
 
+    @abstractmethod
+    def sync_upload(self) -> None:
+        """upload all local books that are not yet online
+
+        """
+        pass
+
 
 class View(metaclass=ABCMeta):
 
