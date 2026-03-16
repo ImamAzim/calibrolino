@@ -30,3 +30,16 @@ class CalibrolinoController(Controller):
         self._varbox.partner = value['partner']
         self._varbox.username = value['username']
         self._varbox.password = value['password']
+
+    @property
+    def local_books(self) -> list[dict]:
+        raise NotImplementedError
+
+    def get_online_books(self) -> dict:
+        raise NotImplementedError
+
+    def sync_upload(self) -> None:
+        raise NotImplementedError
+
+    def upload_book(self, book: dict):
+        raise NotImplementedError
