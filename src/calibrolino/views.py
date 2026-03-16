@@ -106,14 +106,6 @@ class CalibrolinoShellView(View):
                                    password=password,)
                 self._controller.credentials = credentials
 
-    def _connect(self):
-        """connect to the cloud and get inventory of books
-        :returns: TODO
-
-        """
-        pass
-
-
     def _upload_all(self):
         """upload the whole library
 

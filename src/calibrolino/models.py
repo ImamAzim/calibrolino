@@ -16,6 +16,10 @@ class CalibrolinoException(Exception):
     pass
 
 
+class TolinoCloudException(Exception):
+    pass
+
+
 class CalibreDBReader(object):
 
     """prepare and upload the calibre library to the cloud"""
@@ -228,7 +232,10 @@ class TolinoCloud(object):
         """
 
         self._password = password
-        self._client = Client(server_name=partner, username=username)
+        try:
+            self._client = Client(server_name=partner, username=username)
+        except PytolinoException as e:
+            raise TolinoCloudException(str(e))
 
     def get_uploaded_books(self):
         """connect to the cloud and get the books that where already uploaded
@@ -249,9 +256,8 @@ class TolinoCloud(object):
                     book_id = book['publicationId']
                     uploaded_books[full_title] = book_id
                 return uploaded_books
-            except PytolinoException:
-                print('failed to get inventory')
-                return None
+            except PytolinoException as e:
+                raise TolinoCloudException(str(e))
 
     def upload_books(self, books):
         """upload to the cloud the selected books
