@@ -2,6 +2,8 @@ from varboxes import VarBox
 
 
 from calibrolino.interfaces import Controller, View
+from calibrolino.models import CalibreDBReader
+from calibrolino.models import CalibrolinoException
 
 
 class CalibrolinoController(Controller):
@@ -12,6 +14,12 @@ class CalibrolinoController(Controller):
         Controller.__init__(self)
         self._view = view
         self._varbox = VarBox('calibrolino')
+        self._local_books = list()
+        try:
+            self._calibre_db = CalibreDBReader()
+        except CalibrolinoException:
+            self._calibre_db = None
+            self._view.showerror('could not read calibre library!')
 
     @property
     def credentials(self) -> dict:
@@ -33,7 +41,8 @@ class CalibrolinoController(Controller):
 
     @property
     def local_books(self) -> list[dict]:
-        raise NotImplementedError
+        self._read_db()
+        return self._local_books
 
     def get_online_books(self) -> dict:
         raise NotImplementedError
@@ -43,3 +52,14 @@ class CalibrolinoController(Controller):
 
     def upload_book(self, book: dict):
         raise NotImplementedError
+
+    def _read_db(self):
+        """read the calibre library and get books
+
+        """
+        try:
+            local_books = self._calibre_db.read_db()
+        except CalibrolinoException:
+            self._view.showerror('failed to read the calibre db')
+        else:
+            self._local_books = local_books
