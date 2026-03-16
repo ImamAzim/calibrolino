@@ -147,23 +147,7 @@ class CalibrolinoShellView(View):
             except IndexError:
                 print('failed! you must enter the book number you want to upload')
             else:
-                if self._tolino_cloud is not None:
-                    uploaded_books = self._tolino_cloud.get_uploaded_books()
-                    if uploaded_books is not None:
-                        if book_to_upload['full_title'] not in uploaded_books:
-                            books_to_upload = [book_to_upload]
-                            self._tolino_cloud.upload_books(books_to_upload)
-                        else:
-                            print(
-                                    'the book you chose is already on the cloud',
-                                    'I will only upload the metadata',
-                                    )
-                            book_id = uploaded_books[book_to_upload['issued']]
-                            self._tolino_cloud.upload_metadata(book_to_upload, book_id)
-                    else:
-                        print('could not get inventory of uploaded books. I will not do anything.')
-                else:
-                    print('please enter first your credentials in the main menu')
+                self.controller.upload_book(book_to_upload)
 
     def _print_books(self):
         self._local_books = self.controller.local_books
