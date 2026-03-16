@@ -24,7 +24,7 @@ class CalibrolinoShellView(View):
         self._controller = value
 
     def showinfo(self, msg: str):
-        print(msg)
+        print('info:', msg)
 
     def showerror(self, msg: str):
         print('error!', msg)
