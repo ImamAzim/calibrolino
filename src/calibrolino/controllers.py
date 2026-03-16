@@ -57,9 +57,10 @@ class CalibrolinoController(Controller):
             self._varbox.partner = value['partner']
             self._varbox.username = value['username']
             self._varbox.password = value['password']
-            msg = 'credentials are saved on the disk.'
-            'if you wish to delete them, you can change them '
-            'again and put empty entry'
+            msg = (
+                    'credentials are saved on the disk. '
+                    'if you wish to delete them, you can change them '
+                    'again and put empty entry')
             self._view.showinfo(msg)
 
     @property
@@ -92,8 +93,9 @@ class CalibrolinoController(Controller):
                 books_to_upload = [book]
                 self._tolino_cloud.upload_books(books_to_upload)
             else:
-                msg = 'the book you chose is already on the cloud'
-                'I will only upload the metadata',
+                msg = (
+                        'the book you chose is already on the cloud '
+                        'I will only upload the metadata')
                 self._view.showinfo(msg)
                 book_id = online_books[book['full_title']]
                 self._tolino_cloud.upload_metadata(book, book_id)
