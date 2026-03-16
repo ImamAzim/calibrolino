@@ -23,6 +23,12 @@ class CalibrolinoShellView(View):
     def controller(self, value: Controller):
         self._controller = value
 
+    def showinfo(self, msg: str):
+        print(msg)
+
+    def showerror(self, msg: str):
+        print('error!', msg)
+
     def __init__(self):
         self._menu = {
                 '1': dict(
