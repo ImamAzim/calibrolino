@@ -86,27 +86,17 @@ class CalibrolinoController(Controller):
         raise NotImplementedError
 
     def upload_book(self, book: dict):
-        if self._tolino_cloud is not None:
-            try:
-                uploaded_books = self._tolino_cloud.get_uploaded_books()
-            except TolinoCloudException as e:
-                self._view.showerror(e)
-                self._view.showerror('could not get online books inv')
+        online_books = self.get_online_books()
+        if online_books is not None:
+            if book['full_title'] not in online_books:
+                books_to_upload = [book]
+                self._tolino_cloud.upload_books(books_to_upload)
             else:
-                if book['full_title'] not in uploaded_books:
-                    books_to_upload = [book]
-                    self._tolino_cloud.upload_books(books_to_upload)
-                else:
-                    print(
-                            'the book you chose is already on the cloud',
-                            'I will only upload the metadata',
-                            )
-                    book_id = uploaded_books[book['issued']]
-                    self._tolino_cloud.upload_metadata(book, book_id)
-        else:
-            msg = 'please enter first your credentials in the main menu'
-            self._view.showinfo(msg)
-
+                msg = 'the book you chose is already on the cloud'
+                'I will only upload the metadata',
+                self._view.showinfo(msg)
+                book_id = online_books[book['full_title']]
+                self._tolino_cloud.upload_metadata(book, book_id)
 
     def _read_db(self):
         """read the calibre library and get books
