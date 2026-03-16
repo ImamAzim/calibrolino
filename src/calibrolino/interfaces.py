@@ -33,6 +33,15 @@ class Controller(metaclass=ABCMeta):
         """
         pass
 
+    @abstractmethod
+    def upload_book(self, book: dict):
+        """upload the book
+
+        :book: contain metadata and path to file
+
+        """
+        pass
+
 
 class View(metaclass=ABCMeta):
 
