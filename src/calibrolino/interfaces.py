@@ -13,9 +13,17 @@ class Controller(metaclass=ABCMeta):
         pass
 
     @abstractproperty
-    def local_books(self) -> dict:
+    def local_books(self) -> list[dict]:
         """a list books present in calibre library, in form of dict
         with metadata"""
+        pass
+
+    @abstractmethod
+    def get_online_books(self) -> dict:
+        """connect to the cloud and get inventory of books
+        :returns: [title]: epub_id
+
+        """
         pass
 
 
