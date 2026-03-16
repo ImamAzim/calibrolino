@@ -12,6 +12,12 @@ class Controller(metaclass=ABCMeta):
         """
         pass
 
+    @abstractproperty
+    def local_books(self) -> dict:
+        """a list books present in calibre library, in form of dict
+        with metadata"""
+        pass
+
 
 class View(metaclass=ABCMeta):
 
