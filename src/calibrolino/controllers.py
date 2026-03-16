@@ -4,6 +4,7 @@ from varboxes import VarBox
 from calibrolino.interfaces import Controller, View
 from calibrolino.models import CalibreDBReader
 from calibrolino.models import CalibrolinoException
+from calibrolino.models import TolinoCloud
 
 
 class CalibrolinoController(Controller):
@@ -20,6 +21,17 @@ class CalibrolinoController(Controller):
         except CalibrolinoException:
             self._calibre_db = None
             self._view.showerror('could not read calibre library!')
+
+        credentials = self.credentials
+        if credentials:
+            try:
+                tc = TolinoCloud(**credentials)
+            except PytolinoException:
+                self._tolino_cloud = None
+            else:
+                self._tolino_cloud = tc
+        else:
+            self._tolino_cloud = None
 
     @property
     def credentials(self) -> dict:
