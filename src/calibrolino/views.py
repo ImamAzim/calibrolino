@@ -57,24 +57,6 @@ class CalibrolinoShellView(View):
                     ),
                 }
         self._running = True
-        self._calibre_db = None
-        self._books = list()
-
-    def _init_dbreader(self):
-        """create an instance of CalibreDBReader"""
-        try:
-            self._calibre_db = CalibreDBReader()
-        except CalibrolinoException:
-            print('failed to create an instance of calibre db reader')
-
-    def _read_db(self):
-        """read the calibre library and get books
-
-        """
-        try:
-            self._books = self._calibre_db.read_db()
-        except CalibrolinoException:
-            print('failed to read the db')
 
     def start(self):
 
@@ -88,17 +70,12 @@ class CalibrolinoShellView(View):
         else:
             self._tolino_cloud = None
 
-        self._init_dbreader()
-        if self._calibre_db is not None:
-            self._read_db()
-        else:
-            print('please initiate the calibre db reader first')
-
         print(self._welcome_msg)
+        self._local_books = self.controller.local_books
         while self._running:
             self._print_menu()
             print(
-                    f'I found {len(self._books)} books in your calibre library',
+                    f'I found {len(self._local_books)} books in your calibre library',
                     )
             choice = input('please select:\n')
             try:
@@ -217,7 +194,8 @@ class CalibrolinoShellView(View):
                     print('please enter first your credentials in the main menu')
 
     def _print_books(self):
-        for book in self._books:
+        self._local_books = self.controller.local_books
+        for book in self._local_books:
             print('==========')
             for key, value in book.items():
                 print(f'{key}: {value}')
