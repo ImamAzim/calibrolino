@@ -84,7 +84,16 @@ class CalibrolinoController(Controller):
         return online_books
 
     def sync_upload(self) -> None:
-        raise NotImplementedError
+        local_books = self.local_books
+        online_books = self.get_online_books()
+        if online_books is not None:
+            books_to_upload = list()
+            for book in local_books:
+                if book['full_title'] not in online_books:
+                    books_to_upload.append(book)
+            msg = f'uploading {len(books_to_upload)} books...'
+            self._view.showinfo(msg)
+            self._tolino_cloud.upload_books(books_to_upload)
 
     def upload_book(self, book: dict):
         online_books = self.get_online_books()

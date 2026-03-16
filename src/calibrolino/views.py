@@ -110,21 +110,7 @@ class CalibrolinoShellView(View):
         """upload the whole library
 
         """
-        self._local_books = self.controller.local_books
-        if self._tolino_cloud is not None:
-            uploaded_books = self._tolino_cloud.get_uploaded_books()
-            if uploaded_books is not None:
-                books_to_upload = list()
-                for book in self._local_books:
-                    if book['full_title'] not in uploaded_books:
-                        books_to_upload.append(book)
-                print(f'uploading {len(books_to_upload)} books...')
-                self._tolino_cloud.upload_books(books_to_upload)
-            else:
-                print('could not get inventory of uploaded books. I will not do anything.')
-
-        else:
-            print('please enter first your credentials in the main menu')
+        self.controller.sync_upload()
 
     def _upload_one(self):
         """upload only one book (for a test)
