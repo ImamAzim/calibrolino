@@ -140,11 +140,12 @@ class CalibrolinoShellView(View):
         """upload the whole library
 
         """
+        self._local_books = self.controller.local_books
         if self._tolino_cloud is not None:
             uploaded_books = self._tolino_cloud.get_uploaded_books()
             if uploaded_books is not None:
                 books_to_upload = list()
-                for book in self._books:
+                for book in self._local_books:
                     if book['full_title'] not in uploaded_books:
                         books_to_upload.append(book)
                 print(f'uploading {len(books_to_upload)} books...')
@@ -160,7 +161,8 @@ class CalibrolinoShellView(View):
 
         """
 
-        for book_index, book in enumerate(self._books):
+        self._local_books = self.controller.local_books
+        for book_index, book in enumerate(self._local_books):
             title = book['title']
             print(f'{book_index}: {title}')
         book_index_choice = input('enter the book number you want to upload:\n')
@@ -171,7 +173,7 @@ class CalibrolinoShellView(View):
             print('failed! you must enter a valid number')
         else:
             try:
-                book_to_upload = self._books[i]
+                book_to_upload = self._local_books[i]
             except IndexError:
                 print('failed! you must enter the book number you want to upload')
             else:
