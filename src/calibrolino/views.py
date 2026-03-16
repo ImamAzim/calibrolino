@@ -1,11 +1,8 @@
 import getpass
-from varboxes import VarBox
+from pytolino.tolino_cloud import PytolinoException, PARTNERS
 
 
-from pytolino.tolino_cloud import Client, PytolinoException, PARTNERS
-
-
-from calibrolino.models import CalibreDBReader, CalibrolinoException, TolinoCloud
+from calibrolino.models import TolinoCloud
 from calibrolino.interfaces import View, Controller
 
 
