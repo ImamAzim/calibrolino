@@ -57,16 +57,6 @@ class CalibrolinoShellView(View):
 
     def start(self):
 
-        credentials = self.controller.credentials
-        if credentials:
-            try:
-                self._tolino_cloud = TolinoCloud(
-                        **credentials)
-            except PytolinoException:
-                self._tolino_cloud = None
-        else:
-            self._tolino_cloud = None
-
         print(self._welcome_msg)
         self._local_books = self.controller.local_books
         while self._running:
@@ -92,7 +82,7 @@ class CalibrolinoShellView(View):
     def _change_credentials(self):
         """
         change the credentials to connect and
-        optionnally save them for next time
+        save them for next time
 
         """
         partners_list = list(PARTNERS)
@@ -115,15 +105,6 @@ class CalibrolinoShellView(View):
                                    username=username,
                                    password=password,)
                 self._controller.credentials = credentials
-                try:
-                    self._tolino_cloud = TolinoCloud(
-                            **credentials)
-                except PytolinoException:
-                    print('failed to use these credentials')
-                    self._tolino_cloud = None
-                print('warning! your credentials are saved on the disk!',
-                        'if you wish to delete them, you can change them again',
-                        'and put empty entry')
 
     def _connect(self):
         """connect to the cloud and get inventory of books

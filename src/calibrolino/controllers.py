@@ -4,7 +4,7 @@ from varboxes import VarBox
 from calibrolino.interfaces import Controller, View
 from calibrolino.models import CalibreDBReader
 from calibrolino.models import CalibrolinoException
-from calibrolino.models import TolinoCloud
+from calibrolino.models import TolinoCloud, PytolinoException
 
 
 class CalibrolinoController(Controller):
@@ -52,11 +52,15 @@ class CalibrolinoController(Controller):
 
     @credentials.setter
     def credentials(self, value: dict):
-        success = self._init_tolino_cloud(credentials)
+        success = self._init_tolino_cloud(value)
         if success:
             self._varbox.partner = value['partner']
             self._varbox.username = value['username']
             self._varbox.password = value['password']
+            msg = 'credentials are saved on the disk.'
+            'if you wish to delete them, you can change them '
+            'again and put empty entry'
+            self._view.showinfo(msg)
 
     @property
     def local_books(self) -> list[dict]:
