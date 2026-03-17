@@ -85,7 +85,7 @@ class CalibrolinoShellView(View):
         save them for next time
 
         """
-        partners_list = list(PARTNERS)
+        partner_list = self.controller.partners
         for i, partner in enumerate(partners_list):
             print(f'{i}: {partner}')
         id_partner = input('please enter the number of the tolino partner you want:')
