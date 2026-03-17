@@ -60,7 +60,8 @@ class CalibrolinoShellView(View):
         while self._running:
             self._print_menu()
             print(
-                    f'I found {len(self._local_books)} books in your calibre library',
+                    f'I found {len(self._local_books)} books in your '
+                    'calibre library',
                     )
             choice = input('please select:\n')
             try:
@@ -86,7 +87,8 @@ class CalibrolinoShellView(View):
         partners_list = self.controller.partners
         for i, partner in enumerate(partners_list):
             print(f'{i}: {partner}')
-        id_partner = input('please enter the number of the tolino partner you want:')
+        id_partner = input(
+                'please enter the number of the tolino partner you want:')
         try:
             i = int(id_partner)
         except ValueError:
@@ -119,7 +121,8 @@ class CalibrolinoShellView(View):
         for book_index, book in enumerate(self._local_books):
             title = book['title']
             print(f'{book_index}: {title}')
-        book_index_choice = input('enter the book number you want to upload:\n')
+        book_index_choice = input(
+                'enter the book number you want to upload:\n')
 
         try:
             i = int(book_index_choice)
@@ -129,7 +132,9 @@ class CalibrolinoShellView(View):
             try:
                 book_to_upload = self._local_books[i]
             except IndexError:
-                print('failed! you must enter the book number you want to upload')
+                print(
+                        'failed! you must enter the book '
+                        'number you want to upload')
             else:
                 self.controller.upload_book(book_to_upload)
 
