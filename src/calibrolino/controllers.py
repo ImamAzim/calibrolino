@@ -1,4 +1,5 @@
 from varboxes import VarBox
+from pytolino.tolino_cloud import PARTNERS
 
 
 from calibrolino.interfaces import Controller, View
@@ -37,6 +38,10 @@ class CalibrolinoController(Controller):
         else:
             self._tolino_cloud = tc
             return True
+
+    @property
+    def partners(self) -> list:
+        return list(PARTNERS)
 
     @property
     def credentials(self) -> dict:
