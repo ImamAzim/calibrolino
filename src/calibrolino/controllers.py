@@ -128,5 +128,6 @@ class CalibrolinoController(Controller):
 
 
     def get_full_library(self) -> DataFrame:
+        local_lib = self._read_db()
+        online_lib = self.get_online_books()
         raise NotImplementedError
-
