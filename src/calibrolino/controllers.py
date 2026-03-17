@@ -1,5 +1,6 @@
 from varboxes import VarBox
 from pytolino.tolino_cloud import PARTNERS
+from pandas import DataFrame
 
 
 from calibrolino.interfaces import Controller, View
@@ -124,3 +125,5 @@ class CalibrolinoController(Controller):
             self._view.showerror('failed to read the calibre db')
         else:
             self._local_books = local_books
+
+
