@@ -49,6 +49,13 @@ class Controller(metaclass=ABCMeta):
         """
         pass
 
+    def get_full_library(self):
+        """read local db and online cloud to get a library of all books
+        :returns: table with title, local (True/False), online (True/False)
+
+        """
+        pass
+
 
 class View(metaclass=ABCMeta):
 

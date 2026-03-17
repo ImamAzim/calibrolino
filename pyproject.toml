@@ -22,6 +22,7 @@ dependencies = [
         'pytolino>=3',
         'xdg-base-dirs',
         'varboxes',
+	'pandas',
 ]
 
 [project.optional-dependencies]
