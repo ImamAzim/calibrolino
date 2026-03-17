@@ -1,8 +1,6 @@
 import getpass
-from pytolino.tolino_cloud import PytolinoException, PARTNERS
 
 
-from calibrolino.models import TolinoCloud
 from calibrolino.interfaces import View, Controller
 
 
