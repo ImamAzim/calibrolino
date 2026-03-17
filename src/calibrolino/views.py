@@ -31,8 +31,8 @@ class CalibrolinoShellView(View):
                     method=self._change_credentials,
                     ),
                 '99': dict(
-                    display='show credentials',
-                    method=self._show_credentials,
+                    display='show fill lib',
+                    method=self._show_full_library,
                     ),
                 '2': dict(
                     display='upload all the calibre library',
@@ -77,6 +77,10 @@ class CalibrolinoShellView(View):
     def _show_credentials(self):
         credentials = self.controller.credentials
         print(credentials)
+
+    def _show_full_library(self):
+        library = self.controller.get_full_library()
+        print(library)
 
     def _change_credentials(self):
         """
