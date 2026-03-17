@@ -6,6 +6,13 @@ class Controller(metaclass=ABCMeta):
     """Controller for calibrolino """
 
     @abstractproperty
+    def partners(self) -> dict:
+        """list of tolino partner (arg for tolinocloud class)
+
+        """
+        pass
+
+    @abstractproperty
     def credentials(self) -> dict:
         """credentials that can be saved and loaded from disk
 
