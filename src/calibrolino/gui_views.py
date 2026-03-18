@@ -8,8 +8,6 @@ class CalibrolinoGUIView(View):
 
     """GUI view run calibrolino"""
 
-    """view in shell with a menu to run calibrolino"""
-
     _welcome_msg = 'welcome to the calibrolino menu'
 
     @property
@@ -33,8 +31,8 @@ class CalibrolinoGUIView(View):
                     method=self._change_credentials,
                     ),
                 '99': dict(
-                    display='show credentials',
-                    method=self._show_credentials,
+                    display='show fill lib',
+                    method=self._show_full_library,
                     ),
                 '2': dict(
                     display='upload all the calibre library',
@@ -80,6 +78,10 @@ class CalibrolinoGUIView(View):
         credentials = self.controller.credentials
         print(credentials)
 
+    def _show_full_library(self):
+        library = self.controller.get_full_library()
+        print(library)
+
     def _change_credentials(self):
         """
         change the credentials to connect and
@@ -120,8 +122,8 @@ class CalibrolinoGUIView(View):
         """
 
         self._local_books = self.controller.local_books
-        for book_index, book in enumerate(self._local_books):
-            title = book['title']
+        book_list = list(self._local_books.keys())
+        for book_index, title in enumerate(book_list):
             print(f'{book_index}: {title}')
         book_index_choice = input(
                 'enter the book number you want to upload:\n')
@@ -132,7 +134,8 @@ class CalibrolinoGUIView(View):
             print('failed! you must enter a valid number')
         else:
             try:
-                book_to_upload = self._local_books[i]
+                title = book_list[i]
+                book_to_upload = self._local_books[title]
             except IndexError:
                 print(
                         'failed! you must enter the book '
@@ -142,8 +145,9 @@ class CalibrolinoGUIView(View):
 
     def _print_books(self):
         self._local_books = self.controller.local_books
-        for book in self._local_books:
+        for full_title, book in self._local_books.items():
             print('==========')
+            print(full_title)
             for key, value in book.items():
                 print(f'{key}: {value}')
 
