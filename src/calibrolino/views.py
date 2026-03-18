@@ -144,8 +144,9 @@ class CalibrolinoShellView(View):
 
     def _print_books(self):
         self._local_books = self.controller.local_books
-        for book in self._local_books:
+        for full_title, book in self._local_books.items():
             print('==========')
+            print(full_title)
             for key, value in book.items():
                 print(f'{key}: {value}')
 
