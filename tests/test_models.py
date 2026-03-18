@@ -5,7 +5,6 @@
 test all the tools in...
 """
 
-import os
 import unittest
 
 
@@ -22,7 +21,6 @@ class TestCalibreDBReader(unittest.TestCase):
 
     def test_init(self):
         CalibreDBReader()
-
 
     def test_read_db(self):
         books = self.calibre_db_reader.read_db()
@@ -45,7 +43,7 @@ class TestCalibreDBReader(unittest.TestCase):
                 'has_cover',
                 'issued',
                 }
-        for book in books:
+        for title, book in books.items():
             self.assertLessEqual(expected_keys, book.keys())
 
     def test_serie_title(self):
@@ -63,20 +61,4 @@ class TestCalibreDBReader(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    print('ok')
-    calibre_db_reader = CalibreDBReader()
-    books = calibre_db_reader.read_db()
-    book = books[0]
-    has_cover = book['has_cover']
-    print(has_cover, type(has_cover))
-    if has_cover:
-        print('has a cover!')
-    def test_serie_title(self):
-        title = 'mytitle'
-        serie_name = 'myserie'
-        serie_index = '42'
-        new_title = self.calibre_db_reader.get_serie_title(title, serie_index, serie_name)
-        self.assertIsInstance(new_title, str)
-        self.assertIn(title, new_title)
-        self.assertIn(serie_name, new_title)
-        self.assertIn(serie_index, new_title)
+    pass
