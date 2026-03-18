@@ -17,7 +17,7 @@ class CalibrolinoController(Controller):
         Controller.__init__(self)
         self._view = view
         self._varbox = VarBox('calibrolino')
-        self._local_books = list()
+        self._local_books = dict()
         try:
             self._calibre_db = CalibreDBReader()
         except CalibrolinoException:
@@ -94,8 +94,8 @@ class CalibrolinoController(Controller):
         online_books = self.get_online_books()
         if online_books is not None:
             books_to_upload = list()
-            for book in local_books:
-                if book['full_title'] not in online_books:
+            for full_title, book in local_books.items():
+                if full_title not in online_books:
                     books_to_upload.append(book)
             msg = f'uploading {len(books_to_upload)} books...'
             self._view.showinfo(msg)
