@@ -23,9 +23,9 @@ class Controller(metaclass=ABCMeta):
         pass
 
     @abstractproperty
-    def local_books(self) -> list[dict]:
-        """a list books present in calibre library, in form of dict
-        with metadata"""
+    def local_books(self) -> dict:
+        """a dict of books present in calibre library, in form of dict
+        with metadata. keys are full title"""
         pass
 
     @abstractmethod
