@@ -357,8 +357,9 @@ class TolinoCloud(object):
 if __name__ == '__main__':
     calibre_db = CalibreDBReader()
     books = calibre_db.read_db()
-    for book in books:
+    for title, book in books.items():
         print('==========')
+        print(title)
         for key, value in book.items():
             print(f'{key}: {value}')
             print(type(value))
