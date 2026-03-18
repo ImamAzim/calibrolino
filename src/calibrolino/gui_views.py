@@ -53,7 +53,15 @@ class CalibrolinoGUIView(View, tkinter.Tk):
                 )
 
     def start(self):
+        self._update_library_display()
         self.mainloop()
+
+    def _update_library_display(self):
+        """
+        :returns: TODO
+
+        """
+        print('update library display')
 
     def _change_credentials(self):
         """
