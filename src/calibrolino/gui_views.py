@@ -1,5 +1,6 @@
 import getpass
 import tkinter
+from tkinter import ttk
 
 
 from calibrolino.interfaces import View, Controller
@@ -34,6 +35,10 @@ class CalibrolinoGUIView(View, tkinter.Tk):
     def __init__(self):
         tkinter.Tk.__init__(self)
         self._create_menu()
+        self._library_frame = ttk.LabelFrame(self)
+        self._library_frame.pack()
+        label = ttk.Button(self._library_frame, text='coucou')
+        label.pack()
         self.update()
 
     def _create_menu(self):
