@@ -73,7 +73,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
                 dataframe=full_lib,
                 )
         pt.show()
-        
+        print(full_lib)
 
     def _change_credentials(self):
         """
