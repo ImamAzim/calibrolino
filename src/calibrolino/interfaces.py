@@ -53,9 +53,10 @@ class Controller(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def get_full_library(self) -> DataFrame:
+    def get_full_library(self) -> tuple[DataFrame, dict, dict]:
         """read local db and online cloud to get a library of all books
         :returns: table with title, local (True/False), online (True/False)
+        and local and online books
 
         """
         pass
