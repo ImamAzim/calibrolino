@@ -128,6 +128,15 @@ class CalibrolinoController(Controller):
 
 
     def get_full_library(self) -> DataFrame:
-        local_lib = self._read_db()
+        self._read_db()
+        local_lib = self.local_books
         online_lib = self.get_online_books()
-        raise NotImplementedError
+        local_titles = local_lib.keys()
+        online_titles = online_lib.keys()
+        all_titles = list(local_titles|online_titles)
+        df = DataFrame(dict(local=False, online=False), all_titles)
+        for title in local_titles:
+            df.at[title, 'local'] = True
+        for title in online_lib:
+            df.at[title, 'online'] = True
+        return df
