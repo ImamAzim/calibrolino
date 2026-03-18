@@ -33,6 +33,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
 
     def __init__(self):
         tkinter.Tk.__init__(self)
+        self._create_menu()
         self.update()
 
     def _create_menu(self):
