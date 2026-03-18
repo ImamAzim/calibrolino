@@ -40,7 +40,16 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         self._create_menu()
         self._library_frame = ttk.LabelFrame(self)
         self._library_frame.pack()
+        self._options = ttk.LabelFrame(self)
+        self._options.pack()
+        ttk.Button(self._options, text='show selec', command=self._test).pack()
         self.update()
+
+    def _test(self):
+        rowdata = self._library_table.getSelectedRowData()
+        index = rowdata.index
+        title = index.values[0]
+        print(title)
 
     def _create_menu(self):
         """put option in menu
@@ -74,6 +83,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
                 )
         pt.showindex = True
         pt.show()
+        self._library_table = pt
 
     def _change_credentials(self):
         """
