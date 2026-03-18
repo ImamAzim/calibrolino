@@ -122,8 +122,8 @@ class CalibrolinoShellView(View):
         """
 
         self._local_books = self.controller.local_books
-        for book_index, book in enumerate(self._local_books):
-            title = book['title']
+        book_list = list(self._local_books.keys())
+        for book_index, title in enumerate(book_list):
             print(f'{book_index}: {title}')
         book_index_choice = input(
                 'enter the book number you want to upload:\n')
@@ -134,7 +134,8 @@ class CalibrolinoShellView(View):
             print('failed! you must enter a valid number')
         else:
             try:
-                book_to_upload = self._local_books[i]
+                title = book_list[i]
+                book_to_upload = self._local_books[title]
             except IndexError:
                 print(
                         'failed! you must enter the book '
