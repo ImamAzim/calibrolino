@@ -138,7 +138,7 @@ class CalibreDBReader(object):
                 else:
                     metadata[data][book_id].append(metadata_value)
 
-        self._books = list()
+        self._books = dict()
 
         for book_row in self._tables['books']:
             book_id = book_row['id']
@@ -181,7 +181,7 @@ class CalibreDBReader(object):
                         cover_path=cover_path,
                         has_cover=book_row['has_cover'],
                         )
-                self._books.append(book)
+                self._books[full_title] = book
 
     def _get_file_path(self, book, data):
         sub_folder = book['path']
