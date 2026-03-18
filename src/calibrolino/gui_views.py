@@ -3,6 +3,9 @@ import tkinter
 from tkinter import ttk
 
 
+from pandastable import Table
+
+
 from calibrolino.interfaces import View, Controller
 
 
@@ -37,8 +40,6 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         self._create_menu()
         self._library_frame = ttk.LabelFrame(self)
         self._library_frame.pack()
-        label = ttk.Button(self._library_frame, text='coucou')
-        label.pack()
         self.update()
 
     def _create_menu(self):
@@ -64,10 +65,15 @@ class CalibrolinoGUIView(View, tkinter.Tk):
 
     def _update_library_display(self):
         """
-        :returns: TODO
 
         """
-        print('update library display')
+        full_lib = self.controller.get_full_library()
+        pt = Table(
+                self._library_frame,
+                dataframe=full_lib,
+                )
+        pt.show()
+        
 
     def _change_credentials(self):
         """

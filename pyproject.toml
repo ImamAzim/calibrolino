@@ -23,6 +23,7 @@ dependencies = [
         'xdg-base-dirs',
         'varboxes',
 	'pandas',
+	'pandastable',
 ]
 
 [project.optional-dependencies]
