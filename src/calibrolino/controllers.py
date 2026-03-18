@@ -75,7 +75,7 @@ class CalibrolinoController(Controller):
         return self._local_books
 
     def get_online_books(self) -> dict:
-        online_books = None
+        online_books = dict()
         if self._tolino_cloud is not None:
             try:
                 ob = self._tolino_cloud.get_uploaded_books()
