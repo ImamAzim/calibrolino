@@ -78,6 +78,7 @@ class CalibrolinoController(Controller):
         if hasattr(self._varbox, 'password'):
             delattr(self._varbox, 'password')
         self._varbox.info = 'this attr has been set to delete the cred'
+        self._tolino_cloud = None
 
     @property
     def local_books(self) -> list[dict]:
