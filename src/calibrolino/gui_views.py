@@ -75,7 +75,11 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         self._library_frame.pack()
         self._options_frame = ttk.LabelFrame(self)
         self._options_frame.pack()
-        ttk.Button(self._options_frame, text='show selec', command=self._test).pack()
+        ttk.Button(
+                self._options_frame,
+                text='show selec',
+                command=self._test,
+                ).pack()
         self.update()
 
     def _test(self):
