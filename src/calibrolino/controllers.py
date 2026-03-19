@@ -65,8 +65,8 @@ class CalibrolinoController(Controller):
             self._varbox.password = value['password']
             msg = (
                     'credentials are saved on the disk. '
-                    'if you wish to delete them, you can change them '
-                    'again and put empty entry')
+                    'if you wish to delete them, you can do it '
+                    'in the menu')
             self._view.showinfo(msg)
 
     @credentials.deleter

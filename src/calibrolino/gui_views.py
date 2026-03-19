@@ -127,6 +127,13 @@ class CalibrolinoGUIView(View, tkinter.Tk):
             self.controller.credentials = new_credentials
             self._update_library_display()
 
+    def _del_credentials(self):
+        """
+        :returns: TODO
+
+        """
+        del self.controller.credentials
+
     def _create_menu(self):
         """put option in menu
 
@@ -137,6 +144,10 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         file_menu.add_command(
                 label='set credentials...',
                 command=self._prompt_credentials,
+                )
+        file_menu.add_command(
+                label='delete credentials...',
+                command=self._del_credentials,
                 )
         file_menu.add_command(
                 label='quit',
