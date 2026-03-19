@@ -1,4 +1,3 @@
-import getpass
 import tkinter
 from tkinter import ttk, simpledialog
 
@@ -25,7 +24,7 @@ class CredentialsPrompt(simpledialog.Dialog):
                 state='readonly',
                 values=self._partners,
                 )
-        self._partners_list.set(self._saved_games[0])
+        self._partners_list.set(self._partners[0])
         self._partners_list.pack()
         self._username = ttk.Entry(master)
         self._username.pack()
@@ -37,7 +36,10 @@ class CredentialsPrompt(simpledialog.Dialog):
         new_partner = self._partners_list.get()
         username = self._username.get()
         password = self._password.get()
-        self.new_credentials = dict(partner=new_partner)
+        self.new_credentials = dict(
+                partner=new_partner,
+                username=username=username,
+                password=password,)
 
 
 class CalibrolinoGUIView(View, tkinter.Tk):
