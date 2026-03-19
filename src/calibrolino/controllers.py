@@ -109,7 +109,7 @@ class CalibrolinoController(Controller):
                 if full_title not in online_books:
                     books_to_upload.append(book)
             msg = f'uploading {len(books_to_upload)} books...'
-            self._view.showinfo(msg)
+            print(msg)
             self._tolino_cloud.upload_books(books_to_upload)
 
     def upload_book(self, book: dict):
