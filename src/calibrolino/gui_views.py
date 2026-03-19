@@ -108,6 +108,16 @@ class CalibrolinoGUIView(View, tkinter.Tk):
                 text='update',
                 command=self._update_library_display,
                 ).grid(column=1, row=0)
+        ttk.Button(
+                self._options_frame,
+                text='upload all',
+                command=self._upload_all,
+                ).grid(column=2, row=0)
+        ttk.Button(
+                self._options_frame,
+                text='upload selection',
+                command=self._upload_one,
+                ).grid(column=3, row=0)
 
     def _test(self):
         rowdata = self._library_table.getSelectedRowData()
