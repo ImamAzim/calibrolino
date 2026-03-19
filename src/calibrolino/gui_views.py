@@ -25,7 +25,7 @@ class CredentialsPrompt(simpledialog.Dialog):
                 values=self._partners,
                 )
         self._partners_list.set(self._partners[0])
-        self._partners_list.grid(column=0, row=0)
+        self._partners_list.grid(column=0, row=0, columnspan=2)
         ttk.Label(master, text='username:').grid(column=0, row=1)
         self._username = ttk.Entry(master)
         self._username.grid(column=1, row=1)
