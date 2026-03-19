@@ -101,13 +101,17 @@ class CalibrolinoGUIView(View, tkinter.Tk):
                 text='test',
                 command=self._test,
                 ).pack()
+        ttk.Button(
+                self._options_frame,
+                text='update',
+                command=self._update_library_display,
+                ).pack()
 
     def _test(self):
-        self._update_library_display()
-        # rowdata = self._library_table.getSelectedRowData()
-        # index = rowdata.index
-        # title = index.values[0]
-        # print(title)
+        rowdata = self._library_table.getSelectedRowData()
+        index = rowdata.index
+        title = index.values[0]
+        print(title)
 
     def _prompt_credentials(self, ):
         """prompt to change credentials
@@ -153,7 +157,6 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         full_lib = self.controller.get_full_library(include_online)
         self._library_table.model.df = full_lib
         self._library_table.redraw()
-        # self._library_table
 
     def _upload_all(self):
         """upload the whole library
