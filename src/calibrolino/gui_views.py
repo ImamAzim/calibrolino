@@ -27,10 +27,16 @@ class CredentialsPrompt(simpledialog.Dialog):
                 )
         self._partners_list.set(self._saved_games[0])
         self._partners_list.pack()
+        self._username = ttk.Entry(master)
+        self._username.pack()
+        self._password = ttk.Entry(master)
+        self._password.pack()
         self.new_credentials = None
 
     def apply(self):
         new_partner = self._partners_list.get()
+        username = self._username.get()
+        password = self._password.get()
         self.new_credentials = dict(partner=new_partner)
 
 
