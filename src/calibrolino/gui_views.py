@@ -1,12 +1,38 @@
 import getpass
 import tkinter
-from tkinter import ttk
+from tkinter import ttk, simpledialog
 
 
 from pandastable import Table
 
 
 from calibrolino.interfaces import View, Controller
+
+
+class CredentialsPrompt(simpledialog.Dialog):
+
+    """prompt to ask for new credentials """
+
+    def __init__(self, parent, partners: [str]):
+        self._partners = partners
+        super().__init__(parent)
+
+    def body(self, master):
+        """
+        """
+        pass
+        # self._save_games_list = ttk.Combobox(
+                # master,
+                # state='readonly',
+                # values=self._saved_games,
+                # )
+        # self._save_games_list.set(self._saved_games[0])
+        # self._save_games_list.pack()
+        # self.game_name = False
+
+    def apply(self):
+        pass
+        # self.game_name = self._save_games_list.get()
 
 
 class CalibrolinoGUIView(View, tkinter.Tk):
