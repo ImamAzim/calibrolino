@@ -75,12 +75,19 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         self._library_frame.pack()
         self._options_frame = ttk.LabelFrame(self)
         self._options_frame.pack()
+        self._create_buttons_in_options_frame()
+        self.update()
+
+    def _create_buttons_in_options_frame(self):
+        """
+        :returns: TODO
+
+        """
         ttk.Button(
                 self._options_frame,
                 text='test',
                 command=self._test,
                 ).pack()
-        self.update()
 
     def _test(self):
         self._update_library_display()
