@@ -88,6 +88,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         new_credentials = prompt.new_credentials
         if new_credentials:
             self.controller.credentials = new_credentials
+            self._update_library_display()
 
     def _create_menu(self):
         """put option in menu
@@ -126,14 +127,6 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         pt.showindex = True
         pt.show()
         self._library_table = pt
-
-    def _change_credentials(self):
-        """
-        change the credentials to connect and
-        save them for next time
-
-        """
-        self.showinfo('TODO: prompt cred')
 
     def _upload_all(self):
         """upload the whole library
