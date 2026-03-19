@@ -29,6 +29,7 @@ class CredentialsPrompt(simpledialog.Dialog):
         # self._save_games_list.set(self._saved_games[0])
         # self._save_games_list.pack()
         # self.game_name = False
+        self.new_credentials = None
 
     def apply(self):
         pass
@@ -82,7 +83,11 @@ class CalibrolinoGUIView(View, tkinter.Tk):
 
 
         """
-        pass
+        partners = self.controller.partners
+        prompt = CredentialsPrompt(partners)
+        new_credentials = prompt.new_credentials
+        if new_credentials:
+            self.controller.credentials = new_credentials
 
     def _create_menu(self):
         """put option in menu
