@@ -51,6 +51,13 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         title = index.values[0]
         print(title)
 
+    def _prompt_credentials(self, ):
+        """prompt to change credentials
+
+
+        """
+        pass
+
     def _create_menu(self):
         """put option in menu
 
@@ -58,6 +65,10 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         menubar = tkinter.Menu(self)
         self.config(menu=menubar)
         file_menu = tkinter.Menu(menubar)
+        file_menu.add_command(
+                label='set credentials...',
+                command=self.destroy,
+                )
         file_menu.add_command(
                 label='quit',
                 command=self.destroy,
