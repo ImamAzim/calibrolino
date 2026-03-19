@@ -244,9 +244,8 @@ class TolinoCloud(object):
         """
         try:
             self._client.login(self._password)
-        except PytolinoException:
-            print('fail to login')
-            return None
+        except PytolinoException as e:
+            raise CalibrolinoException(str(e))
         else:
             try:
                 inventory = self._client.get_inventory()
