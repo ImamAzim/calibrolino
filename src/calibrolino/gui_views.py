@@ -77,16 +77,17 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         self._options_frame.pack()
         ttk.Button(
                 self._options_frame,
-                text='show selec',
+                text='test',
                 command=self._test,
                 ).pack()
         self.update()
 
     def _test(self):
-        rowdata = self._library_table.getSelectedRowData()
-        index = rowdata.index
-        title = index.values[0]
-        print(title)
+        self._update_library_display()
+        # rowdata = self._library_table.getSelectedRowData()
+        # index = rowdata.index
+        # title = index.values[0]
+        # print(title)
 
     def _prompt_credentials(self, ):
         """prompt to change credentials
