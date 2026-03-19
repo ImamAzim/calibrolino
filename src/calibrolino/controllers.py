@@ -71,9 +71,12 @@ class CalibrolinoController(Controller):
 
     @credentials.deleter
     def credentials(self):
-        delattr(self._varbox, 'partner')
-        delattr(self._varbox, 'username')
-        delattr(self._varbox, 'password')
+        if hasattr(self._varbox, 'partner'):
+            delattr(self._varbox, 'partner')
+        if hasattr(self._varbox, 'username'):
+            delattr(self._varbox, 'username')
+        if hasattr(self._varbox, 'password'):
+            delattr(self._varbox, 'password')
         self._varbox.info = 'this attr has been set to delete the cred'
 
     @property
