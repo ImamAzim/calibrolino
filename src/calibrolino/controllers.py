@@ -69,6 +69,13 @@ class CalibrolinoController(Controller):
                     'again and put empty entry')
             self._view.showinfo(msg)
 
+    @credentials.deleter
+    def credentials(self):
+        delattr(self._varbox, 'partner')
+        delattr(self._varbox, 'username')
+        delattr(self._varbox, 'password')
+        self._varbox.info = 'this attr has been set to delete the cred'
+
     @property
     def local_books(self) -> list[dict]:
         self._read_db()
