@@ -266,8 +266,8 @@ class TolinoCloud(object):
         """
         try:
             self._client.login(self._password)
-        except PytolinoException:
-            print('fail to login')
+        except PytolinoException as e:
+            raise CalibrolinoException(str(e))
         else:
             for book in books:
                 title = book['title']
@@ -275,21 +275,21 @@ class TolinoCloud(object):
                 file_path = book['file_path']
                 try:
                     book_id = self._client.upload(file_path)
-                except PytolinoException:
-                    print('failed in upload!')
+                except PytolinoException as e:
+                    raise CalibrolinoException(str(e))
                 else:
                     try:
                         self._add_to_collection(book, book_id)
-                    except PytolinoException:
-                        print('failed to add the collections!')
+                    except PytolinoException as e:
+                        raise CalibrolinoException(str(e))
                     try:
                         self._upload_cover(book, book_id)
-                    except PytolinoException:
-                        print('failed to upload the cover!')
+                    except PytolinoException as e:
+                        raise CalibrolinoException(str(e))
                     try:
                         self._upload_meta(book, book_id)
-                    except PytolinoException:
-                        print('failed to upload the metadata')
+                    except PytolinoException as e:
+                        raise CalibrolinoException(str(e))
                     print('book uploaded')
             print('done')
 
@@ -317,15 +317,15 @@ class TolinoCloud(object):
 
         try:
             self._client.login(self._password)
-        except PytolinoException:
-            print('fail to login')
+        except PytolinoException as e:
+            raise CalibrolinoException(str(e))
         else:
             try:
                 self._add_to_collection(book, book_id)
                 self._upload_cover(book, book_id)
                 self._upload_meta(book, book_id)
-            except PytolinoException:
-                print('fail to upload')
+            except PytolinoException as e:
+                raise CalibrolinoException(str(e))
 
     def _upload_cover(self, book, book_id):
         """private method to upload the cover
