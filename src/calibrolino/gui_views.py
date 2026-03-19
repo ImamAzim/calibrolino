@@ -25,11 +25,13 @@ class CredentialsPrompt(simpledialog.Dialog):
                 values=self._partners,
                 )
         self._partners_list.set(self._partners[0])
-        self._partners_list.pack()
+        self._partners_list.grid(column=0, row=0)
+        ttk.Label(master, text='username:').grid(column=0, row=1)
         self._username = ttk.Entry(master)
-        self._username.pack()
+        self._username.grid(column=1, row=1)
+        ttk.Label(master, text='password:').grid(column=0, row=2)
         self._password = ttk.Entry(master)
-        self._password.pack()
+        self._password.grid(column=1, row=2)
         self.new_credentials = None
 
     def apply(self):
