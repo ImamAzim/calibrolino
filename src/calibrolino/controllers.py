@@ -6,7 +6,7 @@ from pandas import DataFrame
 from calibrolino.interfaces import Controller, View
 from calibrolino.models import CalibreDBReader
 from calibrolino.models import CalibrolinoException
-from calibrolino.models import TolinoCloud, TolinoCloudException
+from calibrolino.models import TolinoCloud
 
 
 class CalibrolinoController(Controller):
@@ -32,7 +32,7 @@ class CalibrolinoController(Controller):
     def _init_tolino_cloud(self, credentials):
         try:
             tc = TolinoCloud(**credentials)
-        except TolinoCloudException as e:
+        except CalibrolinoException as e:
             self._view.showerror(e)
             self._view.showerror('could not use the credentials. bad format?')
             return False
@@ -79,7 +79,7 @@ class CalibrolinoController(Controller):
         if self._tolino_cloud is not None:
             try:
                 ob = self._tolino_cloud.get_uploaded_books()
-            except TolinoCloudException as e:
+            except CalibrolinoException as e:
                 self._view.showerror(e)
                 self._view.showerror('could not get online books inv')
             else:
