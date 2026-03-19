@@ -129,10 +129,10 @@ class CalibrolinoGUIView(View, tkinter.Tk):
 
     def _del_credentials(self):
         """
-        :returns: TODO
 
         """
         del self.controller.credentials
+        self._update_library_display(False)
 
     def _create_menu(self):
         """put option in menu
