@@ -73,10 +73,23 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         self._create_menu()
         self._library_frame = ttk.LabelFrame(self)
         self._library_frame.pack()
+        self._create_lib_table()
         self._options_frame = ttk.LabelFrame(self)
         self._options_frame.pack()
         self._create_buttons_in_options_frame()
         self.update()
+
+    def _create_lib_table(self):
+        """
+        :returns: TODO
+
+        """
+        pt = Table(
+                self._library_frame,
+                )
+        pt.showindex = True
+        pt.show()
+        self._library_table = pt
 
     def _create_buttons_in_options_frame(self):
         """
@@ -130,21 +143,15 @@ class CalibrolinoGUIView(View, tkinter.Tk):
                 )
 
     def start(self):
-        self._update_library_display()
+        self._update_library_display(include_online=False)
         self.mainloop()
 
-    def _update_library_display(self):
+    def _update_library_display(self, include_online=True):
         """
 
         """
-        full_lib = self.controller.get_full_library()
-        pt = Table(
-                self._library_frame,
-                dataframe=full_lib,
-                )
-        pt.showindex = True
-        pt.show()
-        self._library_table = pt
+        full_lib = self.controller.get_full_library(include_online)
+        # self._library_table
 
     def _upload_all(self):
         """upload the whole library

@@ -127,10 +127,13 @@ class CalibrolinoController(Controller):
             self._local_books = local_books
 
 
-    def get_full_library(self) -> DataFrame:
+    def get_full_library(self, include_online: bool) -> DataFrame:
         self._read_db()
         local_lib = self.local_books
-        online_lib = self.get_online_books()
+        if include_online:
+            online_lib = self.get_online_books()
+        else:
+            online_lib = dict()
         local_titles = local_lib.keys()
         online_titles = online_lib.keys()
         all_titles = list(local_titles|online_titles)
