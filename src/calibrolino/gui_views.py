@@ -100,12 +100,12 @@ class CalibrolinoGUIView(View, tkinter.Tk):
                 self._options_frame,
                 text='test',
                 command=self._test,
-                ).pack()
+                ).grid(column=0, row=0)
         ttk.Button(
                 self._options_frame,
                 text='update',
                 command=self._update_library_display,
-                ).pack()
+                ).grid(column=1, row=0)
 
     def _test(self):
         rowdata = self._library_table.getSelectedRowData()
