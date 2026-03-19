@@ -20,20 +20,18 @@ class CredentialsPrompt(simpledialog.Dialog):
     def body(self, master):
         """
         """
-        pass
-        # self._save_games_list = ttk.Combobox(
-                # master,
-                # state='readonly',
-                # values=self._saved_games,
-                # )
-        # self._save_games_list.set(self._saved_games[0])
-        # self._save_games_list.pack()
-        # self.game_name = False
+        self._partners_list = ttk.Combobox(
+                master,
+                state='readonly',
+                values=self._partners,
+                )
+        self._partners_list.set(self._saved_games[0])
+        self._partners_list.pack()
         self.new_credentials = None
 
     def apply(self):
-        pass
-        # self.game_name = self._save_games_list.get()
+        new_partner = self._partners_list.get()
+        self.new_credentials = dict(partner=new_partner)
 
 
 class CalibrolinoGUIView(View, tkinter.Tk):
