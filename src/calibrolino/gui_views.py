@@ -38,7 +38,7 @@ class CredentialsPrompt(simpledialog.Dialog):
         password = self._password.get()
         self.new_credentials = dict(
                 partner=new_partner,
-                username=username=username,
+                username=username,
                 password=password,)
 
 
