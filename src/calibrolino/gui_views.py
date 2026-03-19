@@ -88,7 +88,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
 
         """
         partners = self.controller.partners
-        prompt = CredentialsPrompt(partners)
+        prompt = CredentialsPrompt(self, partners)
         new_credentials = prompt.new_credentials
         if new_credentials:
             self.controller.credentials = new_credentials
