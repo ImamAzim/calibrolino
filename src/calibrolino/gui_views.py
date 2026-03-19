@@ -187,6 +187,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
 
         """
         self.controller.sync_upload()
+        self._update_library_display()
 
     def _upload_one(self):
         """upload only one book (for a test)
