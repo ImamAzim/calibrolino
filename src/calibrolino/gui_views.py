@@ -67,7 +67,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         file_menu = tkinter.Menu(menubar)
         file_menu.add_command(
                 label='set credentials...',
-                command=self.destroy,
+                command=self._prompt_credentials,
                 )
         file_menu.add_command(
                 label='quit',
@@ -102,7 +102,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         save them for next time
 
         """
-        pass
+        self.showinfo('TODO: prompt cred')
 
     def _upload_all(self):
         """upload the whole library
