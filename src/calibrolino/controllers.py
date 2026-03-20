@@ -160,6 +160,9 @@ class CalibrolinoController(Controller):
                     self._tolino_cloud.delete_book(book_id)
                 except CalibrolinoException as e:
                     self._view.showerror(e)
+                else:
+                    msg = f'{book_title} has been deleted'
+                    self._view.showinfo(msg)
 
     def _read_db(self):
         """read the calibre library and get books
