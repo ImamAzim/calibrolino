@@ -160,7 +160,9 @@ class CalibrolinoShellView(View):
         self._running = False
 
     def askokcancel(self, msg: str) -> bool:
-        pass
+        answer = input(f'{msg} (ok/cancel) [ok]:\n')
+        answer = 'ok' if not answer else answer
+        return True if answer.lower()=='ok' else False
 
     def askyesno(self, msg: str) -> bool:
         pass
