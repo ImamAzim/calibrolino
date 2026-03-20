@@ -114,19 +114,25 @@ class CalibrolinoController(Controller):
                 self._tolino_cloud.upload_books(books_to_upload)
                 self._view.showinfo('done')
 
-    def upload_book(self, book: dict):
-        online_books = self.get_online_books()
-        if online_books is not None:
-            if book['full_title'] not in online_books:
-                books_to_upload = [book]
-                self._tolino_cloud.upload_books(books_to_upload)
-            else:
-                msg = (
-                        'the book you chose is already on the cloud '
-                        'I will only upload the metadata')
-                self._view.showinfo(msg)
-                book_id = online_books[book['full_title']]
-                self._tolino_cloud.upload_metadata(book, book_id)
+    def upload_book(self, book_title: str):
+        try:
+            book = self._local_books[book_title]
+        except KeyError:
+            self._view.showerror(
+                    'no book with this title is present in the local library')
+        else:
+            online_books = self.get_online_books()
+            if online_books is not None:
+                if book['full_title'] not in online_books:
+                    books_to_upload = [book]
+                    self._tolino_cloud.upload_books(books_to_upload)
+                else:
+                    msg = (
+                            'the book you chose is already on the cloud '
+                            'I will only upload the metadata')
+                    self._view.showinfo(msg)
+                    book_id = online_books[book['full_title']]
+                    self._tolino_cloud.upload_metadata(book, book_id)
 
     def _read_db(self):
         """read the calibre library and get books
