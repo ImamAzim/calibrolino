@@ -195,6 +195,15 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         """
         pass
 
+    def askokcancel(self, msg: str) -> bool:
+        return tkinter.messagebox.askokcancel(message=msg)
+
+    def askyesno(self, msg: str) -> bool:
+        return tkinter.messagebox.askyesno(message=msg)
+
 
 if __name__ == '__main__':
+    view = CalibrolinoGUIView()
+    answer = view.askyesno('are you sure?')
+    print(answer)
     pass
