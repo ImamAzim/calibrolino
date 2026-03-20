@@ -135,13 +135,12 @@ class CalibrolinoShellView(View):
         else:
             try:
                 title = book_list[i]
-                book_to_upload = self._local_books[title]
             except IndexError:
                 print(
                         'failed! you must enter the book '
                         'number you want to upload')
             else:
-                self.controller.upload_book(book_to_upload)
+                self.controller.upload_book(title)
 
     def _print_books(self):
         self._local_books = self.controller.local_books

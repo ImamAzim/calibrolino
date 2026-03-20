@@ -44,10 +44,10 @@ class Controller(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def upload_book(self, book: dict):
+    def upload_book(self, book_title: str):
         """upload the book
 
-        :book: contain metadata and path to file
+        :book_title: should be in the local library
 
         """
         pass
