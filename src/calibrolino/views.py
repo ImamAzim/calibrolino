@@ -165,10 +165,12 @@ class CalibrolinoShellView(View):
         return True if answer.lower()=='ok' else False
 
     def askyesno(self, msg: str) -> bool:
-        pass
+        answer = input(f'{msg} (yes/no) [yes]:\n')
+        answer = 'yes' if not answer else answer
+        return True if answer.lower()=='yes' else False
 
 
 if __name__ == '__main__':
     view = CalibrolinoShellView()
-    answer = view.askokcancel('i will do this')
+    answer = view.askyesno('are you sure?')
     print(answer)
