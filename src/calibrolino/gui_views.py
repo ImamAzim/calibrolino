@@ -118,6 +118,11 @@ class CalibrolinoGUIView(View, tkinter.Tk):
                 text='upload selection',
                 command=self._upload_one,
                 ).grid(column=3, row=0)
+        ttk.Button(
+                self._options_frame,
+                text='delete selection',
+                command=self._delete_selected_book,
+                ).grid(column=4, row=0)
 
     def _test(self):
         rowdata = self._library_table.getSelectedRowData()
@@ -197,6 +202,16 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         index = rowdata.index
         title = index.values[0]
         self.controller.upload_book(title)
+        self._update_library_display()
+
+    def _delete_selected_book(self):
+        """delete selected book from the cloud
+
+        """
+        rowdata = self._library_table.getSelectedRowData()
+        index = rowdata.index
+        title = index.values[0]
+        # self.controller.upload_book(title)
         self._update_library_display()
 
     def askokcancel(self, msg: str) -> bool:
