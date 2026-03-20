@@ -102,3 +102,24 @@ class View(metaclass=ABCMeta):
 
         """
         pass
+
+    @abstractmethod
+    def askokcancel(self, msg: str) -> bool:
+        """Ask if operation should proceed. Shows OK and CANCEL.
+
+        :msg: message to be displayed
+        :returns: True if the answer is ok and False otherwise.
+
+        """
+        pass
+
+    @abstractmethod
+    def askyesno(self, msg: str) -> bool:
+        """Ask a questions. Shows YES and NO.
+
+        :msg: message to be displayed
+        :returns: True if the answer is yes and False otherwise.
+
+
+        """
+        pass
