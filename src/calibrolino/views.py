@@ -159,8 +159,14 @@ class CalibrolinoShellView(View):
         print('goodbye')
         self._running = False
 
+    def askokcancel(self, msg: str) -> bool:
+        pass
+
+    def askyesno(self, msg: str) -> bool:
+        pass
+
 
 if __name__ == '__main__':
     view = CalibrolinoShellView()
-    view.start()
-    pass
+    answer = view.askokcancel('i will do this')
+    print(answer)
