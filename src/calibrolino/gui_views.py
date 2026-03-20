@@ -197,6 +197,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         index = rowdata.index
         title = index.values[0]
         self.controller.upload_book(title)
+        self._update_library_display()
 
     def askokcancel(self, msg: str) -> bool:
         return tkinter.messagebox.askokcancel(message=msg)
