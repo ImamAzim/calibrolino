@@ -147,22 +147,25 @@ class CalibrolinoController(Controller):
                         self._view.showinfo(msg)
 
     def delete_book(self, book_title: str):
-        online_books = self.get_online_books()
-        if online_books is not None:
-            try:
-                book = online_books[book_title]
-            except KeyError:
-                self._view.showerror(
-                        'no book with this title is present on the cloud')
-            else:
-                book_id = online_books[book_title]
+        msg = f'delete {book_title} from the online library. Are you sure?'
+        answer = self._view.askyesno(msg)
+        if answer:
+            online_books = self.get_online_books()
+            if online_books is not None:
                 try:
-                    self._tolino_cloud.delete_book(book_id)
-                except CalibrolinoException as e:
-                    self._view.showerror(e)
+                    book = online_books[book_title]
+                except KeyError:
+                    self._view.showerror(
+                            'no book with this title is present on the cloud')
                 else:
-                    msg = f'{book_title} has been deleted'
-                    self._view.showinfo(msg)
+                    book_id = online_books[book_title]
+                    try:
+                        self._tolino_cloud.delete_book(book_id)
+                    except CalibrolinoException as e:
+                        self._view.showerror(e)
+                    else:
+                        msg = f'{book_title} has been deleted'
+                        self._view.showinfo(msg)
 
     def _read_db(self):
         """read the calibre library and get books
