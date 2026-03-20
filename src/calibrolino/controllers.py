@@ -112,6 +112,7 @@ class CalibrolinoController(Controller):
             answer = self._view.askokcancel(msg)
             if answer:
                 self._tolino_cloud.upload_books(books_to_upload)
+                self._view.showinfo('done')
 
     def upload_book(self, book: dict):
         online_books = self.get_online_books()

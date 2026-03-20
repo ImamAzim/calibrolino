@@ -291,7 +291,6 @@ class TolinoCloud(object):
                     except PytolinoException as e:
                         raise CalibrolinoException(str(e))
                     print('book uploaded')
-            print('done')
 
     def _add_to_collection(self, book, book_id):
         """
