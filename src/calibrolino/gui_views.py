@@ -190,10 +190,13 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         self._update_library_display()
 
     def _upload_one(self):
-        """upload only one book (for a test)
+        """upload selected book
 
         """
-        pass
+        rowdata = self._library_table.getSelectedRowData()
+        index = rowdata.index
+        title = index.values[0]
+        self.controller.upload_book(title)
 
     def askokcancel(self, msg: str) -> bool:
         return tkinter.messagebox.askokcancel(message=msg)
