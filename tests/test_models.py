@@ -45,7 +45,8 @@ class TestCalibreDBReader(unittest.TestCase):
                 'last_modified',
                 }
         for title, book in books.items():
-            self.assertLessEqual(expected_keys, book.keys())
+            for expected_key in expected_keys:
+                self.assertIn(expected_key, book)
 
     def test_serie_title(self):
         title = 'mytitle'

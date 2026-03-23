@@ -180,6 +180,7 @@ class CalibreDBReader(object):
                         languages=metadata['languages'].get(book_id, []),
                         cover_path=cover_path,
                         has_cover=book_row['has_cover'],
+                        last_modified=book_row['last_modified'],
                         )
                 self._books[full_title] = book
 
