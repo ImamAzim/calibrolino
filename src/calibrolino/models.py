@@ -86,6 +86,15 @@ class CalibreDBReader(object):
 
         return table
 
+    def add_tag(self, book, tag_name):
+        """TODO: Docstring for add_tag.
+
+        :arg1: TODO
+        :returns: TODO
+
+        """
+        pass
+
     def _get_all_tables(self):
 
         self._tables = dict()
@@ -374,6 +383,9 @@ if __name__ == '__main__':
     title = 'Fundamental Accessibility Tests: Basic Functionality'
     book = books[title]
     print(title)
+    for key, value in book.items():
+        print(f'{key}: {value}')
+    calibre_db.add_tag(book, 'newtest')
     for key, value in book.items():
         print(f'{key}: {value}')
     # for title, book in books.items():

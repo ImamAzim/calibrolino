@@ -43,6 +43,7 @@ class TestCalibreDBReader(unittest.TestCase):
                 'has_cover',
                 'issued',
                 'last_modified',
+                'book_id',
                 }
         for title, book in books.items():
             for expected_key in expected_keys:
