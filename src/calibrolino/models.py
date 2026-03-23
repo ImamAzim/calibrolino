@@ -374,4 +374,5 @@ if __name__ == '__main__':
         print(title)
         for key, value in book.items():
             print(f'{key}: {value}')
-            print(type(value))
+    # print(calibre_db._tables)
+

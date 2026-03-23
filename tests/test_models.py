@@ -42,6 +42,7 @@ class TestCalibreDBReader(unittest.TestCase):
                 'cover_path',
                 'has_cover',
                 'issued',
+                'last_modified',
                 }
         for title, book in books.items():
             self.assertLessEqual(expected_keys, book.keys())
