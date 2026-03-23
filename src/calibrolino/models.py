@@ -100,6 +100,8 @@ class CalibreDBReader(object):
         :returns: TODO
 
         """
+        if tag_name in self.books[book['title']]['tags']:
+            raise CalibrolinoException('tag is already on this book')
         book_id = book['book_id']
         if tag_name not in self._tags:
             tag_id = self._create_tag()
@@ -410,13 +412,16 @@ if __name__ == '__main__':
     books = calibre_db.books
     book = books[title]
     print(title)
-    for key, value in book.items():
-        print(f'{key}: {value}')
-    calibre_db.add_tag(book, 'science-fiction')
-    books = calibre_db.books
-    book = books[title]
-    for key, value in book.items():
-        print(f'{key}: {value}')
+    print('tags', book['tags'])
+    try:
+        calibre_db.add_tag(book, 'science-fiction')
+    except CalibrolinoException as e:
+        print(e)
+    else:
+        print('tag added:')
+        books = calibre_db.books
+        book = books[title]
+        print('tags', book['tags'])
     # for title, book in books.items():
         # print('==========')
         # print(title)
