@@ -22,8 +22,8 @@ class TestCalibreDBReader(unittest.TestCase):
     def test_init(self):
         CalibreDBReader()
 
-    def test_read_db(self):
-        books = self.calibre_db_reader.read_db()
+    def test_books(self):
+        books = self.calibre_db_reader.books
         self.assertGreater(len(books), 0)
         expected_keys = {
                 'title',
