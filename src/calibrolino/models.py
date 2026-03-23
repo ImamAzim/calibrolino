@@ -103,7 +103,7 @@ class CalibreDBReader(object):
         book_id = book['book_id']
         if tag_name not in self._tags:
             tag_id = self._create_tag()
-        tag_id = self.tags[tag_name]
+        tag_id = self._tags[tag_name]
         table_name = 'books_tags_link'
         sql = f'INSERT INTO {table_name}'
         sql = f"""
