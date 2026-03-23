@@ -101,7 +101,14 @@ class CalibreDBReader(object):
 
         """
         book_id = book['book_id']
-        tags = self._tables['tags']
+        if tag_name not in self._tags:
+            tag_id = self._create_tag()
+        tag_id = self._[tag_name]
+        table = self._tables['books_tags_link']
+
+    def _create_tag(self, tag_name):
+        self.read_db()
+        raise NotImplementedError
 
     def _get_all_tables(self):
 
@@ -122,6 +129,12 @@ class CalibreDBReader(object):
             self._status_is_defined = True
         else:
             self._status_is_defined = False
+
+    def _create_tags_dict(self):
+        self._tags = dict()
+        metadata_tables = self._tables['tags']
+        for row in metadata_tables:
+            self._tags[row['name']] = row['id']
 
     def _create_books_dict(self):
 
@@ -229,6 +242,7 @@ class CalibreDBReader(object):
 
         self._get_all_tables()
         self._create_books_dict()
+        self._create_tags_dict()
 
 
 def get_serie_title(title, serie_index, serie_name):
@@ -391,7 +405,7 @@ if __name__ == '__main__':
     print(title)
     for key, value in book.items():
         print(f'{key}: {value}')
-    calibre_db.add_tag(book, 'newtest')
+    calibre_db.add_tag(book, 'science-fiction')
     for key, value in book.items():
         print(f'{key}: {value}')
     # for title, book in books.items():
