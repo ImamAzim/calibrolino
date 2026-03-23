@@ -81,7 +81,7 @@ class CalibrolinoController(Controller):
         self._tolino_cloud = None
 
     @property
-    def local_books(self) -> list[dict]:
+    def local_books(self) -> dict[dict]:
         return self._calibre_db.books
 
     def get_online_books(self) -> dict:
@@ -174,9 +174,6 @@ class CalibrolinoController(Controller):
             local_books = self._calibre_db.read_db()
         except CalibrolinoException:
             self._view.showerror('failed to read the calibre db')
-        else:
-            self._local_books = local_books
-
 
     def get_full_library(self, include_online: bool) -> DataFrame:
         self._read_db()
