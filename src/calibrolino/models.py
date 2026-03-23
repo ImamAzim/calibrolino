@@ -370,10 +370,16 @@ class TolinoCloud(object):
 if __name__ == '__main__':
     calibre_db = CalibreDBReader()
     books = calibre_db.read_db()
-    for title, book in books.items():
-        print('==========')
-        print(title)
-        for key, value in book.items():
-            print(f'{key}: {value}')
+    # print(books[-1])
+    title = 'Fundamental Accessibility Tests: Basic Functionality'
+    book = books[title]
+    print(title)
+    for key, value in book.items():
+        print(f'{key}: {value}')
+    # for title, book in books.items():
+        # print('==========')
+        # print(title)
+        # for key, value in book.items():
+            # print(f'{key}: {value}')
     # print(calibre_db._tables)
 
