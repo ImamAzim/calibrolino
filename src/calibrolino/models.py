@@ -449,13 +449,12 @@ class TolinoCloud(object):
 if __name__ == '__main__':
     calibre_db = CalibreDBReader()
 
-    # calibre_db._rm_if_unused_tag('test')
-    
     title = 'Your title here'
     books = calibre_db.books
     book = books[title]
     print(title)
     print('tags', book['tags'])
+    print(book['last_modified'])
     try:
         calibre_db.add_tag(book, 'test')
     except CalibrolinoException as e:
@@ -474,6 +473,7 @@ if __name__ == '__main__':
             books = calibre_db.books
             book = books[title]
             print('tags', book['tags'])
+            print(book['last_modified'])
 
     # for title, book in books.items():
         # print('==========')
