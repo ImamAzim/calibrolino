@@ -104,7 +104,14 @@ class CalibreDBReader(object):
         if tag_name not in self._tags:
             tag_id = self._create_tag()
         tag_id = self._[tag_name]
-        table = self._tables['books_tags_link']
+        table_name = 'books_tags_link'
+        sql = f'INSERT INTO {table_name}'
+        sql = f"""
+        INSERT INTO {table_name}
+        VALUES ({book_id}, {tag_id});
+        """
+        res = self._con.execute(sql)
+        self.read_db()
 
     def _create_tag(self, tag_name):
         self.read_db()
@@ -399,13 +406,15 @@ class TolinoCloud(object):
 
 if __name__ == '__main__':
     calibre_db = CalibreDBReader()
-    books = calibre_db.books
     title = 'Your title here'
+    books = calibre_db.books
     book = books[title]
     print(title)
     for key, value in book.items():
         print(f'{key}: {value}')
     calibre_db.add_tag(book, 'science-fiction')
+    books = calibre_db.books
+    book = books[title]
     for key, value in book.items():
         print(f'{key}: {value}')
     # for title, book in books.items():
