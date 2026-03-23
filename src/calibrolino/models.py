@@ -104,7 +104,7 @@ class CalibreDBReader(object):
             raise CalibrolinoException('tag is already on this book')
         book_id = book['book_id']
         if tag_name not in self._tags:
-            tag_id = self._create_tag()
+            tag_id = self._create_tag(tag_name)
         tag_id = self._tags[tag_name]
         table_name = 'books_tags_link'
         sql = f"""
@@ -414,7 +414,7 @@ if __name__ == '__main__':
     print(title)
     print('tags', book['tags'])
     try:
-        calibre_db.add_tag(book, 'science-fiction')
+        calibre_db.add_tag(book, 'test')
     except CalibrolinoException as e:
         print(e)
     else:
