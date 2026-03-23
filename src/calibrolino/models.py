@@ -93,7 +93,8 @@ class CalibreDBReader(object):
         :returns: TODO
 
         """
-        pass
+        book_id = book['book_id']
+        tags = self._tables['tags']
 
     def _get_all_tables(self):
 
