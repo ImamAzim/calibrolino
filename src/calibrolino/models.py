@@ -105,12 +105,12 @@ class CalibreDBReader(object):
             tag_id = self._create_tag()
         tag_id = self._tags[tag_name]
         table_name = 'books_tags_link'
-        sql = f'INSERT INTO {table_name}'
         sql = f"""
-        INSERT INTO {table_name}
+        INSERT INTO {table_name} (book, tag)
         VALUES ({book_id}, {tag_id});
         """
         res = self._con.execute(sql)
+        self._con.commit()
         self.read_db()
 
     def _create_tag(self, tag_name):
