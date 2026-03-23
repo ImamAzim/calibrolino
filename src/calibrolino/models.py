@@ -190,6 +190,7 @@ class CalibreDBReader(object):
                         cover_path=cover_path,
                         has_cover=book_row['has_cover'],
                         last_modified=book_row['last_modified'],
+                        book_id=book_id,
                         )
                 self._books[full_title] = book
 
