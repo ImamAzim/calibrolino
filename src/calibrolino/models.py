@@ -39,6 +39,12 @@ class CalibreDBReader(object):
             'custom_columns',
             ]
 
+    @property
+    def books(self) -> dict:
+        """a dictionnory of books (keys are the titles). each book dict
+        contains metadata of the books and file path to book"""
+        return self._books
+
     def __init__(self):
         """
         finds the calibre db and connect to it
@@ -46,6 +52,7 @@ class CalibreDBReader(object):
 
         self._get_calibre_db()
         self._load_db()
+        self.read_db()
 
     def _get_calibre_db(self):
         """search in home calibre db
@@ -222,8 +229,6 @@ class CalibreDBReader(object):
 
         self._get_all_tables()
         self._create_books_dict()
-
-        return self._books
 
 
 def get_serie_title(title, serie_index, serie_name):

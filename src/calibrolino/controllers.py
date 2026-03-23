@@ -82,8 +82,7 @@ class CalibrolinoController(Controller):
 
     @property
     def local_books(self) -> list[dict]:
-        self._read_db()
-        return self._local_books
+        return self._calibre_db.books
 
     def get_online_books(self) -> dict:
         online_books = dict()
