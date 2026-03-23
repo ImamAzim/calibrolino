@@ -115,9 +115,49 @@ class CalibreDBReader(object):
         self._con.commit()
         self.read_db()
 
-    def _create_tag(self, tag_name):
+    def rm_tag(self, book, tag_name):
+        """TODO: Docstring for add_tag.
+
+        :arg1: TODO
+        :returns: TODO
+
+        """
+        if tag_name not in self.books[book['title']]['tags']:
+            raise CalibrolinoException('already such tag in this book')
+        book_id = book['book_id']
+        tag_id = self._tags[tag_name]
+        table_name = 'books_tags_link'
+        sql = f"""
+        DELETE FROM {table_name}
+        WHERE book={book_id} AND tag={tag_id};
+        """
+        res = self._con.execute(sql)
+
+        table_name = 'books_tags_link'
+        sql = f"""
+        SELECT * FROM {table_name}
+        WHERE tag={tag_id};
+        """
+        res = self._con.execute(sql)
+        if res.fetchone() is None:
+            table_name = 'tags'
+            sql = f"""
+            DELETE FROM {table_name}
+            WHERE name='{tag_name}';
+            """
+            res = self._con.execute(sql)
+        self._con.commit()
         self.read_db()
-        raise NotImplementedError
+
+    def _create_tag(self, tag_name):
+        table_name = 'tags'
+        sql = f"""
+        INSERT INTO {table_name} (name)
+        VALUES ('{tag_name}');
+        """
+        res = self._con.execute(sql)
+        self._con.commit()
+        self.read_db()
 
     def _get_all_tables(self):
 
@@ -408,6 +448,9 @@ class TolinoCloud(object):
 
 if __name__ == '__main__':
     calibre_db = CalibreDBReader()
+
+    # calibre_db._rm_if_unused_tag('test')
+    
     title = 'Your title here'
     books = calibre_db.books
     book = books[title]
@@ -422,6 +465,16 @@ if __name__ == '__main__':
         books = calibre_db.books
         book = books[title]
         print('tags', book['tags'])
+        try:
+            calibre_db.rm_tag(book, 'test')
+        except CalibrolinoException as e:
+            print(e)
+        else:
+            print('tag removed:')
+            books = calibre_db.books
+            book = books[title]
+            print('tags', book['tags'])
+
     # for title, book in books.items():
         # print('==========')
         # print(title)
