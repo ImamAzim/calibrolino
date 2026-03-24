@@ -5,7 +5,7 @@ from pathlib import Path
 from calibrolino.models import CalibreDBReader, get_serie_title, CalibrolinoException
 
 TEST_BOOK_TITLE = 'Your title here'
-TEST_BOOK_FN = 'test_models.py'
+TEST_BOOK_FN = 'minimal-v3.epub'
 
 test_book_fp = Path(__file__).parent / TEST_BOOK_FN
 

@@ -6,6 +6,7 @@ import sqlite3
 import sys
 import datetime
 from pathlib import Path
+import subprocess
 
 
 from pytolino.tolino_cloud import Client, PytolinoException
@@ -23,6 +24,7 @@ class TolinoCloudException(Exception):
 class CalibreDBReader(object):
 
     """prepare and upload the calibre library to the cloud"""
+    _calibre_db_command = 'calibredb'
     _calibre_db_table = [
             'books',
             'data',
@@ -102,7 +104,14 @@ class CalibreDBReader(object):
         :fp: path to book file
 
         """
-        pass
+        cmd = 'add'
+        arg = fp.as_posix()
+        options = list()
+        for i in range(0):
+            option_i = ['opt', 'arg']
+            options.append(option_i)
+        full_cmd = [self._calibre_db_command, cmd] + options + [arg]
+        subprocess.run(full_cmd)
 
     def add_tag(self, book: dict, tag_name: str):
         """add tag to a book. change will not be saved before a commit
