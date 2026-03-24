@@ -98,17 +98,19 @@ class CalibreDBReader(object):
 
         return table
 
-    def add_book(self, fp: Path):
+    def add_book(self, fp: Path, **options):
         """add a book to the library
 
         :fp: path to book file
+        :options: accepted options are:
+            authors, cover, isbn, language, series, series-index, tags, title
 
         """
         cmd = 'add'
         arg = fp.as_posix()
         options = list()
-        for i in range(0):
-            option_i = ['opt', 'arg']
+        for option, value in options.items():
+            option_i = [f'--{options}', f'{value}']
             options.append(option_i)
         full_cmd = [self._calibre_db_command, cmd] + options + [arg]
         subprocess.run(full_cmd)
