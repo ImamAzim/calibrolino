@@ -451,33 +451,7 @@ class TolinoCloud(object):
 
 
 if __name__ == '__main__':
-    calibre_db = CalibreDBReader()
-
-    title = 'Your title here'
-    books = calibre_db.books
-    book = books[title]
-    print(title)
-    print('tags', book['tags'])
-    print(book['last_modified'])
-    try:
-        calibre_db.add_tag(book, 'test')
-    except CalibrolinoException as e:
-        print(e)
-    else:
-        print('tag added:')
-        books = calibre_db.books
-        book = books[title]
-        print('tags', book['tags'])
-        try:
-            calibre_db.rm_tag(book, 'test')
-        except CalibrolinoException as e:
-            print(e)
-        else:
-            print('tag removed:')
-            books = calibre_db.books
-            book = books[title]
-            print('tags', book['tags'])
-            print(book['last_modified'])
+    pass
 
     # for title, book in books.items():
         # print('==========')

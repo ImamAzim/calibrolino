@@ -10,6 +10,8 @@ import unittest
 
 from calibrolino.models import CalibreDBReader, get_serie_title
 
+TEST_BOOK_TITLE = 'Your title here'
+
 
 class TestCalibreDBReader(unittest.TestCase):
 
@@ -62,6 +64,32 @@ class TestCalibreDBReader(unittest.TestCase):
 
 """ script tests """
 
+def tag_add_rm_test():
+    calibre_db = CalibreDBReader()
+
+    title = TEST_BOOK_TITLE
+    books = calibre_db.books
+    book = books[title]
+    print('tags', book['tags'])
+    try:
+        calibre_db.add_tag(book, 'test')
+    except CalibrolinoException as e:
+        print(e)
+    else:
+        print('tag added:')
+        books = calibre_db.books
+        book = books[title]
+        print('tags', book['tags'])
+        try:
+            calibre_db.rm_tag(book, 'test')
+        except CalibrolinoException as e:
+            print(e)
+        else:
+            print('tag removed:')
+            books = calibre_db.books
+            book = books[title]
+            print('tags', book['tags'])
+
 
 if __name__ == '__main__':
-    pass
+    tag_add_rm_test()
