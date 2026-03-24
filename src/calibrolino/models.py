@@ -115,6 +115,17 @@ class CalibreDBReader(object):
         full_cmd = [self._calibre_db_command, cmd] + options_list + [arg]
         subprocess.run(full_cmd)
 
+    def remove_book(self, book_id):
+        """delete a book from the library
+
+        :book_id:
+
+        """
+        cmd = 'remove'
+        arg = book_id
+        full_cmd = [self._calibre_db_command, cmd, arg]
+        subprocess.run(full_cmd)
+
     def add_tag(self, book: dict, tag_name: str):
         """add tag to a book. change will not be saved before a commit
         is executed
