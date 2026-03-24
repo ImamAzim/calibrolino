@@ -87,6 +87,9 @@ class CalibreDBReader(object):
         self._con = con
         self._cur = cur
 
+    def _close_db(self):
+        self._con.close()
+
     def _get_table(self, table_name):
         """load the book table from the calibre db
 
@@ -106,6 +109,7 @@ class CalibreDBReader(object):
             authors, cover, isbn, language, series, series-index, tags, title
 
         """
+        self._close_db()
         cmd = 'add'
         arg = fp.as_posix()
         options_list = list()
@@ -114,6 +118,8 @@ class CalibreDBReader(object):
             options_list = options_list + option_i
         full_cmd = [self._calibre_db_command, cmd] + options_list + [arg]
         subprocess.run(full_cmd)
+        self._load_db()
+        self.read_db()
 
     def remove_book(self, book_title):
         """delete a book from the library
@@ -121,6 +127,7 @@ class CalibreDBReader(object):
         :book_id:
 
         """
+        self._close_db()
         if book_title not in self._books:
             raise CalibrolinoException(
                     'no book in the library with this title')
@@ -129,6 +136,8 @@ class CalibreDBReader(object):
         arg = book_id
         full_cmd = [self._calibre_db_command, cmd, arg]
         subprocess.run(full_cmd)
+        self._load_db()
+        self.read_db()
 
     def add_tag(self, book: dict, tag_name: str):
         """add tag to a book. change will not be saved before a commit

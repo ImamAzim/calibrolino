@@ -79,8 +79,10 @@ def add_tag_test(calibre_db):
 
 def full_test():
     calibre_db = CalibreDBReader()
+    add_book_test(calibre_db)
     add_tag_test(calibre_db)
     rm_tag_test(calibre_db)
+    rm_book_test(calibre_db)
     calibre_db.commit()
 
 def rm_tag_test(calibre_db):
@@ -107,9 +109,8 @@ def rm_book_test(calibre_db):
 
 
 if __name__ == '__main__':
-    calibre_db = CalibreDBReader()
-    # add_book_test(calibre_db)
-    rm_book_test(calibre_db)
+    full_test()
+    # calibre_db = CalibreDBReader()
     # add_tag_test(calibre_db)
     # rm_tag_test(calibre_db)
     # calibre_db.commit()
