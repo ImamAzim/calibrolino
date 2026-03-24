@@ -125,14 +125,14 @@ class CalibreDBReader(object):
         self._con.commit()
 
     def rm_tag(self, book, tag_name):
-        """TODO: Docstring for add_tag.
-
-        :arg1: TODO
-        :returns: TODO
-
+        """rm tag from a book. change will not be saved before a commit
+        is executed
+        :book:
+        :tag_name:
         """
+
         if tag_name not in self.books[book['title']]['tags']:
-            raise CalibrolinoException('already such tag in this book')
+            raise CalibrolinoException('no such tag in this book')
         book_id = book['book_id']
         tag_id = self._tags[tag_name]
         table_name = 'books_tags_link'
@@ -155,7 +155,9 @@ class CalibreDBReader(object):
             WHERE name='{tag_name}';
             """
             res = self._con.execute(sql)
-        self.read_db()
+            del self._tags[tag_name]
+        book = self._books[book['title']]
+        book['tags'].remove(tag_name)
 
     def _create_tag(self, tag_name):
         table_name = 'tags'
