@@ -64,9 +64,7 @@ class TestCalibreDBReader(unittest.TestCase):
 
 """ script tests """
 
-def tag_add_rm_test():
-    calibre_db = CalibreDBReader()
-
+def add_tag_test(calibre_db):
     title = TEST_BOOK_TITLE
     books = calibre_db.books
     book = books[title]
@@ -80,6 +78,17 @@ def tag_add_rm_test():
         books = calibre_db.books
         book = books[title]
         print('tags', book['tags'])
+
+def full_test():
+    calibre_db = CalibreDBReader()
+    add_tag_test(calibre_db)
+    rm_tag_test(calibre_db)
+    calibre_db.commit()
+
+def rm_tag_test(calibre_db):
+        title = TEST_BOOK_TITLE
+        books = calibre_db.books
+        book = books[title]
         try:
             calibre_db.rm_tag(book, 'test')
         except CalibrolinoException as e:
@@ -92,4 +101,6 @@ def tag_add_rm_test():
 
 
 if __name__ == '__main__':
-    tag_add_rm_test()
+    calibre_db = CalibreDBReader()
+    add_tag_test(calibre_db)
+    calibre_db.commit()

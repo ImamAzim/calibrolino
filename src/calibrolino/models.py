@@ -115,8 +115,13 @@ class CalibreDBReader(object):
         VALUES ({book_id}, {tag_id});
         """
         res = self._con.execute(sql)
-        self._con.commit()
         self.read_db()
+
+    def commit(self):
+        """save changes to the db
+
+        """
+        self._con.commit()
 
     def rm_tag(self, book, tag_name):
         """TODO: Docstring for add_tag.
@@ -149,7 +154,6 @@ class CalibreDBReader(object):
             WHERE name='{tag_name}';
             """
             res = self._con.execute(sql)
-        self._con.commit()
         self.read_db()
 
     def _create_tag(self, tag_name):
@@ -159,7 +163,6 @@ class CalibreDBReader(object):
         VALUES ('{tag_name}');
         """
         res = self._con.execute(sql)
-        self._con.commit()
         self.read_db()
 
     def _get_all_tables(self):
