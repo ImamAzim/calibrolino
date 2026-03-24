@@ -115,7 +115,8 @@ class CalibreDBReader(object):
         VALUES ({book_id}, {tag_id});
         """
         res = self._con.execute(sql)
-        self.read_db()
+        book = self._books[book['title']]
+        book['tags'].append(tag_name)
 
     def commit(self):
         """save changes to the db
@@ -163,7 +164,8 @@ class CalibreDBReader(object):
         VALUES ('{tag_name}');
         """
         res = self._con.execute(sql)
-        self.read_db()
+        self._get_all_tables()
+        self._create_tags_dict()
 
     def _get_all_tables(self):
 

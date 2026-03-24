@@ -8,7 +8,7 @@ test all the tools in...
 import unittest
 
 
-from calibrolino.models import CalibreDBReader, get_serie_title
+from calibrolino.models import CalibreDBReader, get_serie_title, CalibrolinoException
 
 TEST_BOOK_TITLE = 'Your title here'
 
@@ -103,4 +103,5 @@ def rm_tag_test(calibre_db):
 if __name__ == '__main__':
     calibre_db = CalibreDBReader()
     add_tag_test(calibre_db)
+    # rm_tag_test(calibre_db)
     calibre_db.commit()
