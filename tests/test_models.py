@@ -82,8 +82,8 @@ def full_test():
     add_book_test(calibre_db)
     add_tag_test(calibre_db)
     rm_tag_test(calibre_db)
-    rm_book_test(calibre_db)
     calibre_db.commit()
+    rm_book_test(calibre_db)
 
 def rm_tag_test(calibre_db):
         title = TEST_BOOK_TITLE
