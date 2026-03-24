@@ -111,7 +111,7 @@ class CalibreDBReader(object):
         options_list = list()
         for option, value in options.items():
             option_i = [f'--{options}', f'{value}']
-            options_list.append(option_i)
+            options_list = options_list + option_i
         full_cmd = [self._calibre_db_command, cmd] + options_list + [arg]
         subprocess.run(full_cmd)
 
