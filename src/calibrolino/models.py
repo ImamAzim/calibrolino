@@ -39,6 +39,8 @@ class CalibreDBReader(object):
             'custom_columns',
             ]
 
+    _accepted_formats = {'EPUB'}
+
     @property
     def books(self) -> dict:
         """a dictionnory of books (keys are the titles). each book dict
@@ -277,16 +279,12 @@ class CalibreDBReader(object):
         return path
 
     def read_db(self,
-            accepted_formats={'EPUB'},
             column_status_name='statut',
             ):
         """
         load the calibre db and create a list of the books with metadata
-        :column_status_name: the name of a custom column in calibre that tells if the book is Read or not.
-        :returns: books: dict
 
         """
-        self._accepted_formats = accepted_formats
         self._column_status_name = column_status_name
 
         self._get_all_tables()
