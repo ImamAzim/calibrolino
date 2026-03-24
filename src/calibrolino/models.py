@@ -110,10 +110,11 @@ class CalibreDBReader(object):
         arg = fp.as_posix()
         options_list = list()
         for option, value in options.items():
-            option_i = [f'--{options}', f'{value}']
+            option_i = [f'--{option}', f'{value}']
             options_list = options_list + option_i
         full_cmd = [self._calibre_db_command, cmd] + options_list + [arg]
-        subprocess.run(full_cmd)
+        print(full_cmd)
+        # subprocess.run(full_cmd)
 
     def add_tag(self, book: dict, tag_name: str):
         """add tag to a book. change will not be saved before a commit
