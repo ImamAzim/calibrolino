@@ -108,11 +108,11 @@ class CalibreDBReader(object):
         """
         cmd = 'add'
         arg = fp.as_posix()
-        options = list()
+        options_list = list()
         for option, value in options.items():
             option_i = [f'--{options}', f'{value}']
-            options.append(option_i)
-        full_cmd = [self._calibre_db_command, cmd] + options + [arg]
+            options_list.append(option_i)
+        full_cmd = [self._calibre_db_command, cmd] + options_list + [arg]
         subprocess.run(full_cmd)
 
     def add_tag(self, book: dict, tag_name: str):

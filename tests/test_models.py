@@ -4,7 +4,7 @@ from pathlib import Path
 
 from calibrolino.models import CalibreDBReader, get_serie_title, CalibrolinoException
 
-TEST_BOOK_TITLE = 'Your title here'
+TEST_BOOK_TITLE = 'added by calibrolino'
 TEST_BOOK_FN = 'minimal-v3.epub'
 
 test_book_fp = Path(__file__).parent / TEST_BOOK_FN
@@ -98,7 +98,7 @@ def rm_tag_test(calibre_db):
             print('tags', book['tags'])
 
 def add_book_test(calibre_db):
-    calibre_db.add_book(test_book_fp)
+    calibre_db.add_book(test_book_fp, title=TEST_BOOK_TITLE)
 
 
 if __name__ == '__main__':
