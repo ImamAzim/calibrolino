@@ -100,6 +100,12 @@ def rm_tag_test(calibre_db):
 def add_book_test(calibre_db):
     calibre_db.add_book(test_book_fp, title=TEST_BOOK_TITLE)
 
+def rm_book_test(calibre_db):
+    title = TEST_BOOK_TITLE
+    books = calibre_db.books
+    book = books[title]
+    calibre_db.add_book(test_book_fp, title=TEST_BOOK_TITLE)
+
 
 if __name__ == '__main__':
     calibre_db = CalibreDBReader()
