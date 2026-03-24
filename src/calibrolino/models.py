@@ -124,7 +124,7 @@ class CalibreDBReader(object):
         if book_title not in self._books:
             raise CalibrolinoException(
                     'no book in the library with this title')
-        book_id = self._books[book_title]['book_id']
+        book_id = str(self._books[book_title]['book_id'])
         cmd = 'remove'
         arg = book_id
         full_cmd = [self._calibre_db_command, cmd, arg]
