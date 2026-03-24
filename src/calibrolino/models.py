@@ -40,6 +40,7 @@ class CalibreDBReader(object):
             ]
 
     _accepted_formats = {'EPUB'}
+    _column_status_name = 'status'
 
     @property
     def books(self) -> dict:
@@ -286,14 +287,11 @@ class CalibreDBReader(object):
         path = os.path.join(self._db_folder, sub_folder, filename)
         return path
 
-    def read_db(self,
-            column_status_name='statut',
-            ):
+    def read_db(self):
         """
         load the calibre db and create a list of the books with metadata
 
         """
-        self._column_status_name = column_status_name
 
         self._get_all_tables()
         self._create_books_dict()
