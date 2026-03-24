@@ -96,11 +96,11 @@ class CalibreDBReader(object):
 
         return table
 
-    def add_tag(self, book, tag_name):
-        """TODO: Docstring for add_tag.
-
-        :arg1: TODO
-        :returns: TODO
+    def add_tag(self, book: dict, tag_name: str):
+        """add tag to a book. change will not be saved before a commit
+        is executed
+        :book:
+        :tag_name:
 
         """
         if tag_name in self.books[book['title']]['tags']:
