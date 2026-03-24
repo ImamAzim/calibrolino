@@ -96,6 +96,14 @@ class CalibreDBReader(object):
 
         return table
 
+    def add_book(self, fp: Path):
+        """add a book to the library
+
+        :fp: path to book file
+
+        """
+        pass
+
     def add_tag(self, book: dict, tag_name: str):
         """add tag to a book. change will not be saved before a commit
         is executed

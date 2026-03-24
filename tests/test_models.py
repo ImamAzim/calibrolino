@@ -1,16 +1,14 @@
-#!/usr/bin/env python
-
-
-"""
-test all the tools in...
-"""
-
 import unittest
+from pathlib import Path
 
 
 from calibrolino.models import CalibreDBReader, get_serie_title, CalibrolinoException
 
 TEST_BOOK_TITLE = 'Your title here'
+TEST_BOOK_FN = 'test_models.py'
+
+test_book_fp = Path(__file__).parent / TEST_BOOK_FN
+
 
 
 class TestCalibreDBReader(unittest.TestCase):
@@ -99,9 +97,13 @@ def rm_tag_test(calibre_db):
             book = books[title]
             print('tags', book['tags'])
 
+def add_book_test(calibre_db):
+    calibre_db.add_book(test_book_fp)
+
 
 if __name__ == '__main__':
     calibre_db = CalibreDBReader()
-    add_tag_test(calibre_db)
-    rm_tag_test(calibre_db)
-    calibre_db.commit()
+    add_book_test(calibre_db)
+    # add_tag_test(calibre_db)
+    # rm_tag_test(calibre_db)
+    # calibre_db.commit()
