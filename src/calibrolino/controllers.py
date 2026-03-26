@@ -17,7 +17,6 @@ class CalibrolinoController(Controller):
         Controller.__init__(self)
         self._view = view
         self._varbox = VarBox('calibrolino')
-        self._local_books = dict()
         try:
             self._calibre_db = CalibreDBReader()
         except CalibrolinoException:
@@ -115,7 +114,7 @@ class CalibrolinoController(Controller):
 
     def upload_book(self, book_title: str):
         try:
-            book = self._local_books[book_title]
+            book = self.local_books[book_title]
         except KeyError:
             self._view.showerror(
                     'no book with this title is present in the local library')
