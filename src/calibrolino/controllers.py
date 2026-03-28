@@ -85,7 +85,7 @@ class CalibrolinoController(Controller):
 
     def pull(self):
         if self._tolino_cloud is not None:
-            if not hasattr(self._varbox, 'sync_data'):
+            if not hasattr(self._varbox, 'revision'):
                 answer = self._view.askokcancel(
                         'there are no local sync data. I will create '
                         'an empty one and delete all local tags')
@@ -98,14 +98,12 @@ class CalibrolinoController(Controller):
                         return
                     else:
                         self._calibre_db.reset_all_metadata()
-                        sync_data = dict(
-                                revision='norevision',
-                                patches=dict(),
-                                )
-                        self._varbox.sync_data = sync_data
+                        self._varbox.revision = 'needToPullData'
+                        self._varbox.patches = dict()
             self._view.showinfo(
                     'TODO: get online sync data, compare and apply')
-            local_sync_data = self._varbox.sync_data
+            local_revision = self._varbox.revision
+            local_patches = self._varbox.patches
         else:
             msg = 'please enter first your credentials in the main menu'
             self._view.showinfo(msg)
