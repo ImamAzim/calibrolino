@@ -96,12 +96,15 @@ class CalibrolinoController(Controller):
                 if not answer:
                     return
                 else:
-                    self._view.showinfo(
-                            'TODO: create empty local sync data and rm tags')
                     self._calibre_db.reset_all_metadata()
+                    sync_data = dict(
+                            revision='norevision',
+                            patches=dict(),
+                            )
+                    self._varbox.sync_data = sync_data
         self._view.showinfo(
                 'TODO: get online sync data, compare and apply')
-        # local_sync_data = self._varbox.sync_data
+        local_sync_data = self._varbox.sync_data
 
     def get_online_books(self) -> dict:
         online_books = dict()
