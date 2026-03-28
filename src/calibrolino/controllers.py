@@ -84,27 +84,31 @@ class CalibrolinoController(Controller):
         return self._calibre_db.books
 
     def pull(self):
-        if not hasattr(self._varbox, 'sync_data'):
-            answer = self._view.askokcancel(
-                    'there are no local sync data. I will create '
-                    'an empty one and delete all local tags')
-            if not answer:
-                return
-            else:
-                answer = self._view.askyesno(
-                        'delete all local tags. are you sure?')
+        if self._tolino_cloud is not None:
+            if not hasattr(self._varbox, 'sync_data'):
+                answer = self._view.askokcancel(
+                        'there are no local sync data. I will create '
+                        'an empty one and delete all local tags')
                 if not answer:
                     return
                 else:
-                    self._calibre_db.reset_all_metadata()
-                    sync_data = dict(
-                            revision='norevision',
-                            patches=dict(),
-                            )
-                    self._varbox.sync_data = sync_data
-        self._view.showinfo(
-                'TODO: get online sync data, compare and apply')
-        local_sync_data = self._varbox.sync_data
+                    answer = self._view.askyesno(
+                            'delete all local tags. are you sure?')
+                    if not answer:
+                        return
+                    else:
+                        self._calibre_db.reset_all_metadata()
+                        sync_data = dict(
+                                revision='norevision',
+                                patches=dict(),
+                                )
+                        self._varbox.sync_data = sync_data
+            self._view.showinfo(
+                    'TODO: get online sync data, compare and apply')
+            local_sync_data = self._varbox.sync_data
+        else:
+            msg = 'please enter first your credentials in the main menu'
+            self._view.showinfo(msg)
 
     def get_online_books(self) -> dict:
         online_books = dict()
