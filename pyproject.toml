@@ -19,7 +19,7 @@ classifiers = [
 ]
 description = "a script to upload calibre library to the tolino cloud"
 dependencies = [
-        'pytolino>=3',
+	'pytolino @ git+https://github.com/ImamAzim/pytolino.git@dev',
         'xdg-base-dirs',
         'varboxes',
 	'pandas',
