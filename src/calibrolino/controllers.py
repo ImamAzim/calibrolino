@@ -104,7 +104,11 @@ class CalibrolinoController(Controller):
                     'TODO: get online sync data, compare and apply')
             local_revision = self._varbox.revision
             local_patches = self._varbox.patches
-            online_revision, online_patches = self._tolino_cloud.get_sync_data()
+            try:
+                online_revision, online_patches = self._tolino_cloud.get_sync_data()
+            except CalibrolinoException as e:
+                self._view.showerror(e)
+                self._view.showerror('could not get online sync data')
         else:
             msg = 'please enter first your credentials in the main menu'
             self._view.showinfo(msg)
