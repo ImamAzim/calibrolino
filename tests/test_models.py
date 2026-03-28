@@ -109,8 +109,11 @@ def rm_book_test(calibre_db):
 
 
 if __name__ == '__main__':
-    full_test()
-    # calibre_db = CalibreDBReader()
+    # full_test()
+    calibre_db = CalibreDBReader()
+    for book in calibre_db.books:
+        print(book)
+        # print(book.keys())
     # add_tag_test(calibre_db)
     # rm_tag_test(calibre_db)
     # calibre_db.commit()

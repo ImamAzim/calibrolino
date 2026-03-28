@@ -109,7 +109,10 @@ class CalibreDBReader(object):
         self._rm_all_local_tags()
 
     def _rm_all_local_tags(self):
-        pass
+        for book in self.books.values():
+            for tag in book['tags']:
+                self.rm_tag(book, tag)
+        self.commit()
 
     def add_book(self, fp: Path, **options):
         """add a book to the library
@@ -156,7 +159,7 @@ class CalibreDBReader(object):
         :tag_name:
 
         """
-        if tag_name in self.books[book['title']]['tags']:
+        if tag_name in self.books[book['full_title']]['tags']:
             raise CalibrolinoException('tag is already on this book')
         book_id = book['book_id']
         if tag_name not in self._tags:
@@ -168,7 +171,7 @@ class CalibreDBReader(object):
         VALUES ({book_id}, {tag_id});
         """
         res = self._con.execute(sql)
-        book = self._books[book['title']]
+        book = self._books[book['full_title']]
         book['tags'].append(tag_name)
 
     def commit(self):
@@ -184,7 +187,7 @@ class CalibreDBReader(object):
         :tag_name:
         """
 
-        if tag_name not in self.books[book['title']]['tags']:
+        if tag_name not in self.books[book['full_title']]['tags']:
             raise CalibrolinoException('no such tag in this book')
         book_id = book['book_id']
         tag_id = self._tags[tag_name]
@@ -209,7 +212,7 @@ class CalibreDBReader(object):
             """
             res = self._con.execute(sql)
             del self._tags[tag_name]
-        book = self._books[book['title']]
+        book = self._books[book['full_title']]
         book['tags'].remove(tag_name)
 
     def _create_tag(self, tag_name):
