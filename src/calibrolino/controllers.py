@@ -84,7 +84,19 @@ class CalibrolinoController(Controller):
         return self._calibre_db.books
 
     def pull(self):
-        pass
+        if not hasattr(self._varbox, 'sync_data'):
+            answer = self._view.askokcancel('there are no local sync data. I will create '
+                                   'an empty one and delete all local tags')
+            if not answer:
+                return
+            else:
+                answer = self._view.askyesno('delete all local tags. are you sure?')
+                if not answer:
+                    return
+                else:
+                    self._view.showinfo('TODO: create empty local sync data and rm tags')
+        self._view.showinfo('TODO: get online sync data, compare and apply')
+        # local_sync_data = self._varbox.sync_data
 
     def get_online_books(self) -> dict:
         online_books = dict()
