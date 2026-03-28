@@ -101,6 +101,16 @@ class CalibreDBReader(object):
 
         return table
 
+    def reset_all_metadata(self):
+        """in prevision pull online sync data, delete ALL tags from the local
+        calibre library. (TODO: also reading pos or else?)
+
+        """
+        self._rm_all_local_tags()
+
+    def _rm_all_local_tags(self):
+        pass
+
     def add_book(self, fp: Path, **options):
         """add a book to the library
 

@@ -85,17 +85,21 @@ class CalibrolinoController(Controller):
 
     def pull(self):
         if not hasattr(self._varbox, 'sync_data'):
-            answer = self._view.askokcancel('there are no local sync data. I will create '
-                                   'an empty one and delete all local tags')
+            answer = self._view.askokcancel(
+                    'there are no local sync data. I will create '
+                    'an empty one and delete all local tags')
             if not answer:
                 return
             else:
-                answer = self._view.askyesno('delete all local tags. are you sure?')
+                answer = self._view.askyesno(
+                        'delete all local tags. are you sure?')
                 if not answer:
                     return
                 else:
-                    self._view.showinfo('TODO: create empty local sync data and rm tags')
-        self._view.showinfo('TODO: get online sync data, compare and apply')
+                    self._view.showinfo(
+                            'TODO: create empty local sync data and rm tags')
+        self._view.showinfo(
+                'TODO: get online sync data, compare and apply')
         # local_sync_data = self._varbox.sync_data
 
     def get_online_books(self) -> dict:
@@ -166,7 +170,7 @@ class CalibrolinoController(Controller):
             online_books = self.get_online_books()
             if online_books is not None:
                 try:
-                    book = online_books[book_title]
+                    online_books[book_title]
                 except KeyError:
                     self._view.showerror(
                             'no book with this title is present on the cloud')
@@ -185,7 +189,7 @@ class CalibrolinoController(Controller):
 
         """
         try:
-            local_books = self._calibre_db.read_db()
+            self._calibre_db.read_db()
         except CalibrolinoException:
             self._view.showerror('failed to read the calibre db')
 
@@ -198,7 +202,7 @@ class CalibrolinoController(Controller):
             online_lib = dict()
         local_titles = local_lib.keys()
         online_titles = online_lib.keys()
-        all_titles = list(local_titles|online_titles)
+        all_titles = list(local_titles | online_titles)
         df = DataFrame(dict(local=False, online=False), all_titles)
         for title in local_titles:
             df.at[title, 'local'] = True
