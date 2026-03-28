@@ -98,6 +98,7 @@ class CalibrolinoController(Controller):
                 else:
                     self._view.showinfo(
                             'TODO: create empty local sync data and rm tags')
+                    self._calibre_db.reset_all_metadata()
         self._view.showinfo(
                 'TODO: get online sync data, compare and apply')
         # local_sync_data = self._varbox.sync_data
