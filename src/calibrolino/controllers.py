@@ -109,6 +109,8 @@ class CalibrolinoController(Controller):
             except CalibrolinoException as e:
                 self._view.showerror(e)
                 self._view.showerror('could not get online sync data')
+            else:
+                print(online_patches)
         else:
             msg = 'please enter first your credentials in the main menu'
             self._view.showinfo(msg)
