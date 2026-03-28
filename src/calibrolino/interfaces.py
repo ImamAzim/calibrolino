@@ -70,6 +70,13 @@ class Controller(metaclass=ABCMeta):
         """
         pass
 
+    @abstractmethod
+    def pull(self):
+        """fetch sync data from server and apply changes to local lib
+
+        """
+        pass
+
 
 class View(metaclass=ABCMeta):
 

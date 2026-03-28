@@ -123,6 +123,14 @@ class CalibrolinoGUIView(View, tkinter.Tk):
                 text='delete selection',
                 command=self._delete_selected_book,
                 ).grid(column=4, row=0)
+        ttk.Button(
+                self._options_frame,
+                text='pull',
+                command=self._pull,
+                ).grid(column=5, row=0)
+
+    def _pull(self):
+        self.controller.pull()
 
     def _test(self):
         rowdata = self._library_table.getSelectedRowData()

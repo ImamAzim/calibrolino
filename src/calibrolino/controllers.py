@@ -83,6 +83,9 @@ class CalibrolinoController(Controller):
     def local_books(self) -> dict[dict]:
         return self._calibre_db.books
 
+    def pull(self):
+        pass
+
     def get_online_books(self) -> dict:
         online_books = dict()
         if self._tolino_cloud is not None:
