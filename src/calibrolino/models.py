@@ -101,18 +101,20 @@ class CalibreDBReader(object):
 
         return table
 
-    def reset_all_metadata(self):
-        """in prevision pull online sync data, delete ALL tags from the local
-        calibre library. (TODO: also reading pos or else?)
+    def reset_all_metadata(self, books: dict):
+        """in prevision to pull online sync data, delete ALL tags from
+        these books on the local library. (TODO: also reading pos or else?)
+        :books: (title: book (contain info))
 
         """
-        self._rm_all_local_tags()
-
-    def _rm_all_local_tags(self):
-        for book in self.books.values():
-            for tag in book['tags']:
-                self.rm_tag(book, tag)
+        for book in books.values():
+            self._rm_all_tags(book)
         self.commit()
+
+    def _rm_all_tags(self, book):
+        """ rm all tags of a book. need to commit after """
+        for tag in book['tags']:
+            self.rm_tag(book, tag)
 
     def add_book(self, fp: Path, **options):
         """add a book to the library
