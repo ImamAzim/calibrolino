@@ -84,36 +84,42 @@ class CalibrolinoController(Controller):
         return self._calibre_db.books
 
     def pull(self):
-        if self._tolino_cloud is not None:
-            if not hasattr(self._varbox, 'revision'):
-                answer = self._view.askokcancel(
-                        'there are no local sync data. I will create '
-                        'an empty one and delete all local tags')
+
+        self._read_db()
+        local_lib = self.local_books
+        online_lib = self.get_online_books()
+        synced_books = {
+                key: value for key, value
+                in local_lib.items() if key in online_lib}
+
+        if not hasattr(self._varbox, 'revision'):
+            answer = self._view.askokcancel(
+                    'there are no local sync data. I will create '
+                    'an empty one and delete all local tags')
+            if not answer:
+                return
+            else:
+                answer = self._view.askyesno(
+                        'delete all local tags for books that are also'
+                        ' online. are you sure?')
                 if not answer:
                     return
                 else:
-                    answer = self._view.askyesno(
-                            'delete all local tags. are you sure?')
-                    if not answer:
-                        return
-                    else:
-                        self._calibre_db.reset_all_metadata()
-                        self._varbox.revision = 'needToPullData'
-                        self._varbox.patches = dict()
-            self._view.showinfo(
-                    'TODO: get online sync data, compare and apply')
-            local_revision = self._varbox.revision
-            local_patches = self._varbox.patches
-            try:
-                online_revision, online_patches = self._tolino_cloud.get_sync_data()
-            except CalibrolinoException as e:
-                self._view.showerror(e)
-                self._view.showerror('could not get online sync data')
-            else:
-                print(online_patches)
+                    self._calibre_db.reset_all_metadata(synced_books)
+                    self._varbox.revision = 'needToPullData'
+                    self._varbox.patches = dict()
+
+        self._view.showinfo(
+                'TODO: get online sync data, compare and apply')
+        local_revision = self._varbox.revision
+        local_patches = self._varbox.patches
+        try:
+            online_revision, online_patches = self._tolino_cloud.get_sync_data()
+        except CalibrolinoException as e:
+            self._view.showerror(e)
+            self._view.showerror('could not get online sync data')
         else:
-            msg = 'please enter first your credentials in the main menu'
-            self._view.showinfo(msg)
+            print(online_patches)
 
     def get_online_books(self) -> dict:
         online_books = dict()
