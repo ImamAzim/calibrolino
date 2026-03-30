@@ -121,9 +121,17 @@ class CalibrolinoController(Controller):
             if not online_revision == local_revision:
                 for patch_rev, patch in online_patches.items():
                     if patch_rev not in local_patches:
-                        print(patch)
+                        ebook_id = self._tolino_cloud.get_ebook_id(patch)
+                        if ebook_id in online_lib.values():
+                            book_title = [
+                                    key
+                                    for key, value in online_lib.items()
+                                    if value==ebook_id][0]
+                        else:
+                            print('ebook id no in online lib')
+                            print(patch)
+                print(online_lib)
                         # self._calibre_db.apply_patch(patch, book_title)
-                self._view.showinfo('todo: apply patches locally')
 
     def get_online_books(self) -> dict:
         online_books = dict()
