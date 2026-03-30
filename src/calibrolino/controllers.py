@@ -119,6 +119,10 @@ class CalibrolinoController(Controller):
             self._view.showerror('could not get online sync data')
         else:
             if not online_revision == local_revision:
+                for patch_rev, patch in online_patches.items():
+                    if patch_rev not in local_patches:
+                        print(patch)
+                        # self._calibre_db.apply_patch(patch, book_title)
                 self._view.showinfo('todo: apply patches locally')
 
     def get_online_books(self) -> dict:
