@@ -109,7 +109,7 @@ class CalibreDBReader(object):
         :book_title: full title of book
 
         """
-        pass
+        print(f'to {book_title}, apply {patch}')
 
     def reset_all_metadata(self, books: dict):
         """in prevision to pull online sync data, delete ALL tags from
