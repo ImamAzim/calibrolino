@@ -112,13 +112,14 @@ class CalibrolinoController(Controller):
         local_revision = self._varbox.revision
         local_patches = self._varbox.patches
         try:
-            online_revision, online_patches = self._tolino_cloud.get_sync_data()
+            x1, x2 = self._tolino_cloud.get_sync_data()
+            online_revision, online_patches = x1, x2
         except CalibrolinoException as e:
             self._view.showerror(e)
             self._view.showerror('could not get online sync data')
         else:
-            if not online_revision==local_revision:
-                pass
+            if not online_revision == local_revision:
+                self._view.showinfo('todo: apply patches locally')
 
     def get_online_books(self) -> dict:
         online_books = dict()
