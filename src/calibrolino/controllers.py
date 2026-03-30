@@ -109,8 +109,6 @@ class CalibrolinoController(Controller):
                     self._varbox.revision = 'needToPullData'
                     self._varbox.patches = dict()
 
-        self._view.showinfo(
-                'TODO: get online sync data, compare and apply')
         local_revision = self._varbox.revision
         local_patches = self._varbox.patches
         try:
@@ -119,7 +117,8 @@ class CalibrolinoController(Controller):
             self._view.showerror(e)
             self._view.showerror('could not get online sync data')
         else:
-            print(online_patches)
+            if not online_revision==local_revision:
+                pass
 
     def get_online_books(self) -> dict:
         online_books = dict()
