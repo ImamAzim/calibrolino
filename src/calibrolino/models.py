@@ -521,6 +521,9 @@ class TolinoCloud(object):
             cover_path = book['cover_path']
             self._client.add_cover(book_id, cover_path)
 
+    def get_ebook_id(self, patch):
+        return self._client.get_book_id_from_patch(patch)
+
     def _upload_meta(self, book, book_id):
         """private method that upload the metadata
 
