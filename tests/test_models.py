@@ -104,7 +104,6 @@ def add_rm_book_test(calibre_db):
     print(book_id)
     calibre_db.remove_book(book_id)
 
-
 if __name__ == '__main__':
     calibre_db = CalibreDBReader()
     add_rm_book_test(calibre_db)

@@ -142,8 +142,9 @@ class CalibreDBReader(object):
             option_i = [f'--{option}', f'{value}']
             options_list = options_list + option_i
         full_cmd = [self._calibre_db_command, cmd] + options_list + [arg]
-        res = subprocess.run(full_cmd)
-        book_id = res.stdout
+        completed_process = subprocess.run(full_cmd, capture_output=True)
+        answer = completed_process.stdout.decode()
+        book_id= answer.split()[-1]
         self._load_db()
         self.read_db()
         return book_id
