@@ -85,10 +85,8 @@ def full_test():
     calibre_db.remove_book(book_id)
 
 def rm_tag_test(calibre_db, book_id):
-        books = calibre_db.books
-        book = books[title]
         try:
-            calibre_db.rm_tag(book, 'test')
+            calibre_db.rm_tag(book_id, 'test')
         except CalibrolinoException as e:
             print(e)
         else:
