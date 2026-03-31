@@ -348,7 +348,7 @@ class CalibreDBReader(object):
                         last_modified=book_row['last_modified'],
                         book_id=book_id,
                         )
-                self._books[full_title] = book
+                self._books[book_id] = book
 
     def _get_file_path(self, book, data):
         sub_folder = book['path']
