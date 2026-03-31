@@ -351,6 +351,19 @@ class CalibreDBReader(object):
                         )
                 self._books[book_id] = book
 
+    def search_book(self, key, value):
+        """find an occurence of the book with key=value.
+
+        :key: title, authors, full_title, etc...
+        :value:
+        :returns: book_id
+
+        """
+        for book_id, book in self._books.items():
+            if book[key] == value:
+                    return book_id
+        raise CalibrolinoException('no book found')
+
     def _get_file_path(self, book, data):
         sub_folder = book['path']
         filename = f"{data['name']}.{data['format'].lower()}"
