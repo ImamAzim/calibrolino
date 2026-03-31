@@ -160,7 +160,7 @@ class CalibreDBReader(object):
             raise CalibrolinoException(
                     'no book in the library with this id')
         cmd = 'remove'
-        arg = book_id
+        arg = f'{book_id}'
         full_cmd = [self._calibre_db_command, cmd, arg]
         subprocess.run(full_cmd)
         self._load_db()
