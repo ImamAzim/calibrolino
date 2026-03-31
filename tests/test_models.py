@@ -79,6 +79,8 @@ def add_tag_test(calibre_db, book_id):
 def full_test():
     calibre_db = CalibreDBReader()
     book_id = calibre_db.add_book(test_book_fp, title=TEST_BOOK_TITLE)
+    print(f'book added: {book_id}')
+    search_book_test(calibre_db)
     add_tag_test(calibre_db, book_id)
     rm_tag_test(calibre_db, book_id)
     calibre_db.commit()
@@ -99,6 +101,16 @@ def add_rm_book_test(calibre_db):
     book_id = calibre_db.add_book(test_book_fp, title=TEST_BOOK_TITLE)
     print(book_id)
     calibre_db.remove_book(book_id)
+
+def search_book_test(calibre_db):
+    print('search book...')
+    try:
+        book_id = calibre_db.search_book('title', TEST_BOOK_TITLE)
+    except CalibreDBReader as e:
+        print(e)
+    else:
+        print('book found!')
+        print(book_id)
 
 if __name__ == '__main__':
     calibre_db = CalibreDBReader()
