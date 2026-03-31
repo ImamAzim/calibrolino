@@ -293,6 +293,7 @@ class CalibreDBReader(object):
         else:
             table_name = f'custom_column_{column_id}'
             table_link_name = f'books_{table_name}_link'
+            #TODO: create dict
 
 
     def add_online_id(self, book_id, online_id):
@@ -339,6 +340,7 @@ class CalibreDBReader(object):
                     metadata[data][book_id].append(metadata_value)
 
         self._books = dict()
+        #TODO: get online id value
 
         for book_row in self._tables['books']:
             book_id = book_row['id']
