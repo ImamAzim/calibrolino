@@ -99,20 +99,18 @@ def rm_tag_test(calibre_db):
             book = books[title]
             print('tags', book['tags'])
 
-def add_book_test(calibre_db):
-    calibre_db.add_book(test_book_fp, title=TEST_BOOK_TITLE)
-
-
-def rm_book_test(calibre_db):
-    title = TEST_BOOK_TITLE
-    calibre_db.remove_book(title)
+def add_rm_book_test(calibre_db):
+    book_id = calibre_db.add_book(test_book_fp, title=TEST_BOOK_TITLE)
+    print(book_id)
+    calibre_db.remove_book(book_id)
 
 
 if __name__ == '__main__':
-    # full_test()
     calibre_db = CalibreDBReader()
-    for book in calibre_db.books:
-        print(book)
+    add_rm_book_test(calibre_db)
+    # full_test()
+    # for book in calibre_db.books:
+        # print(book)
         # print(book.keys())
     # add_tag_test(calibre_db)
     # rm_tag_test(calibre_db)
