@@ -415,6 +415,7 @@ class CalibreDBReader(object):
         self._create_books_dict()
         self._create_tags_dict()
         self._create_custom_columns_id_dict()
+        self._create_online_books_dict()
 
 
 def get_serie_title(title, serie_index, serie_name):
