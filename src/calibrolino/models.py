@@ -166,16 +166,16 @@ class CalibreDBReader(object):
         self._load_db()
         self.read_db()
 
-    def add_tag(self, book: dict, tag_name: str):
+    def add_tag(self, book_id, tag_name: str):
         """add tag to a book. change will not be saved before a commit
         is executed
-        :book:
+        :book_id:
         :tag_name:
 
         """
-        if tag_name in self.books[book['full_title']]['tags']:
+        book = self.books[book_id]
+        if tag_name in book['tags']:
             raise CalibrolinoException('tag is already on this book')
-        book_id = book['book_id']
         if tag_name not in self._tags:
             tag_id = self._create_tag(tag_name)
         tag_id = self._tags[tag_name]
