@@ -146,17 +146,16 @@ class CalibreDBReader(object):
         self._load_db()
         self.read_db()
 
-    def remove_book(self, book_title):
+    def remove_book(self, book_id):
         """delete a book from the library
 
         :book_id:
 
         """
         self._close_db()
-        if book_title not in self._books:
+        if book_id not in self._books:
             raise CalibrolinoException(
-                    'no book in the library with this title')
-        book_id = str(self._books[book_title]['book_id'])
+                    'no book in the library with this id')
         cmd = 'remove'
         arg = book_id
         full_cmd = [self._calibre_db_command, cmd, arg]
