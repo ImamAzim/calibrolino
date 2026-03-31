@@ -121,10 +121,11 @@ class CalibreDBReader(object):
             self._rm_all_tags(book_id)
         self.commit()
 
-    def _rm_all_tags(self, book):
+    def _rm_all_tags(self, book_id):
         """ rm all tags of a book. need to commit after """
-        for tag in book['tags']:
-            self.rm_tag(book, tag)
+        tags = self.books[book_id]['tags']
+        for tag in tags:
+            self.rm_tag(book_id, tag)
 
     def add_book(self, fp: Path, **options):
         """add a book to the library
