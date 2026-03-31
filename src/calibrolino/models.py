@@ -111,14 +111,14 @@ class CalibreDBReader(object):
         """
         print(f'to {book_title}, apply {patch}')
 
-    def reset_all_metadata(self, books: dict):
+    def reset_all_metadata(self, book_ids: list):
         """in prevision to pull online sync data, delete ALL tags from
         these books on the local library. (TODO: also reading pos or else?)
-        :books: (title: book (contain info))
+        :book_ids: list of book ids
 
         """
-        for book in books.values():
-            self._rm_all_tags(book)
+        for book_id in book_ids:
+            self._rm_all_tags(book_id)
         self.commit()
 
     def _rm_all_tags(self, book):
