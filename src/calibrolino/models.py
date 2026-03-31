@@ -7,6 +7,7 @@ import sys
 import datetime
 from pathlib import Path
 import subprocess
+import warnings
 
 
 from pytolino.tolino_cloud import Client, PytolinoException
@@ -272,6 +273,34 @@ class CalibreDBReader(object):
         for row in metadata_tables:
             self._tags[row['name']] = row['id']
 
+    def _create_custom_columns_id_dict(self):
+        self._custom_columns_id = dict()
+        table = self._tables['custom_columns']
+        for row in table:
+            self._custom_columns_id[row['name']] = row['id']
+
+    def _create_online_books_dict(self):
+        self._online_books = dict()
+        try:
+            column_id = self._custom_columns_id['online_id']
+        except KeyError:
+            warnings.warn('no custom column for online_id in DB')
+        else:
+            table_name = f'custom_column_{column_id}'
+            table_link_name = f'books_{table_name}_link'
+
+
+    def add_online_id(self, book_id, online_id):
+        """
+        add an id to the book corresponding to the id on the cloud. Tells that the book is
+        present online
+
+        :book_id: int
+        :online_id: str
+
+        """
+        pass
+
     def _create_books_dict(self):
 
         files_data = {row['book']: row for row in self._tables['data']}
@@ -385,6 +414,7 @@ class CalibreDBReader(object):
         self._get_all_tables()
         self._create_books_dict()
         self._create_tags_dict()
+        self._create_custom_columns_id_dict()
 
 
 def get_serie_title(title, serie_index, serie_name):
@@ -556,7 +586,8 @@ class TolinoCloud(object):
 
 
 if __name__ == '__main__':
-    pass
+    calibre_db = CalibreDBReader()
+    print(calibre_db._tables['custom_columns'])
 
     # for title, book in books.items():
         # print('==========')

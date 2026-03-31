@@ -59,6 +59,10 @@ class TestCalibreDBReader(unittest.TestCase):
         self.assertIn(serie_name, new_title)
         self.assertIn(serie_index, new_title)
 
+    def test_online_id(self):
+        cdb = self.calibre_db_reader
+        self.assertTrue(hasattr(cdb, 'online_books'))
+
 
 """ script tests """
 
@@ -83,6 +87,7 @@ def full_test():
     search_book_test(calibre_db)
     add_tag_test(calibre_db, book_id)
     rm_tag_test(calibre_db, book_id)
+    add_online_id_test(calibre_db, book_id)
     calibre_db.commit()
     calibre_db.remove_book(book_id)
 
@@ -101,6 +106,25 @@ def add_rm_book_test(calibre_db):
     book_id = calibre_db.add_book(test_book_fp, title=TEST_BOOK_TITLE)
     print(book_id)
     calibre_db.remove_book(book_id)
+
+def add_online_id_test(calibre_db, book_id):
+    books = calibre_db.books
+    book = books[book_id]
+    print(calibre_db.online_books)
+    print('online_id', book.get('online_id'))
+    try:
+        calibre_db.add_online_id(book_id, 'fakeonlineid')
+    except CalibrolinoException as e:
+        print(e)
+    else:
+        print('online id added:')
+        books = calibre_db.books
+        book = books[book_id]
+        print('online_id', book.get('online_id'))
+        print(calibre_db.online_books)
+
+def rm_online_id_test(calibre_db):
+    print('TODO: test rm online id')
 
 def search_book_test(calibre_db):
     print('search book...')
