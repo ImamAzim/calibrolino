@@ -51,6 +51,11 @@ class CalibreDBReader(object):
         contains metadata of the books and file path to book"""
         return self._books
 
+    @property
+    def online_books(self) -> dict:
+        """dict of books that are online (key=online id, value, book_id)"""
+        return self._online_books
+
     def __init__(self):
         """
         finds the calibre db and connect to it
