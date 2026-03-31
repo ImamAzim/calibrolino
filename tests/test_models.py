@@ -62,31 +62,29 @@ class TestCalibreDBReader(unittest.TestCase):
 
 """ script tests """
 
-def add_tag_test(calibre_db):
-    title = TEST_BOOK_TITLE
+def add_tag_test(calibre_db, book_id):
     books = calibre_db.books
-    book = books[title]
+    book = books[book_id]
     print('tags', book['tags'])
     try:
-        calibre_db.add_tag(book, 'test')
+        calibre_db.add_tag(book_id, 'test')
     except CalibrolinoException as e:
         print(e)
     else:
         print('tag added:')
         books = calibre_db.books
-        book = books[title]
+        book = books[book_id]
         print('tags', book['tags'])
 
 def full_test():
     calibre_db = CalibreDBReader()
-    add_book_test(calibre_db)
-    add_tag_test(calibre_db)
-    rm_tag_test(calibre_db)
+    book_id = calibre_db.add_book(test_book_fp, title=TEST_BOOK_TITLE)
+    add_tag_test(calibre_db, book_id)
+    rm_tag_test(calibre_db, book_id)
     calibre_db.commit()
-    rm_book_test(calibre_db)
+    calibre_db.remove_book(book_id)
 
-def rm_tag_test(calibre_db):
-        title = TEST_BOOK_TITLE
+def rm_tag_test(calibre_db, book_id):
         books = calibre_db.books
         book = books[title]
         try:
@@ -96,7 +94,7 @@ def rm_tag_test(calibre_db):
         else:
             print('tag removed:')
             books = calibre_db.books
-            book = books[title]
+            book = books[book_id]
             print('tags', book['tags'])
 
 def add_rm_book_test(calibre_db):
@@ -106,8 +104,8 @@ def add_rm_book_test(calibre_db):
 
 if __name__ == '__main__':
     calibre_db = CalibreDBReader()
-    add_rm_book_test(calibre_db)
-    # full_test()
+    # add_rm_book_test(calibre_db)
+    full_test()
     # for book in calibre_db.books:
         # print(book)
         # print(book.keys())
