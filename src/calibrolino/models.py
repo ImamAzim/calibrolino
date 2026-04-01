@@ -219,7 +219,7 @@ class CalibreDBReader(object):
         online_id_id = self._create_online_id(online_id)
         link_table_name = f'books_custom_column_{column_id}_link'
         sql = f"""
-        INSERT INTO {table_name} (book, value)
+        INSERT INTO {link_table_name} (book, value)
         VALUES ({book_id}, {online_id_id});
         """
         res = self._con.execute(sql)
