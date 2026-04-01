@@ -211,18 +211,31 @@ class CalibreDBReader(object):
 
         """
         book = self.books[book_id]
-        if tag_name in book['tags']:
-            raise CalibrolinoException('tag is already on this book')
-        if tag_name not in self._tags:
-            tag_id = self._create_tag(tag_name)
-        tag_id = self._tags[tag_name]
-        table_name = 'books_tags_link'
+        if book.get(ONLINE_ID):
+            raise CalibrolinoException(
+                    'there is already an online id for this book')
+        if online_id in self.online_books:
+            raise('a book already has this online id')
+        online_id_id = self._create_online_id(online_id)
+        link_table_name = f'books_custom_column_{column_id}_link'
         sql = f"""
-        INSERT INTO {table_name} (book, tag)
-        VALUES ({book_id}, {tag_id});
+        INSERT INTO {table_name} (book, value)
+        VALUES ({book_id}, {online_id_id});
         """
         res = self._con.execute(sql)
-        book['tags'].append(tag_name)
+        book[ONLINE_ID] = online_id
+        self._online_books[online_id] = book_id
+
+    def _create_online_id(self, online_id):
+        column_id = self._custom_columns_id[ONLINE_ID]
+        table_name = f'custom_column_{column_id}'
+        sql = f"""
+        INSERT INTO {table_name} (name)
+        VALUES ('{online_id}');
+        """
+        res = self._con.execute(sql)
+        row = res.fetchone()
+        return row['id']
 
     def add_tag(self, book_id, tag_name: str):
         """add tag to a book. change will not be saved before a commit
