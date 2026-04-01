@@ -250,27 +250,17 @@ class CalibreDBReader(object):
 
         for table_name in self._calibre_db_table:
             self._tables[table_name] = self._get_table(table_name)
-        try:
-            table_name = self._add_custom_column_table(self._column_status_name)
-        except CalibrolinoException:
-            self._status_is_defined = False
-        else:
-            self._status_is_defined = True
-            self._status_table_name = table_name
+        self._status_is_defined = False
 
-    def _add_custom_column_table(self, column_name):
+    def _add_custom_columns_tables(self):
 
-        custom_column_id = None
-        for custom_column in self._tables['custom_columns']:
-            if custom_column['name'] == column_name:
-                custom_column_id = custom_column['id']
-        if custom_column_id is None:
-            raise CalibrolinoException
-        table_name = f'custom_column_{custom_column_id}'
-        table_names = table_name, f'books_{table_name}_link'
-        for table_name in table_names:
-            self._tables[table_name] = self._get_table(table_name)
-        return table_name
+        for column_name, column_id in self._custom_columns_id.items():
+            custom_column_table_name = f'custom_column_{column_id}'
+            custom_link_table_name = f'books_custom_column_{column_id}_link'
+            self._tables[custom_column_table_name ] = self._get_table(
+                    custom_column_table_name )
+            self._tables[custom_link_table_name ] = self._get_table(
+                    custom_link_table_name )
 
     def _create_tags_dict(self):
         self._tags = dict()
@@ -422,7 +412,8 @@ class CalibreDBReader(object):
         self._create_books_dict()
         self._create_tags_dict()
         self._create_custom_columns_id_dict()
-        self._create_online_books_dict()
+        self._add_custom_columns_tables()
+        # self._create_online_books_dict()
 
 
 def get_serie_title(title, serie_index, serie_name):
