@@ -229,14 +229,22 @@ class CalibreDBReader(object):
     def _create_online_id(self, online_id):
         column_id = self._custom_columns_id[ONLINE_ID]
         table_name = f'custom_column_{column_id}'
-        print(self._tables[table_name])
+
+        # sql = f"""
+        # SELECT *
+        # FROM '{table_name}' LIMIT 0
+        # """
+        # cur = self._con.cursor()
+        # cur.execute(sql)
+        # column_names = [d[0] for d in cur.description]
+        # print(column_names)
+
         sql = f"""
-        INSERT INTO {table_name} (name)
+        INSERT INTO {table_name} (value)
         VALUES ('{online_id}');
         """
         res = self._con.execute(sql)
-        row = res.fetchone()
-        return row['id']
+        return self._cur.lastrowid
 
     def add_tag(self, book_id, tag_name: str):
         """add tag to a book. change will not be saved before a commit
