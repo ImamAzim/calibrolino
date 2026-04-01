@@ -15,6 +15,7 @@ import xdg_base_dirs
 
 
 ONLINE_ID = 'online_id'
+CUSTOM_COLUMNS = 'custom_columns'
 
 
 class CalibrolinoException(Exception):
@@ -42,7 +43,7 @@ class CalibreDBReader(object):
             'books_publishers_link',
             'languages',
             'books_languages_link',
-            'custom_columns',
+            CUSTOM_COLUMNS,
             ]
 
     _accepted_formats = {'EPUB'}
@@ -69,7 +70,7 @@ class CalibreDBReader(object):
         self.read_db()
 
     def _check_online_id_custom_column(self):
-        table_name = 'books_tags_link'
+        table_name = 'custom'
         sql = f"""
         SELECT * FROM {table_name}
         WHERE tag={tag_id};
@@ -283,7 +284,7 @@ class CalibreDBReader(object):
 
     def _create_custom_columns_id_dict(self):
         self._custom_columns_id = dict()
-        table = self._tables['custom_columns']
+        table = self._tables[CUSTOM_COLUMNS]
         for row in table:
             self._custom_columns_id[row['name']] = row['id']
 
@@ -611,7 +612,7 @@ class TolinoCloud(object):
 
 if __name__ == '__main__':
     calibre_db = CalibreDBReader()
-    print(calibre_db._tables['custom_columns'])
+    print(calibre_db._tables[CUSTOM_COLUMNS])
 
     # for title, book in books.items():
         # print('==========')
