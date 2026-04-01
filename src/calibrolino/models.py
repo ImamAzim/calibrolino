@@ -210,6 +210,7 @@ class CalibreDBReader(object):
         :online_id: str
 
         """
+        column_id = self._custom_columns_id[ONLINE_ID]
         book = self.books[book_id]
         if book.get(ONLINE_ID):
             raise CalibrolinoException(
@@ -222,7 +223,9 @@ class CalibreDBReader(object):
         INSERT INTO {link_table_name} (book, value)
         VALUES ({book_id}, {online_id_id});
         """
+        print('before')
         res = self._con.execute(sql)
+        print('after')
         book[ONLINE_ID] = online_id
         self._online_books[online_id] = book_id
 
