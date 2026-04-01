@@ -223,9 +223,7 @@ class CalibreDBReader(object):
         INSERT INTO {link_table_name} (book, value)
         VALUES ({book_id}, '{online_id_id}');
         """
-        print('before')
         res = self._con.execute(sql)
-        print('after')
         book[ONLINE_ID] = online_id
         self._online_books[online_id] = book_id
 
