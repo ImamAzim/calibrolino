@@ -246,12 +246,9 @@ class CalibreDBReader(object):
         INSERT INTO {table_name} (value)
         VALUES ('{online_id}');
         """
-        res = self._con.execute(sql)
+        # res = self._con.execute(sql)
+        self._cur.execute(sql)
         self._tables[table_name] = self._get_table(table_name)
-        print(self._tables[table_name])
-        raise NotImplementedError
-        a = self._cur.lastrowid
-        print(a)
         return self._cur.lastrowid
 
     def add_tag(self, book_id, tag_name: str):
