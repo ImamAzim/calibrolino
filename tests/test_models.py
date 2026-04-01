@@ -145,24 +145,28 @@ def online_id_db_test():
     print('online books', online_books)
 
     print('add test online id...')
-    try:
-        calibre_db.add_online_id(book_id, 'test_online_id')
-    except Exception as e:
-        print(e)
-    else:
-        print('online books', online_books)
-        print(book['title'], book.get('online_id'))
+    calibre_db.add_online_id(book_id, 'test_online_id')
+    calibre_db.commit()
 
-        print('rm test online id...')
-        calibre_db.rm_online_id(book_id)
-        print('online books', online_books)
-        print(book['title'], book.get('online_id'))
-    finally:
-        calibre_db.remove_book(book_id)
+    calibre_db._close_db()
+    calibre_db = CalibreDBReader()
+    book = calibre_db.books[book_id]
+    online_books = calibre_db.online_books
+    print('online books', online_books)
+    print(book['title'], book.get('online_id'))
+
+    print('rm test online id...')
+    calibre_db.rm_online_id(book_id)
+    print('online books', online_books)
+    print(book['title'], book.get('online_id'))
+    calibre_db.remove_book(book_id)
 
 
 if __name__ == '__main__':
-    online_id_db_test()
+    cb = CalibreDBReader()
+    print(cb.books[103])
+
+    # online_id_db_test()
     # calibre_db = CalibreDBReader()
     # add_rm_book_test(calibre_db)
     # full_test()

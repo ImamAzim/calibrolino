@@ -377,7 +377,8 @@ class CalibreDBReader(object):
                 WHERE id={online_id_id};
                 """
                 res = self._con.execute(sql)
-                online_id = res['value']
+                row = res.fetchone()
+                online_id = row['value']
                 self._books[book_id][ONLINE_ID] = online_id
                 self._online_books[ONLINE_ID] = book_id
 
