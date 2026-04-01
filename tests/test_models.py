@@ -139,7 +139,7 @@ def search_book_test(calibre_db):
 if __name__ == '__main__':
     calibre_db = CalibreDBReader()
     # add_rm_book_test(calibre_db)
-    full_test()
+    # full_test()
     # for book in calibre_db.books:
         # print(book)
         # print(book.keys())
