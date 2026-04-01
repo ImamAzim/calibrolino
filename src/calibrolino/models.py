@@ -65,6 +65,8 @@ class CalibreDBReader(object):
         finds the calibre db and connect to it
         """
 
+        self._online_books = dict()
+
         self._get_calibre_db()
         self._load_db()
         self._check_online_id_custom_column()
@@ -208,7 +210,19 @@ class CalibreDBReader(object):
         :online_id: str
 
         """
-        pass
+        book = self.books[book_id]
+        if tag_name in book['tags']:
+            raise CalibrolinoException('tag is already on this book')
+        if tag_name not in self._tags:
+            tag_id = self._create_tag(tag_name)
+        tag_id = self._tags[tag_name]
+        table_name = 'books_tags_link'
+        sql = f"""
+        INSERT INTO {table_name} (book, tag)
+        VALUES ({book_id}, {tag_id});
+        """
+        res = self._con.execute(sql)
+        book['tags'].append(tag_name)
 
     def add_tag(self, book_id, tag_name: str):
         """add tag to a book. change will not be saved before a commit
@@ -321,7 +335,6 @@ class CalibreDBReader(object):
             self._custom_columns_id[row['name']] = row['id']
 
     def _create_online_books_dict(self):
-        self._online_books = dict()
 
         try:
             column_id = self._custom_columns_id[ONLINE_ID]
