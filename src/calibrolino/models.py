@@ -74,7 +74,7 @@ class CalibreDBReader(object):
         table_name = CUSTOM_COLUMNS
         sql = f"""
         SELECT * FROM {table_name}
-        WHERE name={ONLINE_ID};
+        WHERE name='{ONLINE_ID}';
         """
         res = self._con.execute(sql)
         if res.fetchone() is None:
