@@ -221,7 +221,7 @@ class CalibreDBReader(object):
         link_table_name = f'books_custom_column_{column_id}_link'
         sql = f"""
         INSERT INTO {link_table_name} (book, value)
-        VALUES ({book_id}, {online_id_id});
+        VALUES ({book_id}, '{online_id_id}');
         """
         print('before')
         res = self._con.execute(sql)
@@ -247,6 +247,11 @@ class CalibreDBReader(object):
         VALUES ('{online_id}');
         """
         res = self._con.execute(sql)
+        self._tables[table_name] = self._get_table(table_name)
+        print(self._tables[table_name])
+        raise NotImplementedError
+        a = self._cur.lastrowid
+        print(a)
         return self._cur.lastrowid
 
     def add_tag(self, book_id, tag_name: str):
