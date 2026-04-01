@@ -276,14 +276,26 @@ class CalibreDBReader(object):
 
     def _create_online_books_dict(self):
         self._online_books = dict()
+
         try:
             column_id = self._custom_columns_id['online_id']
         except KeyError:
             warnings.warn('no custom column for online_id in DB')
         else:
             table_name = f'custom_column_{column_id}'
-            table_link_name = f'books_{table_name}_link'
-            #TODO: create dict
+            link_table_name = f'books_custom_column_{column_id}_link'
+            link_table = self._tables[link_table_name]
+            for row in link_table:
+                book_id = row['book']
+                online_id_id = row['value']
+                sql = f"""
+                SELECT * FROM {table_name}
+                WHERE id={online_id_id};
+                """
+                res = self._con.execute(sql)
+                online_id = res['name']
+                self._books[book_id] = online_id
+                self._online_books['online_id'] = book_id
 
 
     def add_online_id(self, book_id, online_id):
