@@ -67,17 +67,22 @@ class CalibreDBReader(object):
 
         self._get_calibre_db()
         self._load_db()
+        self._check_online_id_custom_column()
         self.read_db()
 
     def _check_online_id_custom_column(self):
-        table_name = 'custom'
+        table_name = CUSTOM_COLUMNS
         sql = f"""
         SELECT * FROM {table_name}
-        WHERE tag={tag_id};
+        WHERE name={ONLINE_ID};
         """
         res = self._con.execute(sql)
         if res.fetchone() is None:
-        pass
+            self._create_online_id_custom_column()
+
+    def _create_online_id_custom_column(self):
+        print(f'create custom column {ONLINE_ID}')
+        raise NotImplementedError
 
     def _get_calibre_db(self):
         """search in home calibre db
