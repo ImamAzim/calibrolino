@@ -81,8 +81,15 @@ class CalibreDBReader(object):
             self._create_online_id_custom_column()
 
     def _create_online_id_custom_column(self):
-        print(f'create custom column {ONLINE_ID}')
-        raise NotImplementedError
+        self._close_db()
+        cmd = 'add_custom_column'
+        label = ONLINE_ID
+        name = ONLINE_ID
+        datatype = 'text'
+        arg = [label, name, datatype]
+        full_cmd = [self._calibre_db_command, cmd]  + arg
+        completed_process = subprocess.run(full_cmd, capture_output=False)
+        self._load_db()
 
     def _get_calibre_db(self):
         """search in home calibre db
