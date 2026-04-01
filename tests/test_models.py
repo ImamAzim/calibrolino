@@ -138,19 +138,28 @@ def search_book_test(calibre_db):
 
 def online_id_db_test():
     calibre_db = CalibreDBReader()
-    online_books = calibre_db.online_books
-    print('online books', online_books)
     book_id = calibre_db.add_book(test_book_fp, title=TEST_BOOK_TITLE)
-    calibre_db.add_online_id(book_id, 'test_online_id')
+    book = calibre_db.books[book_id]
+
     online_books = calibre_db.online_books
     print('online books', online_books)
-    book = 
+
+    print('add test online id...')
+    calibre_db.add_online_id(book_id, 'test_online_id')
+    print('online books', online_books)
+    print(book['title'], book.get('online_id'))
+
+    print('rm test online id...')
+    calibre_db.rm_online_id(book_id)
+    print('online books', online_books)
+    print(book['title'], book.get('online_id'))
+
     calibre_db.remove_book(book_id)
 
 
 if __name__ == '__main__':
-    calibre_db = CalibreDBReader()
-    print(calibre_db.online_books)
+    online_id_db_test()
+    # calibre_db = CalibreDBReader()
     # add_rm_book_test(calibre_db)
     # full_test()
     # for book in calibre_db.books:

@@ -199,6 +199,17 @@ class CalibreDBReader(object):
         self._load_db()
         self.read_db()
 
+    def add_online_id(self, book_id, online_id):
+        """
+        add an id to the book corresponding to the id on the cloud. Tells that the book is
+        present online
+
+        :book_id: int
+        :online_id: str
+
+        """
+        pass
+
     def add_tag(self, book_id, tag_name: str):
         """add tag to a book. change will not be saved before a commit
         is executed
@@ -225,6 +236,15 @@ class CalibreDBReader(object):
 
         """
         self._con.commit()
+
+    def rm_online_id(self, book_id):
+        """
+        rm an id to the book corresponding to the id on the cloud. Tells that the book is no more online
+
+        :book_id: int
+
+        """
+        pass
 
     def rm_tag(self, book_id, tag_name):
         """rm tag from a book. change will not be saved before a commit
@@ -323,17 +343,6 @@ class CalibreDBReader(object):
                 self._books[book_id][ONLINE_ID] = online_id
                 self._online_books[ONLINE_ID] = book_id
 
-
-    def add_online_id(self, book_id, online_id):
-        """
-        add an id to the book corresponding to the id on the cloud. Tells that the book is
-        present online
-
-        :book_id: int
-        :online_id: str
-
-        """
-        pass
 
     def _create_books_dict(self):
 
