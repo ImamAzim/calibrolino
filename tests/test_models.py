@@ -164,7 +164,7 @@ def online_id_db_test():
 
 if __name__ == '__main__':
     cb = CalibreDBReader()
-    print(cb.books[103])
+    print(cb.online_books)
 
     # online_id_db_test()
     # calibre_db = CalibreDBReader()
