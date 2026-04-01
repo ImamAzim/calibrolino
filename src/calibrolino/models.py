@@ -229,6 +229,7 @@ class CalibreDBReader(object):
     def _create_online_id(self, online_id):
         column_id = self._custom_columns_id[ONLINE_ID]
         table_name = f'custom_column_{column_id}'
+        print(self._tables[table_name])
         sql = f"""
         INSERT INTO {table_name} (name)
         VALUES ('{online_id}');
