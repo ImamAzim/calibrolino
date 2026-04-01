@@ -14,6 +14,9 @@ from pytolino.tolino_cloud import Client, PytolinoException
 import xdg_base_dirs
 
 
+ONLINE_ID = 'online_id'
+
+
 class CalibrolinoException(Exception):
     pass
 
@@ -64,6 +67,16 @@ class CalibreDBReader(object):
         self._get_calibre_db()
         self._load_db()
         self.read_db()
+
+    def _check_online_id_custom_column(self):
+        table_name = 'books_tags_link'
+        sql = f"""
+        SELECT * FROM {table_name}
+        WHERE tag={tag_id};
+        """
+        res = self._con.execute(sql)
+        if res.fetchone() is None:
+        pass
 
     def _get_calibre_db(self):
         """search in home calibre db
@@ -278,7 +291,7 @@ class CalibreDBReader(object):
         self._online_books = dict()
 
         try:
-            column_id = self._custom_columns_id['online_id']
+            column_id = self._custom_columns_id[ONLINE_ID]
         except KeyError:
             warnings.warn('no custom column for online_id in DB')
         else:
@@ -295,7 +308,7 @@ class CalibreDBReader(object):
                 res = self._con.execute(sql)
                 online_id = res['name']
                 self._books[book_id] = online_id
-                self._online_books['online_id'] = book_id
+                self._online_books[ONLINE_ID] = book_id
 
 
     def add_online_id(self, book_id, online_id):
