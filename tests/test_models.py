@@ -157,8 +157,15 @@ def online_id_db_test():
 
     print('rm test online id...')
     calibre_db.rm_online_id(book_id)
+    calibre_db.commit()
+
+    calibre_db._close_db()
+    calibre_db = CalibreDBReader()
+    book = calibre_db.books[book_id]
+    online_books = calibre_db.online_books
     print('online books', online_books)
     print(book['title'], book.get('online_id'))
+
     calibre_db.remove_book(book_id)
 
 
