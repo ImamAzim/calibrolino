@@ -231,7 +231,8 @@ class CalibrolinoController(Controller):
             online_lib = self.get_online_books()
         else:
             online_lib = dict()
-        df = DataFrame(dict(title='', local=False, online=False), local_lib.keys())
+        df = DataFrame(
+                dict(title='', local=False, online=False), local_lib.keys())
         for book_id, book in local_lib.items():
             df.at[book_id, 'title'] = book['full_title']
             df.at[book_id, 'local'] = True
@@ -239,5 +240,6 @@ class CalibrolinoController(Controller):
                 df.at[book_id, 'online'] = True
         for online_id, title in online_lib.items():
             if online_id not in self._calibre_db.online_books:
-                df.loc[max(df.index)+1] = {'title': title, 'local': False, 'online': True}
+                df.loc[max(df.index)+1] = {
+                        'title': title, 'local': False, 'online': True}
         return df
