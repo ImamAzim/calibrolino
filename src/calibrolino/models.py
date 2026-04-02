@@ -224,21 +224,14 @@ class CalibreDBReader(object):
         VALUES ({book_id}, '{online_id_id}');
         """
         res = self._con.execute(sql)
+        table_name = link_table_name
+        self._tables[table_name] = self._get_table(table_name)
         book[ONLINE_ID] = online_id
         self._online_books[online_id] = book_id
 
     def _create_online_id(self, online_id):
         column_id = self._custom_columns_id[ONLINE_ID]
         table_name = f'custom_column_{column_id}'
-
-        # sql = f"""
-        # SELECT *
-        # FROM '{table_name}' LIMIT 0
-        # """
-        # cur = self._con.cursor()
-        # cur.execute(sql)
-        # column_names = [d[0] for d in cur.description]
-        # print(column_names)
 
         sql = f"""
         INSERT INTO {table_name} (value)
@@ -283,7 +276,30 @@ class CalibreDBReader(object):
         :book_id: int
 
         """
-        pass
+        book = self.books[book_id]
+        if book.get(ONLINE_ID):
+            raise CalibrolinoException('this book has no online id')
+        else:
+            online_id = book[ONLINE_ID]
+        table_name = 'books_tags_link'
+        column_id = self._custom_columns_id[ONLINE_ID]
+        table_name = f'books_custom_column_{column_id}_link'
+        sql = f"""
+        DELETE FROM {table_name}
+        WHERE book={book_id};
+        """
+        res = self._con.execute(sql)
+        self._tables[table_name] = self._get_table(table_name)
+
+        table_name = f'custom_column_{column_id}'
+        sql = f"""
+        DELETE FROM {table_name}
+        WHERE value='{online_id}';
+        """
+        res = self._con.execute(sql)
+        self._tables[table_name] = self._get_table(table_name)
+        del self.online_books[online_id]
+        del book[ONLINE_ID]
 
     def rm_tag(self, book_id, tag_name):
         """rm tag from a book. change will not be saved before a commit
