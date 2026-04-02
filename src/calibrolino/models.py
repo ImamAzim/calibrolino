@@ -556,7 +556,7 @@ class TolinoCloud(object):
 
     def get_uploaded_books(self):
         """connect to the cloud and get the books that where already uploaded
-        :returns: dict of uploaded books (full_title: books_id)
+        :returns: dict of uploaded books (online_id: title)
 
         """
         try:
@@ -570,7 +570,7 @@ class TolinoCloud(object):
                 for book in inventory:
                     full_title = book['epubMetaData']['title']
                     book_id = book['publicationId']
-                    uploaded_books[full_title] = book_id
+                    uploaded_books[book_id] = full_title
                 return uploaded_books
             except PytolinoException as e:
                 raise TolinoCloudException(str(e))
