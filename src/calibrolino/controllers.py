@@ -6,7 +6,7 @@ from pandas import DataFrame
 from calibrolino.interfaces import Controller, View
 from calibrolino.models import CalibreDBReader
 from calibrolino.models import CalibrolinoException
-from calibrolino.models import TolinoCloud
+from calibrolino.models import TolinoCloud, ONLINE_ID
 
 
 class CalibrolinoController(Controller):
@@ -231,12 +231,13 @@ class CalibrolinoController(Controller):
             online_lib = self.get_online_books()
         else:
             online_lib = dict()
-        local_titles = local_lib.keys()
-        online_titles = online_lib.keys()
-        all_titles = list(local_titles | online_titles)
-        df = DataFrame(dict(local=False, online=False), all_titles)
-        for title in local_titles:
-            df.at[title, 'local'] = True
-        for title in online_lib:
-            df.at[title, 'online'] = True
+        df = DataFrame(dict(title='', local=False, online=False), local_lib.keys())
+        for book_id, book in local_lib:
+            df.at[book_id, title] = book['full_title']
+            df.at[book_id, 'local'] = True
+            if book.get(ONLINE_ID):
+                df.at[book_id, 'online'] = True
+        for online_id, title in online_lib.items():
+            if online_id not in self._calibre_db.online_books:
+                df[-1] = [False, True, title]
         return df
