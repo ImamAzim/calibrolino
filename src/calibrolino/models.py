@@ -277,7 +277,7 @@ class CalibreDBReader(object):
 
         """
         book = self.books[book_id]
-        if book.get(ONLINE_ID):
+        if not book.get(ONLINE_ID):
             raise CalibrolinoException('this book has no online id')
         else:
             online_id = book[ONLINE_ID]
@@ -396,7 +396,7 @@ class CalibreDBReader(object):
                 row = res.fetchone()
                 online_id = row['value']
                 self._books[book_id][ONLINE_ID] = online_id
-                self._online_books[ONLINE_ID] = book_id
+                self._online_books[online_id] = book_id
 
 
     def _create_books_dict(self):

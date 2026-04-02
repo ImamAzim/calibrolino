@@ -1,5 +1,6 @@
 import unittest
 from pathlib import Path
+import traceback
 
 
 from calibrolino.models import CalibreDBReader, get_serie_title, CalibrolinoException
@@ -167,7 +168,7 @@ def online_id_db_test():
         print('online books', online_books)
         print(book['title'], book.get('online_id'))
     except CalibrolinoException as e:
-        print(e)
+        print(e, traceback.format_exc())
     else:
         print('done')
     finally:
