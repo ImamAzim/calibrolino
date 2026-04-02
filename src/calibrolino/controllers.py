@@ -233,7 +233,7 @@ class CalibrolinoController(Controller):
             online_lib = dict()
         df = DataFrame(dict(title='', local=False, online=False), local_lib.keys())
         for book_id, book in local_lib.items():
-            df.at[book_id, title] = book['full_title']
+            df.at[book_id, 'title'] = book['full_title']
             df.at[book_id, 'local'] = True
             if book.get(ONLINE_ID):
                 df.at[book_id, 'online'] = True
