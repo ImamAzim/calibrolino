@@ -131,6 +131,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
 
     def _pull(self):
         self.controller.pull()
+        self._update_library_display()
 
     def _test(self):
         rowdata = self._library_table.getSelectedRowData()
