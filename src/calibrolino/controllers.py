@@ -94,18 +94,18 @@ class CalibrolinoController(Controller):
             online_lib = self.get_online_books()
             local_books_to_sync = {
                     book_id for book_id, book
-                    in local_lib.items() if book['full_title'] in online_lib.values()}
+                    in local_lib.items()
+                    if book['full_title'] in online_lib.values()}
             local_books_to_sync = dict()
             for book_id, book in local_lib.items():
                 title = book['full_title']
                 if title in online_lib.values():
                     for online_id, online_title in online_lib.items():
-                        if title==online_title:
+                        if title == online_title:
                             local_books_to_sync[book_id] = online_id
                             online_lib.pop(online_id)
                             break
             n = len(local_books_to_sync)
-            print(local_books_to_sync)
             answer = self._view.askyesno(
                     'delete all local tags for books that are also'
                     f' online ({n} books). are you sure?')
@@ -129,6 +129,8 @@ class CalibrolinoController(Controller):
         if not hasattr(self._varbox, 'revision'):
             self._reset_local_lib()
         self._view.showinfo('TODO: pull data')
+        local_lib = self.local_books
+        online_lib = self.get_online_books()
         return
 
         local_revision = self._varbox.revision
