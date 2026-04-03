@@ -129,7 +129,6 @@ class CalibrolinoController(Controller):
 
         if not hasattr(self._varbox, 'revision'):
             self._reset_local_lib()
-        return
         local_lib = self.local_books
         online_lib = self.get_online_books()
 
