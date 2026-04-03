@@ -149,6 +149,7 @@ class CalibrolinoController(Controller):
                             book_id = local_lib.online_books[online_id]
                             self._calibre_db.apply_patch(patch, book_id)
                             local_patches[patch_rev] = patch
+                            self._varbox.patches = local_patches
                             added += 1
                 suppressed = 0
                 for patch_rev, patch in local_patches.items():
@@ -156,9 +157,12 @@ class CalibrolinoController(Controller):
                         online_id = self._tolino_cloud.get_ebook_id(patch)
                         if online_id in local_lib.online_books:
                             book_id = local_lib.online_books[online_id]
+                            self._calibre_db.unapply_patch(patch, book_id)
+                            del local_patches[patch_rev]
+                            self._varbox.patches = local_patches
+                            suppressed += 1
                 raise NotImplementedError
                 self._varbox.revision = online_revision
-                self._varbox.patches = local_patches
                 self._view.showinfo(
                         f'pull sync finished. {added} patch added, '
                         f'{suppressed} patch removed')
