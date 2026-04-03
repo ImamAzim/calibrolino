@@ -118,6 +118,7 @@ class CalibrolinoController(Controller):
                     if book.get(ONLINE_ID):
                         self._calibre_db.rm_online_id(book_id)
                     self._calibre_db.add_online_id(book_id, online_id)
+                    self._calibre_db.commit()
                 revision = 'needToPullData'
                 self._varbox.revision = revision
                 self._varbox.patches = dict()
@@ -128,6 +129,7 @@ class CalibrolinoController(Controller):
 
         if not hasattr(self._varbox, 'revision'):
             self._reset_local_lib()
+        return
         local_lib = self.local_books
         online_lib = self.get_online_books()
 
