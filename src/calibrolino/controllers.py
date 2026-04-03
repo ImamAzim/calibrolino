@@ -128,10 +128,8 @@ class CalibrolinoController(Controller):
 
         if not hasattr(self._varbox, 'revision'):
             self._reset_local_lib()
-        self._view.showinfo('TODO: pull data')
         local_lib = self.local_books
         online_lib = self.get_online_books()
-        return
 
         local_revision = self._varbox.revision
         local_patches = self._varbox.patches
@@ -143,19 +141,23 @@ class CalibrolinoController(Controller):
             self._view.showerror('could not get online sync data')
         else:
             if not online_revision == local_revision:
+                added = 0
                 for patch_rev, patch in online_patches.items():
                     if patch_rev not in local_patches:
-                        ebook_id = self._tolino_cloud.get_ebook_id(patch)
-                        if ebook_id in online_lib.values():
-                            book_title = [
-                                    key
-                                    for key, value in online_lib.items()
-                                    if value==ebook_id][0]
-                        else:
-                            print('ebook id no in online lib')
-                            print(patch)
+                        online_id = self._tolino_cloud.get_ebook_id(patch)
+                        if online_id in local_lib.online_books:
+                            book_id = local_lib.online_books[online_id]
+                            self._calibre_db.apply_patch(patch, book_id)
+                            local_patches[patch_rev] = patch
+                            added += 1
+                raise NotImplementedError
+                self._varbox.revision = online_revision
+                self._varbox.patches = local_patches
+                self._view.showinfo(
+                        f'pull sync finished. {added} patch added')
                 print(online_lib)
-                        # self._calibre_db.apply_patch(patch, book_title)
+            else:
+                self._view.showinfo('local books already synced')
 
     def get_online_books(self) -> dict:
         online_books = dict()
