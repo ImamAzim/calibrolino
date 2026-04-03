@@ -130,7 +130,10 @@ class CalibrolinoGUIView(View, tkinter.Tk):
                 ).grid(column=5, row=0)
 
     def _pull(self):
-        self.controller.pull()
+        try:
+            self.controller.pull()
+        except NotImplementedError as e:
+            self.showerror(e)
         self._update_library_display()
 
     def _test(self):
