@@ -145,8 +145,8 @@ class CalibrolinoController(Controller):
                 for patch_rev, patch in online_patches.items():
                     if patch_rev not in local_patches:
                         online_id = self._tolino_cloud.get_ebook_id(patch)
-                        if online_id in local_lib.online_books:
-                            book_id = local_lib.online_books[online_id]
+                        if online_id in self._calibre_db.online_books:
+                            book_id = self._calibre_db.online_books[online_id]
                             self._calibre_db.apply_patch(patch, book_id)
                             local_patches[patch_rev] = patch
                             self._varbox.patches = local_patches
@@ -155,8 +155,8 @@ class CalibrolinoController(Controller):
                 for patch_rev, patch in local_patches.items():
                     if patch_rev not in online_patches:
                         online_id = self._tolino_cloud.get_ebook_id(patch)
-                        if online_id in local_lib.online_books:
-                            book_id = local_lib.online_books[online_id]
+                        if online_id in self._calibre_db.online_books:
+                            book_id = self._calibre_db.online_books[online_id]
                             self._calibre_db.unapply_patch(patch, book_id)
                             del local_patches[patch_rev]
                             self._varbox.patches = local_patches
