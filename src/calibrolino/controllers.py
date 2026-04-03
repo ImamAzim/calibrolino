@@ -236,7 +236,8 @@ class CalibrolinoController(Controller):
         for book_id, book in local_lib.items():
             df.at[book_id, 'title'] = book['full_title']
             df.at[book_id, 'local'] = True
-            if book.get(ONLINE_ID):
+            online_id = book.get(ONLINE_ID)
+            if online_id in online_lib:
                 df.at[book_id, 'online'] = True
         for online_id, title in online_lib.items():
             if online_id not in self._calibre_db.online_books:
