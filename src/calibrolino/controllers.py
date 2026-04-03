@@ -83,31 +83,38 @@ class CalibrolinoController(Controller):
     def local_books(self) -> dict[dict]:
         return self._calibre_db.books
 
+    def _reset_local_lib(self):
+        answer = self._view.askokcancel(
+                'there are no local sync data. I will create '
+                'an empty one and delete all local tags')
+        if not answer:
+            return
+        else:
+            local_books_to_sync = [
+                    book_id for book_id, book
+                    in local_lib.items() if book['full_title'] in online_lib.values()]
+            n = len(local_books_to_sync)
+            answer = self._view.askyesno(
+                    'delete all local tags for books that are also'
+                    f' online ({n} books). are you sure?')
+            if not answer:
+                return
+            else:
+                dummy_revision = 'needToPullData'
+                self._calibre_db.reset_all_metadata(local_books_to_sync)
+                self._varbox.revision = revision
+                self._varbox.patches = dict()
+
     def pull(self):
 
         self._read_db()
         local_lib = self.local_books
         online_lib = self.get_online_books()
-        synced_books = {
-                key: value for key, value
-                in local_lib.items() if key in online_lib}
 
         if not hasattr(self._varbox, 'revision'):
-            answer = self._view.askokcancel(
-                    'there are no local sync data. I will create '
-                    'an empty one and delete all local tags')
-            if not answer:
-                return
-            else:
-                answer = self._view.askyesno(
-                        'delete all local tags for books that are also'
-                        ' online. are you sure?')
-                if not answer:
-                    return
-                else:
-                    self._calibre_db.reset_all_metadata(synced_books)
-                    self._varbox.revision = 'needToPullData'
-                    self._varbox.patches = dict()
+            self._reset_local_lib()
+        self._view.showinfo('TODO: pull data')
+        return
 
         local_revision = self._varbox.revision
         local_patches = self._varbox.patches
