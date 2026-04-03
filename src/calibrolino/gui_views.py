@@ -133,7 +133,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         try:
             self.controller.pull()
         except NotImplementedError as e:
-            self.showerror(e)
+            self.showerror('not implemented')
         self._update_library_display()
 
     def _test(self):
