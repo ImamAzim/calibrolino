@@ -197,7 +197,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         """
         full_lib = self.controller.get_full_library(include_online)
         self._library_table.model.df = full_lib
-        self._library_table.sortTable(0)
+        self._library_table.sortTable(1)
         self._library_table.redraw()
 
     def _upload_all(self):

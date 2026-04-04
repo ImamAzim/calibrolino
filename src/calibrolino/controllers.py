@@ -298,5 +298,5 @@ class CalibrolinoController(Controller):
         for online_id, title in online_lib.items():
             if online_id not in self._calibre_db.online_books:
                 df.loc[online_id] = {
-                        'title': title, 'local_id': '', 'online_id': online_id}
+                        'title': title, 'local_id': 0, 'online_id': online_id}
         return df
