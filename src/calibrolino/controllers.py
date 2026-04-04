@@ -232,6 +232,7 @@ class CalibrolinoController(Controller):
                 except CalibrolinoException as e:
                     self._view.showerror(e)
                 else:
+                    title = book['full_title']
                     msg = f'{book_title} has been uploaded'
                     self._view.showinfo(msg)
             else:
