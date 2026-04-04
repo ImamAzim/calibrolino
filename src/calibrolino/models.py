@@ -147,7 +147,16 @@ class CalibreDBReader(object):
         title = book['full_title']
         value = patch['value']
         if value.get('category')=='collection':
-            raise NotImplementedError('TODO: add tag')
+            tag_name = value['name']
+            op = patch['op']
+            if op=='add':
+                self.add_tag(book_id, tag_name)
+            elif op=='replace':
+                raise NotImplementedError(
+                        'do not know what to do if op is to replace tag')
+            else:
+                raise NotImplementedError(
+                        'do not know what to do if op is to remove tag')
         else:
             raise NotImplementedError(
                     'patch type (bookmark or reading position)'
