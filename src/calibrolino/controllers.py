@@ -217,37 +217,35 @@ class CalibrolinoController(Controller):
                 self._tolino_cloud.upload_books(books_to_upload)
                 self._view.showinfo('done')
 
-    def upload_book(self, book_title: str):
+    def upload_book(self, local_id: int):
         try:
-            book = self.local_books[book_title]
+            book = self.local_books[local_id]
         except KeyError:
             self._view.showerror(
-                    'no book with this title is present in the local library')
+                    'this book is not present in the local library')
         else:
-            online_books = self.get_online_books()
-            if online_books is not None:
-                if book['full_title'] not in online_books:
-                    books_to_upload = [book]
-                    try:
-                        self._tolino_cloud.upload_books(books_to_upload)
-                    except CalibrolinoException as e:
-                        self._view.showerror(e)
-                    else:
-                        msg = f'{book_title} has been uploaded'
-                        self._view.showinfo(msg)
+            online_id = book.get('online_id')
+            if not online_id:
+                books_to_upload = [book]
+                try:
+                    self._tolino_cloud.upload_books(books_to_upload)
+                except CalibrolinoException as e:
+                    self._view.showerror(e)
                 else:
-                    msg = (
-                            'the book you chose is already on the cloud '
-                            'I will only upload the metadata')
+                    msg = f'{book_title} has been uploaded'
                     self._view.showinfo(msg)
-                    book_id = online_books[book['full_title']]
-                    try:
-                        self._tolino_cloud.upload_metadata(book, book_id)
-                    except CalibrolinoException as e:
-                        self._view.showerror(e)
-                    else:
-                        msg = f'metadata of {book_title} have been uploaded'
-                        self._view.showinfo(msg)
+            else:
+                msg = (
+                        'the book you chose is already on the cloud '
+                        'I will only upload the metadata')
+                self._view.showinfo(msg)
+                try:
+                    self._tolino_cloud.upload_metadata(book, online_id)
+                except CalibrolinoException as e:
+                    self._view.showerror(e)
+                else:
+                    msg = f'metadata of {book_title} have been uploaded'
+                    self._view.showinfo(msg)
 
     def delete_book(self, online_id: str):
         online_books = self.get_online_books()
