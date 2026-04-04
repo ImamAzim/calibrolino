@@ -270,7 +270,7 @@ class CalibrolinoController(Controller):
                 else:
                     local_id = self._calibre_db.online_books.get(online_id)
                     if local_id:
-                        self._calibre_db.rm_online_id(book_id)
+                        self._calibre_db.rm_online_id(local_id)
                         self._calibre_db.commit()
                     msg = f'{book_title} has been deleted'
                     self._view.showinfo(msg)
