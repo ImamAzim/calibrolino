@@ -236,7 +236,7 @@ class CalibrolinoController(Controller):
                         self._calibre_db.rm_online_id(local_id)
                     self._calibre_db.add_online_id(local_id, online_id)
                     title = book['full_title']
-                    msg = f'{book_title} has been uploaded'
+                    msg = f'{title} has been uploaded'
                     self._view.showinfo(msg)
             else:
                 msg = (
