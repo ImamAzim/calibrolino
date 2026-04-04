@@ -223,8 +223,8 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         """
         rowdata = self._library_table.getSelectedRowData()
         index = rowdata.index
-        title = index.values[0]
-        self.controller.delete_book(title)
+        online_id = index.values[2]
+        self.controller.delete_book(online_id)
         self._update_library_display()
 
     def askokcancel(self, msg: str) -> bool:
