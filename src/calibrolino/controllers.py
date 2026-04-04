@@ -208,14 +208,16 @@ class CalibrolinoController(Controller):
         online_books = self.get_online_books()
         if online_books is not None:
             books_to_upload = list()
-            for full_title, book in local_books.items():
-                if full_title not in online_books:
-                    books_to_upload.append(book)
+            for local_id, book in local_books.items():
+                online_id = book.get('online_id')
+                if online_id not in online_lib:
+                    books_to_upload.append(book_id)
             msg = f'I will upload {len(books_to_upload)} books'
             answer = self._view.askokcancel(msg)
             if answer:
-                self._tolino_cloud.upload_books(books_to_upload)
-                self._view.showinfo('done')
+                for book_id in books_to_upload:
+                    self.upload_book(book_id)
+                    self._view.showinfo('done')
 
     def upload_book(self, local_id: int):
         try:
@@ -238,7 +240,7 @@ class CalibrolinoController(Controller):
                     self._calibre_db.commit()
                     title = book['full_title']
                     msg = f'{title} has been uploaded'
-                    self._view.showinfo(msg)
+                    # self._view.showinfo(msg)
             else:
                 msg = (
                         'the book you chose is already on the cloud '
