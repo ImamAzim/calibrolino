@@ -222,8 +222,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
 
         """
         rowdata = self._library_table.getSelectedRowData()
-        index = rowdata.index
-        online_id = index.values[2]
+        online_id = rowdata['online_id'].values[0]
         self.controller.delete_book(online_id)
         self._update_library_display()
 
