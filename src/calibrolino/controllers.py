@@ -217,7 +217,6 @@ class CalibrolinoController(Controller):
             if answer:
                 for book_id in books_to_upload:
                     self.upload_book(book_id)
-                    self._view.showinfo('done')
 
     def upload_book(self, local_id: int):
         try:
