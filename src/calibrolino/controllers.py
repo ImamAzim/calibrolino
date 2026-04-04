@@ -156,9 +156,9 @@ class CalibrolinoController(Controller):
                                 self._view.showerror(e)
                             else:
                                 local_patches[patch_rev] = patch
-                                self._varbox.patches = local_patches
                                 added += 1
                 suppressed = 0
+                patch_rev_to_delete = list()
                 for patch_rev, patch in local_patches.items():
                     if patch_rev not in online_patches:
                         online_id = self._tolino_cloud.get_ebook_id(patch)
@@ -170,11 +170,13 @@ class CalibrolinoController(Controller):
                                 revision_applied = False
                                 self._view.showerror(e)
                             else:
-                                del local_patches[patch_rev]
-                                self._varbox.patches = local_patches
+                                patch_rev_to_delete.append(patch_rev)
                                 suppressed += 1
+                for patch_rev in patch_rev_to_delete:
+                    del local_patches[patch_rev]
                 if revision_applied:
                     self._calibre_db.commit()
+                    self._varbox.patches = local_patches
                     self._varbox.revision = online_revision
                     self._view.showinfo(
                             f'pull sync finished. {added} patch added, '
