@@ -212,9 +212,8 @@ class CalibrolinoGUIView(View, tkinter.Tk):
 
         """
         rowdata = self._library_table.getSelectedRowData()
-        index = rowdata.index
-        title = index.values[0]
-        self.controller.upload_book(title)
+        local_id = rowdata['local_id'].values[0]
+        self.controller.upload_book(local_id)
         self._update_library_display()
 
     def _delete_selected_book(self):
