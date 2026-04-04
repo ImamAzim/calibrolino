@@ -268,7 +268,7 @@ class CalibrolinoController(Controller):
                 except CalibrolinoException as e:
                     self._view.showerror(e)
                 else:
-                    local_id = self._calibre_db.get(online_id)
+                    local_id = self._calibre_db.online_books.get(online_id)
                     if local_id:
                         self._calibre_db.rm_online_id(book_id)
                         self._calibre_db.commit()
