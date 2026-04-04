@@ -144,7 +144,6 @@ class CalibreDBReader(object):
 
         """
         book = self._books[book_id]
-        title = book['full_title']
         value = patch['value']
         if value.get('category')=='collection':
             tag_name = value['name']
@@ -171,9 +170,22 @@ class CalibreDBReader(object):
 
         """
         book = self._books[book_id]
-        title = book['full_title']
-        print(f'to {title}, unapply {patch}')
-        raise NotImplementedError
+        value = patch['value']
+        if value.get('category')=='collection':
+            tag_name = value['name']
+            op = patch['op']
+            if op=='add':
+                self.rm_tag(book_id, tag_name)
+            elif op=='replace':
+                raise NotImplementedError(
+                        'do not know what to do if op was to replace tag')
+            else:
+                raise NotImplementedError(
+                        'do not know what to do if op was to remove tag')
+        else:
+            raise NotImplementedError(
+                    'patch type (bookmark or reading position)'
+                    ' not implemented')
 
     def reset_all_metadata(self, book_ids: list):
         """in prevision to pull online sync data, delete ALL tags from
