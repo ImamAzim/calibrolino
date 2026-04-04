@@ -174,6 +174,7 @@ class CalibrolinoController(Controller):
                                 self._varbox.patches = local_patches
                                 suppressed += 1
                 if revision_applied:
+                    self._calibre_db.commit()
                     self._varbox.revision = online_revision
                     self._view.showinfo(
                             f'pull sync finished. {added} patch added, '
