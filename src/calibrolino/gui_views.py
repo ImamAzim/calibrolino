@@ -137,6 +137,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         delattr(self.controller._varbox, 'revision')
         self.controller._varbox.save()
         self.controller._varbox.patches = dict()
+        self.controller._reset_local_lib()
         # rowdata = self._library_table.getSelectedRowData()
         # index = rowdata.index
         # title = index.values[0]
