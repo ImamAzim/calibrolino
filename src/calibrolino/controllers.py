@@ -225,13 +225,16 @@ class CalibrolinoController(Controller):
                     'this book is not present in the local library')
         else:
             online_id = book.get('online_id')
-            if not online_id:
-                books_to_upload = [book]
+            online_lib = self.get_online_books()
+            if online_id not in online_lib:
                 try:
-                    self._tolino_cloud.upload_books(books_to_upload)
+                    online_id = self._tolino_cloud.upload_book(book)
                 except CalibrolinoException as e:
                     self._view.showerror(e)
                 else:
+                    if online_id:
+                        self._calibre_db.rm_online_id(local_id)
+                    self._calibre_db.add_online_id(local_id, online_id)
                     title = book['full_title']
                     msg = f'{book_title} has been uploaded'
                     self._view.showinfo(msg)
