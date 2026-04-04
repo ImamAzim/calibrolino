@@ -651,6 +651,40 @@ class TolinoCloud(object):
                         raise CalibrolinoException(str(e))
                     print('book uploaded')
 
+    def upload_book(self, book):
+        """upload to the cloud the selected book
+
+        :book: (dict with metada and path to the file)
+
+        """
+        try:
+            self._client.login(self._password)
+        except PytolinoException as e:
+            raise CalibrolinoException(str(e))
+        else:
+            title = book['title']
+            print(f'uploading {title}')
+            file_path = book['file_path']
+            try:
+                book_id = self._client.upload(file_path)
+            except PytolinoException as e:
+                raise CalibrolinoException(str(e))
+            else:
+                try:
+                    self._add_to_collection(book, book_id)
+                except PytolinoException as e:
+                    raise CalibrolinoException(str(e))
+                try:
+                    self._upload_cover(book, book_id)
+                except PytolinoException as e:
+                    raise CalibrolinoException(str(e))
+                try:
+                    self._upload_meta(book, book_id)
+                except PytolinoException as e:
+                    raise CalibrolinoException(str(e))
+                print('book uploaded')
+                return book_id
+
     def _add_to_collection(self, book, book_id):
         """
         private methode to add to collection
