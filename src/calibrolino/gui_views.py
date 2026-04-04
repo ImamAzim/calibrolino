@@ -134,10 +134,12 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         self._update_library_display()
 
     def _test(self):
-        rowdata = self._library_table.getSelectedRowData()
-        index = rowdata.index
-        title = index.values[0]
-        print(title)
+        self.controller._varbox.revision = 'reset'
+        self.controller._varbox.patches = dict()
+        # rowdata = self._library_table.getSelectedRowData()
+        # index = rowdata.index
+        # title = index.values[0]
+        # print(title)
 
     def _prompt_credentials(self, ):
         """prompt to change credentials
