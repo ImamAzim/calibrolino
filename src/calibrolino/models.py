@@ -145,8 +145,13 @@ class CalibreDBReader(object):
         """
         book = self._books[book_id]
         title = book['full_title']
-        print(f'to {title}, apply {patch}')
-        raise NotImplementedError
+        value = patch['value']
+        if value.get('category')=='collection':
+            raise NotImplementedError('TODO: add tag')
+        else:
+            raise NotImplementedError(
+                    'patch type (bookmark or reading position)'
+                    ' not implemented')
 
     def unapply_patch(self, patch, book_id):
         """remove a patch (remove from  collection or...), according

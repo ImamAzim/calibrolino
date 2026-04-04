@@ -142,32 +142,46 @@ class CalibrolinoController(Controller):
             self._view.showerror('could not get online sync data')
         else:
             if not online_revision == local_revision:
+                revision_applied = True
                 added = 0
                 for patch_rev, patch in online_patches.items():
                     if patch_rev not in local_patches:
                         online_id = self._tolino_cloud.get_ebook_id(patch)
                         if online_id in self._calibre_db.online_books:
                             book_id = self._calibre_db.online_books[online_id]
-                            self._calibre_db.apply_patch(patch, book_id)
-                            local_patches[patch_rev] = patch
-                            self._varbox.patches = local_patches
-                            added += 1
+                            try:
+                                self._calibre_db.apply_patch(patch, book_id)
+                            except NotImplementedError as e:
+                                revision_applied = False
+                                self._view.showerror(e)
+                            else:
+                                local_patches[patch_rev] = patch
+                                self._varbox.patches = local_patches
+                                added += 1
                 suppressed = 0
                 for patch_rev, patch in local_patches.items():
                     if patch_rev not in online_patches:
                         online_id = self._tolino_cloud.get_ebook_id(patch)
                         if online_id in self._calibre_db.online_books:
                             book_id = self._calibre_db.online_books[online_id]
-                            self._calibre_db.unapply_patch(patch, book_id)
-                            del local_patches[patch_rev]
-                            self._varbox.patches = local_patches
-                            suppressed += 1
-                raise NotImplementedError
-                self._varbox.revision = online_revision
-                self._view.showinfo(
-                        f'pull sync finished. {added} patch added, '
-                        f'{suppressed} patch removed')
-                print(online_lib)
+                            try:
+                                self._calibre_db.unapply_patch(patch, book_id)
+                            except NotImplementedError as e:
+                                revision_applied = False
+                                self._view.showerror(e)
+                            else:
+                                del local_patches[patch_rev]
+                                self._varbox.patches = local_patches
+                                suppressed += 1
+                if revision_applied:
+                    self._varbox.revision = online_revision
+                    self._view.showinfo(
+                            f'pull sync finished. {added} patch added, '
+                            f'{suppressed} patch removed')
+                else:
+                    self._view.showinfo(
+                            'revision not applied because some patches'
+                            ' are not implemented')
             else:
                 self._view.showinfo('local books already synced')
 
