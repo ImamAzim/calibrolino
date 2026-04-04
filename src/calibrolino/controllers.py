@@ -235,6 +235,7 @@ class CalibrolinoController(Controller):
                     if book.get('online_id'):
                         self._calibre_db.rm_online_id(local_id)
                     self._calibre_db.add_online_id(local_id, online_id)
+                    self._calibre_db.commit()
                     title = book['full_title']
                     msg = f'{title} has been uploaded'
                     self._view.showinfo(msg)
