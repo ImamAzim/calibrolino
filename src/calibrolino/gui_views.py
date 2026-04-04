@@ -134,7 +134,8 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         self._update_library_display()
 
     def _test(self):
-        self.controller._varbox.revision = 'reset'
+        delattr(self.controller._varbox, 'revision')
+        self.controller._varbox.save()
         self.controller._varbox.patches = dict()
         # rowdata = self._library_table.getSelectedRowData()
         # index = rowdata.index
