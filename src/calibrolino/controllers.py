@@ -210,8 +210,8 @@ class CalibrolinoController(Controller):
             books_to_upload = list()
             for local_id, book in local_books.items():
                 online_id = book.get('online_id')
-                if online_id not in online_lib:
-                    books_to_upload.append(book_id)
+                if online_id not in online_books:
+                    books_to_upload.append(local_id)
             msg = f'I will upload {len(books_to_upload)} books'
             answer = self._view.askokcancel(msg)
             if answer:
@@ -251,7 +251,8 @@ class CalibrolinoController(Controller):
                 except CalibrolinoException as e:
                     self._view.showerror(e)
                 else:
-                    msg = f'metadata of {book_title} have been uploaded'
+                    title = book['full_title']
+                    msg = f'metadata of {title} have been uploaded'
                     self._view.showinfo(msg)
 
     def delete_book(self, online_id: str):
