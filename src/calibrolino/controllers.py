@@ -249,7 +249,8 @@ class CalibrolinoController(Controller):
                         msg = f'metadata of {book_title} have been uploaded'
                         self._view.showinfo(msg)
 
-    def delete_book(self, book_title: str):
+    def delete_book(self, book_id: str):
+        book_title = self.local_books[book_id]['full_title']
         msg = f'delete {book_title} from the online library. Are you sure?'
         answer = self._view.askyesno(msg)
         if answer:
@@ -287,15 +288,15 @@ class CalibrolinoController(Controller):
         else:
             online_lib = dict()
         df = DataFrame(
-                dict(title='', local=False, online=False), local_lib.keys())
+                dict(title='', local_id=0, online_id=''), local_lib.keys())
         for book_id, book in local_lib.items():
             df.at[book_id, 'title'] = book['full_title']
-            df.at[book_id, 'local'] = True
+            df.at[book_id, 'local_id'] = book_id
             online_id = book.get(ONLINE_ID)
             if online_id in online_lib:
-                df.at[book_id, 'online'] = True
+                df.at[book_id, 'online_id'] = online_id
         for online_id, title in online_lib.items():
             if online_id not in self._calibre_db.online_books:
-                df.loc[max(df.index)+1] = {
-                        'title': title, 'local': False, 'online': True}
+                df.loc[online_id] = {
+                        'title': title, 'local_id': '', 'online_id': online_id}
         return df
