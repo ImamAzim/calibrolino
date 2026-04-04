@@ -232,7 +232,7 @@ class CalibrolinoController(Controller):
                 except CalibrolinoException as e:
                     self._view.showerror(e)
                 else:
-                    if online_id:
+                    if book.get('online_id'):
                         self._calibre_db.rm_online_id(local_id)
                     self._calibre_db.add_online_id(local_id, online_id)
                     title = book['full_title']
