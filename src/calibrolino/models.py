@@ -683,8 +683,12 @@ class TolinoCloud(object):
 
         """
         tags = book['tags']
+        patches = dict()
         for tag in tags:
-            self._client.add_to_collection(online_id, tag)
+            res = self._client.add_to_collection(online_id, tag)
+            revision, patch_rev, patch = res
+            patches[patch_rev] = patch
+        return revision, patches
 
 
     # def upload_metadata(self, book, book_id):
