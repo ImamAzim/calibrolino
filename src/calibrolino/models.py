@@ -671,10 +671,6 @@ class TolinoCloud(object):
                 raise CalibrolinoException(str(e))
             else:
                 try:
-                    self._add_to_collection(book, book_id)
-                except PytolinoException as e:
-                    raise CalibrolinoException(str(e))
-                try:
                     self._upload_cover(book, book_id)
                 except PytolinoException as e:
                     raise CalibrolinoException(str(e))
