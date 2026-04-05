@@ -677,7 +677,7 @@ class TolinoCloud(object):
                 print('book uploaded')
                 return book_id
 
-    def upload_all_tags_of _book(self, book, book_id):
+    def upload_all_tags_of_book(self, book, book_id):
         """
         upload tags that are on local book
 
