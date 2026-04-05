@@ -677,18 +677,14 @@ class TolinoCloud(object):
                 print('book uploaded')
                 return book_id
 
-    def _add_to_collection(self, book, book_id):
+    def upload_all_tags_of _book(self, book, book_id):
         """
-        private methode to add to collection
+        upload tags that are on local book
 
         """
         tags = book['tags']
         for tag in tags:
             self._client.add_to_collection(book_id, tag)
-        statuses = book['status']
-        if statuses is not None:
-            for status in statuses:
-                self._client.add_to_collection(book_id, status)
 
 
     # def upload_metadata(self, book, book_id):
