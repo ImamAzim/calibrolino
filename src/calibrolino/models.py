@@ -638,10 +638,6 @@ class TolinoCloud(object):
                     raise CalibrolinoException(str(e))
                 else:
                     try:
-                        self._add_to_collection(book, book_id)
-                    except PytolinoException as e:
-                        raise CalibrolinoException(str(e))
-                    try:
                         self._upload_cover(book, book_id)
                     except PytolinoException as e:
                         raise CalibrolinoException(str(e))
@@ -695,25 +691,25 @@ class TolinoCloud(object):
                 self._client.add_to_collection(book_id, status)
 
 
-    def upload_metadata(self, book, book_id):
-        """upload the metadata and cover of a book,
-        :book: dict with title, file path an metadata of the book
-        :book_id: ref on the cloud pointing to the book"""
+    # def upload_metadata(self, book, book_id):
+        # """upload the metadata and cover of a book,
+        # :book: dict with title, file path an metadata of the book
+        # :book_id: ref on the cloud pointing to the book"""
 
-        title = book['title']
-        print(f'uploading {title} on id={book_id}')
+        # title = book['title']
+        # print(f'uploading {title} on id={book_id}')
 
-        try:
-            self._client.login(self._password)
-        except PytolinoException as e:
-            raise CalibrolinoException(str(e))
-        else:
-            try:
-                self._add_to_collection(book, book_id)
-                self._upload_cover(book, book_id)
-                self._upload_meta(book, book_id)
-            except PytolinoException as e:
-                raise CalibrolinoException(str(e))
+        # try:
+            # self._client.login(self._password)
+        # except PytolinoException as e:
+            # raise CalibrolinoException(str(e))
+        # else:
+            # try:
+                # self._add_to_collection(book, book_id)
+                # self._upload_cover(book, book_id)
+                # self._upload_meta(book, book_id)
+            # except PytolinoException as e:
+                # raise CalibrolinoException(str(e))
 
     def delete_book(self, book_id):
         """delete book from online lib
