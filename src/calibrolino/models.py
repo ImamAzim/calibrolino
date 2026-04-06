@@ -8,6 +8,7 @@ import datetime
 from pathlib import Path
 import subprocess
 import warnings
+import logging
 
 
 from pytolino.tolino_cloud import Client, PytolinoException
@@ -222,7 +223,8 @@ class CalibreDBReader(object):
     def _rm_all_tags(self, book_id):
         """ rm all tags of a book. need to commit after """
         tags = self.books[book_id]['tags']
-        for tag in tags:
+        while tags:
+            tag = tags[0]
             self.rm_tag(book_id, tag)
 
     def add_book(self, fp: Path, **options):
