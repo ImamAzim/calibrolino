@@ -213,6 +213,7 @@ class CalibreDBReader(object):
     def reset_all_metadata(self, books: dict):
         """in prevision to pull online sync data, delete ALL tags from
         these books on the local library. (TODO: also reading pos or else?)
+        also, previous online_ids are erased and reset to new values
         :books: book_id: online_id
 
         """
