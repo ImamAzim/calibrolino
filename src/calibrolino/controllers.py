@@ -129,8 +129,6 @@ class CalibrolinoController(Controller):
 
         if not hasattr(self._varbox, 'revision'):
             self._reset_local_lib()
-        local_lib = self.local_books
-        online_lib = self.get_online_books()
 
         local_revision = self._varbox.revision
         local_patches = self._varbox.patches
@@ -257,18 +255,6 @@ class CalibrolinoController(Controller):
                         'others data'
                         )
                 self._view.showinfo(msg)
-                # msg = (
-                        # 'the book you chose is already on the cloud '
-                        # 'I will only upload the metadata')
-                # self._view.showinfo(msg)
-                # try:
-                    # self._tolino_cloud.upload_metadata(book, online_id)
-                # except CalibrolinoException as e:
-                    # self._view.showerror(e)
-                # else:
-                    # title = book['full_title']
-                    # msg = f'metadata of {title} have been uploaded'
-                    # self._view.showinfo(msg)
 
     def delete_book(self, online_id: str):
         online_books = self.get_online_books()
