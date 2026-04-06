@@ -221,7 +221,7 @@ class CalibreDBReader(object):
         for book_id in books:
             self._rm_all_tags(book_id)
         self._rm_all_online_ids()
-        for book_id, online_id in books:
+        for book_id, online_id in books.items():
             self.add_online_id(book_id, online_id)
         self.commit()
 
