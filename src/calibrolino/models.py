@@ -228,7 +228,7 @@ class CalibreDBReader(object):
     def _rm_all_online_ids(self):
         online_books = self.online_books
         while online_books:
-            book_id = list[online_books.keys()][0]
+            book_id = list(online_books.keys())[0]
             self.rm_online_id(book_id)
 
     def _rm_all_tags(self, book_id):
