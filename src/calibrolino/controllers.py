@@ -1,6 +1,7 @@
 from varboxes import VarBox
 from pytolino.tolino_cloud import PARTNERS
 from pandas import DataFrame
+import logging
 
 
 from calibrolino.interfaces import Controller, View
@@ -152,6 +153,8 @@ class CalibrolinoController(Controller):
                             except NotImplementedError as e:
                                 revision_applied = False
                                 self._view.showerror(e)
+                            except CalibrolinoException as e:
+                                logging.error(e)
                             else:
                                 local_patches[patch_rev] = patch
                                 added += 1

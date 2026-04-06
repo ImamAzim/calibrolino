@@ -22,6 +22,14 @@ class CalibrolinoException(Exception):
     pass
 
 
+class TagPresentError(CalibrolinoException):
+    pass
+
+
+class TagAbsentError(CalibrolinoException):
+    pass
+
+
 class TolinoCloudException(Exception):
     pass
 
@@ -293,7 +301,7 @@ class CalibreDBReader(object):
         """
         book = self.books[book_id]
         if tag_name in book['tags']:
-            raise CalibrolinoException('tag is already on this book')
+            raise TagPresentError('tag is already on this book')
         if tag_name not in self._tags:
             tag_id = self._create_tag(tag_name)
         tag_id = self._tags[tag_name]
@@ -352,7 +360,7 @@ class CalibreDBReader(object):
 
         book = self.books[book_id]
         if tag_name not in book['tags']:
-            raise CalibrolinoException('no such tag in this book')
+            raise TagAbsentError('no such tag in this book')
         tag_id = self._tags[tag_name]
         table_name = 'books_tags_link'
         sql = f"""
