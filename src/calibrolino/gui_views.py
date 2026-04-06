@@ -127,13 +127,17 @@ class CalibrolinoGUIView(View, tkinter.Tk):
                 self._options_frame,
                 text='delete selection (online)',
                 command=self._delete_selected_book,
-                ).grid(column=3, row=1)
+                ).grid(column=2, row=1)
 
     def _reset(self):
         self.controller.reset_local_library()
 
     def _pull(self):
         self.controller.pull()
+        self._update_library_display()
+
+    def _push(self):
+        self.showinfo('not implemented')
         self._update_library_display()
 
     def _test(self):
@@ -208,6 +212,18 @@ class CalibrolinoGUIView(View, tkinter.Tk):
 
         """
         self.controller.sync_upload()
+        self._update_library_display()
+
+    def _download_all(self):
+        self.showinfo('not implemented')
+        self._update_library_display()
+
+    def _download_one(self):
+        self.showinfo('not implemented')
+        self._update_library_display()
+
+    def _delete_book_locally(self):
+        self.showinfo('not implemented')
         self._update_library_display()
 
     def _upload_one(self):
