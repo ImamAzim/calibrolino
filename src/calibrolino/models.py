@@ -217,6 +217,7 @@ class CalibreDBReader(object):
         :books: book_id: online_id
 
         """
+        self.read_db()
         for book_id in books:
             self._rm_all_tags(book_id)
         self._rm_all_online_ids()
