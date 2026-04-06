@@ -86,14 +86,10 @@ class CalibrolinoController(Controller):
     def local_books(self) -> dict[dict]:
         return self._calibre_db.books
 
-
     def reset_local_library(self):
+        self._calibre_db.read_db()
         local_lib = self.local_books
         online_lib = self.get_online_books()
-        local_books_to_sync = {
-                book_id for book_id, book
-                in local_lib.items()
-                if book['full_title'] in online_lib.values()}
         local_books_to_sync = dict()
         for book_id, book in local_lib.items():
             title = book['full_title']
