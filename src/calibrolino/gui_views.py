@@ -110,29 +110,24 @@ class CalibrolinoGUIView(View, tkinter.Tk):
                 ).grid(column=1, row=0)
         ttk.Button(
                 self._options_frame,
+                text='pull',
+                command=self._pull,
+                ).grid(column=2, row=0)
+        ttk.Button(
+                self._options_frame,
                 text='upload all',
                 command=self._upload_all,
-                ).grid(column=2, row=0)
+                ).grid(column=0, row=1)
         ttk.Button(
                 self._options_frame,
                 text='upload selection',
                 command=self._upload_one,
-                ).grid(column=3, row=0)
+                ).grid(column=1, row=1)
         ttk.Button(
                 self._options_frame,
-                text='delete selection',
+                text='delete selection (online)',
                 command=self._delete_selected_book,
-                ).grid(column=4, row=0)
-        ttk.Button(
-                self._options_frame,
-                text='pull',
-                command=self._pull,
-                ).grid(column=5, row=0)
-        ttk.Button(
-                self._options_frame,
-                text='reset',
-                command=self._reset,
-                ).grid(column=6, row=0)
+                ).grid(column=3, row=1)
 
     def _reset(self):
         self.controller.reset_local_library()
@@ -177,6 +172,10 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         file_menu.add_command(
                 label='delete credentials...',
                 command=self._del_credentials,
+                )
+        file_menu.add_command(
+                label='reset...',
+                command=self._reset,
                 )
         file_menu.add_command(
                 label='quit',
