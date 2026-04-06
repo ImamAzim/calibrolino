@@ -105,7 +105,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
                 ).grid(column=0, row=0)
         ttk.Button(
                 self._options_frame,
-                text='update',
+                text='refresh',
                 command=self._update_library_display,
                 ).grid(column=1, row=0)
         ttk.Button(
