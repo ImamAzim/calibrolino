@@ -189,7 +189,10 @@ class CalibrolinoGUIView(View, tkinter.Tk):
                 )
 
     def start(self):
-        self._update_library_display(include_online=False)
+        if self.controller.credentials:
+            self._update_library_display()
+        else:
+            self._update_library_display(include_online=False)
         self.mainloop()
 
     def _update_library_display(self, include_online=True):
