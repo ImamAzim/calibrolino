@@ -7,6 +7,7 @@ import logging
 from calibrolino.interfaces import Controller, View
 from calibrolino.models import CalibreDBReader
 from calibrolino.models import CalibrolinoException
+from calibrolino.models import TagAbsentError, TagPresentError
 from calibrolino.models import TolinoCloud, ONLINE_ID
 
 
@@ -153,7 +154,7 @@ class CalibrolinoController(Controller):
                             except NotImplementedError as e:
                                 revision_applied = False
                                 self._view.showerror(e)
-                            except CalibrolinoException as e:
+                            except TagPresentError as e:
                                 logging.error(e)
                             else:
                                 local_patches[patch_rev] = patch

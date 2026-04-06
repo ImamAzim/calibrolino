@@ -22,6 +22,14 @@ class CalibrolinoException(Exception):
     pass
 
 
+class PatchAlreadyAppliedError(CalibrolinoException):
+    pass
+
+
+class PatchAlreadyUnappliedError(CalibrolinoException):
+    pass
+
+
 class TagPresentError(CalibrolinoException):
     pass
 
@@ -157,7 +165,10 @@ class CalibreDBReader(object):
             tag_name = value['name']
             op = patch['op']
             if op=='add':
-                self.add_tag(book_id, tag_name)
+                try:
+                    self.add_tag(book_id, tag_name)
+                except TagPresentError:
+                    raise PatchAlreadyAppliedError
             elif op=='replace':
                 raise NotImplementedError(
                         'do not know what to do if op is to replace tag')
@@ -183,7 +194,10 @@ class CalibreDBReader(object):
             tag_name = value['name']
             op = patch['op']
             if op=='add':
-                self.rm_tag(book_id, tag_name)
+                try:
+                    self.rm_tag(book_id, tag_name)
+                except TagAbsentError:
+                    raise PatchAlreadyUnappliedError
             elif op=='replace':
                 raise NotImplementedError(
                         'do not know what to do if op was to replace tag')
