@@ -245,10 +245,11 @@ class CalibrolinoController(Controller):
                     except CalibrolinoException as e:
                         self._view.showerror(e)
                     else:
-                        saved_patches = self._varbox.patches
-                        saved_patches.update(patches)
-                        self._varbox.revision = revision
-                        self._varbox.save()
+                        if revision:
+                            saved_patches = self._varbox.patches
+                            self._varbox.revision = revision
+                            saved_patches.update(patches)
+                            self._varbox.save()
             else:
                 msg = (
                         'book already present on the cloud. use PUSH '

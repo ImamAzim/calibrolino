@@ -684,6 +684,7 @@ class TolinoCloud(object):
         """
         tags = book['tags']
         patches = dict()
+        revision = None
         for tag in tags:
             res = self._client.add_to_collection(online_id, tag)
             revision, patch_rev, patch = res
