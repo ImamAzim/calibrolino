@@ -210,15 +210,24 @@ class CalibreDBReader(object):
                     'patch type (bookmark or reading position)'
                     ' not implemented')
 
-    def reset_all_metadata(self, book_ids: list):
+    def reset_all_metadata(self, books: dict):
         """in prevision to pull online sync data, delete ALL tags from
         these books on the local library. (TODO: also reading pos or else?)
-        :book_ids: list of book ids
+        :books: book_id: online_id
 
         """
-        for book_id in book_ids:
+        for book_id in books:
             self._rm_all_tags(book_id)
+        self._rm_all_online_ids()
+        for book_id, online_id in books:
+            self.add_online_id(book_id, online_id)
         self.commit()
+
+    def _rm_all_online_ids(self):
+        online_books = self.online_books
+        while online_books:
+            book_id = list[online_books.keys()][0]
+            self.rm_online_id(book_id)
 
     def _rm_all_tags(self, book_id):
         """ rm all tags of a book. need to commit after """

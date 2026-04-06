@@ -107,12 +107,14 @@ class CalibrolinoController(Controller):
             return
         else:
             self._calibre_db.reset_all_metadata(local_books_to_sync)
+
             for book_id, online_id in local_books_to_sync.items():
                 book = local_lib[book_id]
                 if book.get(ONLINE_ID):
                     self._calibre_db.rm_online_id(book_id)
                 self._calibre_db.add_online_id(book_id, online_id)
             self._calibre_db.commit()
+
             revision = 'needToPullData'
             self._varbox.revision = revision
             self._varbox.patches = dict()
