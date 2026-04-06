@@ -7,7 +7,8 @@ import logging
 from calibrolino.interfaces import Controller, View
 from calibrolino.models import CalibreDBReader
 from calibrolino.models import CalibrolinoException
-from calibrolino.models import TagAbsentError, TagPresentError
+from calibrolino.models import PatchAlreadyAppliedError
+from calibrolino.models import PatchAlreadyUnappliedError
 from calibrolino.models import TolinoCloud, ONLINE_ID
 
 
@@ -154,8 +155,10 @@ class CalibrolinoController(Controller):
                             except NotImplementedError as e:
                                 revision_applied = False
                                 self._view.showerror(e)
-                            except TagPresentError as e:
-                                logging.error(e)
+                            except PatchAlreadyAppliedError as e:
+                                logging.warning(e)
+                                logging.warning('patch were already applied')
+                                local_patches[patch_rev] = patch
                             else:
                                 local_patches[patch_rev] = patch
                                 added += 1
@@ -171,6 +174,10 @@ class CalibrolinoController(Controller):
                             except NotImplementedError as e:
                                 revision_applied = False
                                 self._view.showerror(e)
+                            except PatchAlreadyUnappliedError as e:
+                                logging.warning(e)
+                                logging.warning('patch were already unapplied')
+                                patch_rev_to_delete.append(patch_rev)
                             else:
                                 patch_rev_to_delete.append(patch_rev)
                                 suppressed += 1
