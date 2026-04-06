@@ -128,20 +128,21 @@ class CalibrolinoGUIView(View, tkinter.Tk):
                 text='pull',
                 command=self._pull,
                 ).grid(column=5, row=0)
+        ttk.Button(
+                self._options_frame,
+                text='reset',
+                command=self._reset,
+                ).grid(column=6, row=0)
+
+    def _reset(self):
+        self.controller.reset_local_library()
 
     def _pull(self):
         self.controller.pull()
         self._update_library_display()
 
     def _test(self):
-        delattr(self.controller._varbox, 'revision')
-        self.controller._varbox.save()
-        self.controller._varbox.patches = dict()
-        self.controller._reset_local_lib()
-        # rowdata = self._library_table.getSelectedRowData()
-        # index = rowdata.index
-        # title = index.values[0]
-        # print(title)
+        self.showinfo('test')
 
     def _prompt_credentials(self, ):
         """prompt to change credentials

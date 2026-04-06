@@ -86,52 +86,53 @@ class CalibrolinoController(Controller):
     def local_books(self) -> dict[dict]:
         return self._calibre_db.books
 
-    def _reset_local_lib(self):
-        answer = self._view.askokcancel(
-                'there are no local sync data. I will create '
-                'an empty one and delete all local tags')
+
+    def reset_local_library(self):
+        local_lib = self.local_books
+        online_lib = self.get_online_books()
+        local_books_to_sync = {
+                book_id for book_id, book
+                in local_lib.items()
+                if book['full_title'] in online_lib.values()}
+        local_books_to_sync = dict()
+        for book_id, book in local_lib.items():
+            title = book['full_title']
+            if title in online_lib.values():
+                for online_id, online_title in online_lib.items():
+                    if title == online_title:
+                        local_books_to_sync[book_id] = online_id
+                        online_lib.pop(online_id)
+                        break
+        n = len(local_books_to_sync)
+        answer = self._view.askyesno(
+                'delete all local tags for books that are also'
+                f' online ({n} books). are you sure?')
         if not answer:
             return
         else:
-            local_lib = self.local_books
-            online_lib = self.get_online_books()
-            local_books_to_sync = {
-                    book_id for book_id, book
-                    in local_lib.items()
-                    if book['full_title'] in online_lib.values()}
-            local_books_to_sync = dict()
-            for book_id, book in local_lib.items():
-                title = book['full_title']
-                if title in online_lib.values():
-                    for online_id, online_title in online_lib.items():
-                        if title == online_title:
-                            local_books_to_sync[book_id] = online_id
-                            online_lib.pop(online_id)
-                            break
-            n = len(local_books_to_sync)
-            answer = self._view.askyesno(
-                    'delete all local tags for books that are also'
-                    f' online ({n} books). are you sure?')
-            if not answer:
-                return
-            else:
-                self._calibre_db.reset_all_metadata(local_books_to_sync)
-                for book_id, online_id in local_books_to_sync.items():
-                    book = local_lib[book_id]
-                    if book.get(ONLINE_ID):
-                        self._calibre_db.rm_online_id(book_id)
-                    self._calibre_db.add_online_id(book_id, online_id)
-                self._calibre_db.commit()
-                revision = 'needToPullData'
-                self._varbox.revision = revision
-                self._varbox.patches = dict()
+            self._calibre_db.reset_all_metadata(local_books_to_sync)
+            for book_id, online_id in local_books_to_sync.items():
+                book = local_lib[book_id]
+                if book.get(ONLINE_ID):
+                    self._calibre_db.rm_online_id(book_id)
+                self._calibre_db.add_online_id(book_id, online_id)
+            self._calibre_db.commit()
+            revision = 'needToPullData'
+            self._varbox.revision = revision
+            self._varbox.patches = dict()
 
     def pull(self):
 
-        self._read_db()
-
         if not hasattr(self._varbox, 'revision'):
-            self._reset_local_lib()
+            answer = self._view.askokcancel(
+                    'there are no local sync data. I will create '
+                    'an empty one and delete all local tags')
+            if not answer:
+                return
+            else:
+                self.reset_local_library()
+
+        self._read_db()
 
         local_revision = self._varbox.revision
         local_patches = self._varbox.patches
