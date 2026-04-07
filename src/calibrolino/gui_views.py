@@ -245,7 +245,9 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         self._update_library_display()
 
     def _delete_book_locally(self):
-        self.showinfo('not implemented')
+        rowdata = self._library_table.getSelectedRowData()
+        book_id = rowdata['local_id'].values[0]
+        self.controller.delete_book_locally(book_id)
         self._update_library_display()
 
     def _upload_one(self):
