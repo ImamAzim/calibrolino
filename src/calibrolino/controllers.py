@@ -219,6 +219,15 @@ class CalibrolinoController(Controller):
                 for book_id in books_to_upload:
                     self.upload_book(book_id)
 
+    def download_book(self, online_id):
+        pass
+
+    def download_all(self):
+        pass
+
+    def delete_book_locally(self, book_id):
+        pass
+
     def upload_book(self, local_id: int):
         try:
             book = self.local_books[local_id]
