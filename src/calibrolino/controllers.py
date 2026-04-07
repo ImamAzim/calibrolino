@@ -233,7 +233,7 @@ class CalibrolinoController(Controller):
             self._view.showerror('book not found on the cloud')
         else:
             try:
-                self._tolino_cloud.download_book(online_id)
+                book_path, cover_path, metadata = self._tolino_cloud.download_book(online_id)
             except TolinoCloudException:
                 # show error
             else:
