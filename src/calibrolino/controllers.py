@@ -10,6 +10,7 @@ from calibrolino.models import CalibrolinoException
 from calibrolino.models import PatchAlreadyAppliedError
 from calibrolino.models import PatchAlreadyUnappliedError
 from calibrolino.models import TolinoCloud, ONLINE_ID
+from calibrolino.models import TolinoCloudException
 
 
 class CalibrolinoController(Controller):
@@ -231,7 +232,12 @@ class CalibrolinoController(Controller):
         except KeyError:
             self._view.showerror('book not found on the cloud')
         else:
-            pass
+            try:
+                self._tolino_cloud.download_book(online_id)
+            except TolinoCloudException:
+                # show error
+            else:
+                #  add book to lib
 
     def download_all(self):
         pass
