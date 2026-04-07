@@ -235,7 +235,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         self._update_library_display()
 
     def _download_all(self):
-        self.showinfo('not implemented')
+        self.controller.download_all()
         self._update_library_display()
 
     def _download_one(self):
