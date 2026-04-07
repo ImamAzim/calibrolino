@@ -238,6 +238,14 @@ class CalibreDBReader(object):
             tag = tags[0]
             self.rm_tag(book_id, tag)
 
+    def delete_book(self, book_id: int):
+        """delete a book from local library
+
+        :book_id:
+
+        """
+        raise NotImplementedError
+
     def add_book(self, fp: Path, **options):
         """add a book to the library
 
@@ -701,13 +709,6 @@ class TolinoCloud(object):
             else:
                 pass
 
-    def delete_book(self, book_id: int):
-        """delete a book from local library
-
-        :book_id:
-
-        """
-        raise NotImplementedError
 
     def upload_all_tags_of_book(self, book, online_id):
         """
