@@ -44,6 +44,14 @@ class Controller(metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    def download_all(self) -> None:
+        """download all books that are on the cloud but not in the local
+        library
+
+        """
+        pass
+
+    @abstractmethod
     def upload_book(self, book_title: str):
         """upload the book
 
@@ -53,10 +61,25 @@ class Controller(metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    def download_book(self, online_id: str):
+        """download book from cloud and store in library
+
+
+        """
+        pass
+
+    @abstractmethod
     def delete_book(self, book_title: str):
         """delete the book from the cloud
 
         :book_title: should be in the online library
+
+        """
+        pass
+
+    @abstractmethod
+    def delete_book_locally(self, book_id: int):
+        """delete the book from the local library
 
         """
         pass
