@@ -701,6 +701,14 @@ class TolinoCloud(object):
             else:
                 pass
 
+    def delete_book(self, book_id: int):
+        """delete a book from local library
+
+        :book_id:
+
+        """
+        raise NotImplementedError
+
     def upload_all_tags_of_book(self, book, online_id):
         """
         upload tags that are on local book
