@@ -682,35 +682,24 @@ class TolinoCloud(object):
                         raise CalibrolinoException(str(e))
                     print('book uploaded')
 
-    def upload_book(self, book):
-        """upload to the cloud the selected book
+    def download_book(self, online_id: str):
+        """
 
-        :book: (dict with metada and path to the file)
+        :online_id:
 
         """
+        raise NotImplementedError
         try:
             self._client.login(self._password)
         except PytolinoException as e:
             raise CalibrolinoException(str(e))
         else:
-            title = book['title']
-            print(f'uploading {title}')
-            file_path = book['file_path']
             try:
-                book_id = self._client.upload(file_path)
+                pass
             except PytolinoException as e:
                 raise CalibrolinoException(str(e))
             else:
-                try:
-                    self._upload_cover(book, book_id)
-                except PytolinoException as e:
-                    raise CalibrolinoException(str(e))
-                try:
-                    self._upload_meta(book, book_id)
-                except PytolinoException as e:
-                    raise CalibrolinoException(str(e))
-                print('book uploaded')
-                return book_id
+                pass
 
     def upload_all_tags_of_book(self, book, online_id):
         """
