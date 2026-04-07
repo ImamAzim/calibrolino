@@ -220,7 +220,18 @@ class CalibrolinoController(Controller):
                     self.upload_book(book_id)
 
     def download_book(self, online_id):
-        pass
+        self._read_db()
+        if online_id in self._calibre_db.online_books:
+            msg = ('book is already in the local lib. use PUSH to sync data')
+            self._view.showinfo(msg)
+            return
+        online_books = self.get_online_books()
+        try:
+            book_id = online_books[online_id]
+        except KeyError:
+            self._view.showerror('book not found on the cloud')
+        else:
+            pass
 
     def download_all(self):
         pass
