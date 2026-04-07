@@ -239,7 +239,9 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         self._update_library_display()
 
     def _download_one(self):
-        self.showinfo('not implemented')
+        rowdata = self._library_table.getSelectedRowData()
+        online_id = rowdata['online_id'].values[0]
+        self.controller.download_book(online_id)
         self._update_library_display()
 
     def _delete_book_locally(self):
