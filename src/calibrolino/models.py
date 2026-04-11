@@ -690,6 +690,7 @@ class TolinoCloud(object):
                 except PytolinoException as e:
                     raise CalibrolinoException(str(e))
                 print('book uploaded')
+                return book_id
 
     def download_book(self, online_id: str):
         """

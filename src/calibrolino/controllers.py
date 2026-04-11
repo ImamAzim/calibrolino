@@ -287,6 +287,7 @@ class CalibrolinoController(Controller):
                 else:
                     if book.get('online_id'):
                         self._calibre_db.rm_online_id(local_id)
+                    print('onlineid', online_id)
                     self._calibre_db.add_online_id(local_id, online_id)
                     self._calibre_db.commit()
                     try:
