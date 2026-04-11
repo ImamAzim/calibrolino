@@ -11,6 +11,9 @@ from calibrolino.models import PatchAlreadyAppliedError
 from calibrolino.models import PatchAlreadyUnappliedError
 from calibrolino.models import TolinoCloud, ONLINE_ID
 from calibrolino.models import TolinoCloudException
+from calibrolino.interfaces import ControllerException
+
+
 
 
 class CalibrolinoController(Controller):
@@ -223,9 +226,8 @@ class CalibrolinoController(Controller):
     def download_book(self, online_id):
         self._read_db()
         if online_id in self._calibre_db.online_books:
-            msg = ('book is already in the local lib. use PUSH to sync data')
-            self._view.showinfo(msg)
-            return
+            msg = ('book is already in the local lib. use PULL to sync data')
+            raise ControllerException(msg)
         online_books = self.get_online_books()
         try:
             online_books[online_id]
@@ -248,7 +250,19 @@ class CalibrolinoController(Controller):
                 self._calibre_db.add_online_id(book_id, online_id)
 
     def download_all(self):
-        pass
+        local_books = self.local_books
+        online_books = self.get_online_books()
+        if online_books is not None:
+            books_to_download = list()
+            for online_id in local_books:
+                online_id = book.get('online_id')
+                if online_id not in online_books:
+                    books_to_upload.append(local_id)
+            msg = f'I will upload {len(books_to_upload)} books'
+            answer = self._view.askokcancel(msg)
+            if answer:
+                for book_id in books_to_upload:
+                    self.upload_book(book_id)
 
     def delete_book_locally(self, book_id):
         pass

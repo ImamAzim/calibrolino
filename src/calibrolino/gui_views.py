@@ -5,7 +5,7 @@ from tkinter import ttk, simpledialog
 from pandastable import Table
 
 
-from calibrolino.interfaces import View, Controller
+from calibrolino.interfaces import View, Controller, ControllerException
 
 
 class CredentialsPrompt(simpledialog.Dialog):
@@ -241,8 +241,12 @@ class CalibrolinoGUIView(View, tkinter.Tk):
     def _download_one(self):
         rowdata = self._library_table.getSelectedRowData()
         online_id = rowdata['online_id'].values[0]
-        self.controller.download_book(online_id)
-        self._update_library_display()
+        try:
+            self.controller.download_book(online_id)
+        except ControllerException as e:
+            self.showerror(e)
+        else:
+            self._update_library_display()
 
     def _delete_book_locally(self):
         rowdata = self._library_table.getSelectedRowData()

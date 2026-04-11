@@ -4,6 +4,10 @@ from abc import ABCMeta, abstractmethod, abstractproperty
 from pandas import DataFrame
 
 
+class ControllerException(Exception):
+    pass
+
+
 class Controller(metaclass=ABCMeta):
 
     """Controller for calibrolino """
