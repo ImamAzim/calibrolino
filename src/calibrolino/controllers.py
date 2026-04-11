@@ -252,6 +252,7 @@ class CalibrolinoController(Controller):
                     self._view.showerror(e)
                 else:
                     self._calibre_db.add_online_id(book_id, online_id)
+                    self._calibre_db.commit()
 
     def download_all(self):
         local_books = self.local_books
