@@ -696,19 +696,17 @@ class TolinoCloud(object):
         :online_id:
 
         """
-        raise NotImplementedError
         try:
             self._client.login(self._password)
         except PytolinoException as e:
             raise CalibrolinoException(str(e))
         else:
             try:
-                pass
+                res = self._client.download(online_id)
             except PytolinoException as e:
                 raise CalibrolinoException(str(e))
             else:
-                pass
-
+                return res
 
     def upload_all_tags_of_book(self, book, online_id):
         """
