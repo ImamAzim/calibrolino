@@ -243,7 +243,9 @@ class CalibrolinoController(Controller):
                                    if value is not None}
                 metadata_nonone.pop('publisher')
                 metadata_nonone.pop('issued')
-                self._calibre_db.add_book(book_path, **metadata_nonone)
+                book_id = self._calibre_db.add_book(
+                        book_path, **metadata_nonone)
+                self._calibre_db.add_online_id(book_id, online_id)
 
     def download_all(self):
         pass
