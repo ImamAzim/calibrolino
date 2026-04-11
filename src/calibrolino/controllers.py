@@ -235,12 +235,15 @@ class CalibrolinoController(Controller):
             try:
                 res = self._tolino_cloud.download_book(online_id)
                 book_path, cover_path, metadata = res
-            except TolinoCloudException:
-                pass
-                # show error
+            except TolinoCloudException as e:
+                self._view.showerror(e)
             else:
-                pass
-                #  add book to lib
+                metadata_nonone = {key: value for key, value
+                                   in metadata.items()
+                                   if value is not None}
+                metadata_nonone.pop('publisher')
+                metadata_nonone.pop('issued')
+                self._calibre_db.add_book(book_path, **metadata_nonone)
 
     def download_all(self):
         pass
