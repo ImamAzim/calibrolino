@@ -3,12 +3,10 @@
 import os
 import json
 import sqlite3
-import sys
 import datetime
 from pathlib import Path
 import subprocess
 import warnings
-import logging
 
 
 from pytolino.tolino_cloud import Client, PytolinoException
@@ -106,8 +104,8 @@ class CalibreDBReader(object):
         name = ONLINE_ID
         datatype = 'text'
         arg = [label, name, datatype]
-        full_cmd = [self._calibre_db_command, cmd]  + arg
-        completed_process = subprocess.run(full_cmd, capture_output=False)
+        full_cmd = [self._calibre_db_command, cmd] + arg
+        subprocess.run(full_cmd, capture_output=False)
         self._load_db()
 
     def _get_calibre_db(self):
@@ -160,17 +158,16 @@ class CalibreDBReader(object):
         :book_id:
 
         """
-        book = self._books[book_id]
         value = patch['value']
-        if value.get('category')=='collection':
+        if value.get('category') == 'collection':
             tag_name = value['name']
             op = patch['op']
-            if op=='add':
+            if op == 'add':
                 try:
                     self.add_tag(book_id, tag_name)
                 except TagPresentError:
                     raise PatchAlreadyAppliedError
-            elif op=='replace':
+            elif op == 'replace':
                 raise NotImplementedError(
                         'do not know what to do if op is to replace tag')
             else:
@@ -189,17 +186,16 @@ class CalibreDBReader(object):
         :book_id:
 
         """
-        book = self._books[book_id]
         value = patch['value']
-        if value.get('category')=='collection':
+        if value.get('category') == 'collection':
             tag_name = value['name']
             op = patch['op']
-            if op=='add':
+            if op == 'add':
                 try:
                     self.rm_tag(book_id, tag_name)
                 except TagAbsentError:
                     raise PatchAlreadyUnappliedError
-            elif op=='replace':
+            elif op == 'replace':
                 raise NotImplementedError(
                         'do not know what to do if op was to replace tag')
             else:
@@ -288,8 +284,8 @@ class CalibreDBReader(object):
 
     def add_online_id(self, book_id, online_id):
         """
-        add an id to the book corresponding to the id on the cloud. Tells that the book is
-        present online
+        add an id to the book corresponding to the id on the cloud. Tells that
+        the book is present online
 
         :book_id: int
         :online_id: str
@@ -308,7 +304,7 @@ class CalibreDBReader(object):
         INSERT INTO {link_table_name} (book, value)
         VALUES ({book_id}, '{online_id_id}');
         """
-        res = self._con.execute(sql)
+        self._con.execute(sql)
         table_name = link_table_name
         self._tables[table_name] = self._get_table(table_name)
         book[ONLINE_ID] = online_id
@@ -345,7 +341,7 @@ class CalibreDBReader(object):
         INSERT INTO {table_name} (book, tag)
         VALUES ({book_id}, {tag_id});
         """
-        res = self._con.execute(sql)
+        self._con.execute(sql)
         book['tags'].append(tag_name)
 
     def commit(self):
@@ -356,7 +352,8 @@ class CalibreDBReader(object):
 
     def rm_online_id(self, book_id):
         """
-        rm an id to the book corresponding to the id on the cloud. Tells that the book is no more online
+        rm an id to the book corresponding to the id on the cloud. Tells that
+        the book is no more online
 
         :book_id: int
 
@@ -373,7 +370,7 @@ class CalibreDBReader(object):
         DELETE FROM {table_name}
         WHERE book={book_id};
         """
-        res = self._con.execute(sql)
+        self._con.execute(sql)
         self._tables[table_name] = self._get_table(table_name)
 
         table_name = f'custom_column_{column_id}'
@@ -381,7 +378,7 @@ class CalibreDBReader(object):
         DELETE FROM {table_name}
         WHERE value='{online_id}';
         """
-        res = self._con.execute(sql)
+        self._con.execute(sql)
         self._tables[table_name] = self._get_table(table_name)
         del self.online_books[online_id]
         del book[ONLINE_ID]
@@ -426,7 +423,7 @@ class CalibreDBReader(object):
         INSERT INTO {table_name} (name)
         VALUES ('{tag_name}');
         """
-        res = self._con.execute(sql)
+        self._con.execute(sql)
         self._get_all_tables()
         self._create_tags_dict()
 
@@ -443,10 +440,10 @@ class CalibreDBReader(object):
         for column_name, column_id in self._custom_columns_id.items():
             custom_column_table_name = f'custom_column_{column_id}'
             custom_link_table_name = f'books_custom_column_{column_id}_link'
-            self._tables[custom_column_table_name ] = self._get_table(
-                    custom_column_table_name )
-            self._tables[custom_link_table_name ] = self._get_table(
-                    custom_link_table_name )
+            self._tables[custom_column_table_name] = self._get_table(
+                    custom_column_table_name)
+            self._tables[custom_link_table_name] = self._get_table(
+                    custom_link_table_name)
 
     def _create_tags_dict(self):
         self._tags = dict()
@@ -483,7 +480,6 @@ class CalibreDBReader(object):
                 self._books[book_id][ONLINE_ID] = online_id
                 self._online_books[online_id] = book_id
 
-
     def _create_books_dict(self):
 
         files_data = {row['book']: row for row in self._tables['data']}
@@ -517,16 +513,15 @@ class CalibreDBReader(object):
                     metadata[data][book_id].append(metadata_value)
 
         self._books = dict()
-        #TODO: get online id value
 
         for book_row in self._tables['books']:
             book_id = book_row['id']
             file_data = files_data[book_id]
             book_format = file_data['format']
             if book_format in self._accepted_formats:
-                file_path=self._get_file_path(book_row, file_data)
+                file_path = self._get_file_path(book_row, file_data)
                 title = book_row['title']
-                serie_name=metadata['series'].get(book_id)
+                serie_name = metadata['series'].get(book_id)
                 series_index=book_row['series_index']
                 if serie_name is not None:
                     serie_name = serie_name[0]
