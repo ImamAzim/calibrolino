@@ -260,9 +260,11 @@ class CalibreDBReader(object):
         full_cmd = [self._calibre_db_command, cmd] + options_list + [arg]
         completed_process = subprocess.run(full_cmd, capture_output=True)
         answer = completed_process.stdout.decode()
-        if not answer:
-            print(completed_process.stderr.decode())
-            raise CalibrolinoException('fail to add book to library')
+        error = completed_process.stderr.decode()
+        if error:
+            self._load_db()
+            self.read_db()
+            raise CalibrolinoException(error)
         else:
             book_id_str = answer.split()[-1]
             book_id = int(book_id_str)
