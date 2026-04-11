@@ -14,8 +14,6 @@ from calibrolino.models import TolinoCloudException
 from calibrolino.interfaces import ControllerException
 
 
-
-
 class CalibrolinoController(Controller):
 
     """controller of calibrolino in mvc arch"""
@@ -255,7 +253,7 @@ class CalibrolinoController(Controller):
                     self._calibre_db.commit()
 
     def download_all(self):
-        local_books = self.local_books
+        self.local_books
         online_books = self.get_online_books()
         books_to_download = list()
         for online_id in online_books:
@@ -287,7 +285,6 @@ class CalibrolinoController(Controller):
                 else:
                     if book.get('online_id'):
                         self._calibre_db.rm_online_id(local_id)
-                    print('onlineid', online_id)
                     self._calibre_db.add_online_id(local_id, online_id)
                     self._calibre_db.commit()
                     try:
