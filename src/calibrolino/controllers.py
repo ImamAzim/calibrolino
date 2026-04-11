@@ -252,17 +252,15 @@ class CalibrolinoController(Controller):
     def download_all(self):
         local_books = self.local_books
         online_books = self.get_online_books()
-        if online_books is not None:
-            books_to_download = list()
-            for online_id in local_books:
-                online_id = book.get('online_id')
-                if online_id not in online_books:
-                    books_to_upload.append(local_id)
-            msg = f'I will upload {len(books_to_upload)} books'
-            answer = self._view.askokcancel(msg)
-            if answer:
-                for book_id in books_to_upload:
-                    self.upload_book(book_id)
+        books_to_download = list()
+        for online_id in online_books:
+            if online_id not in self._calibre_db.online_books:
+                books_to_download.append(online_id)
+        msg = f'I will download {len(books_to_download)} books'
+        answer = self._view.askokcancel(msg)
+        if answer:
+            for online_id in books_to_download:
+                self.download_book(online_id)
 
     def delete_book_locally(self, book_id):
         pass
