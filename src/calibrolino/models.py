@@ -260,10 +260,15 @@ class CalibreDBReader(object):
         full_cmd = [self._calibre_db_command, cmd] + options_list + [arg]
         completed_process = subprocess.run(full_cmd, capture_output=True)
         answer = completed_process.stdout.decode()
-        book_id = int(answer.split()[-1])
-        self._load_db()
-        self.read_db()
-        return book_id
+        if not answer:
+            print(completed_process.stderr.decode())
+            raise CalibrolinoException('fail to add book to library')
+        else:
+            book_id_str = answer.split()[-1]
+            book_id = int(book_id_str)
+            self._load_db()
+            self.read_db()
+            return book_id
 
     def remove_book(self, book_id):
         """delete a book from the library
