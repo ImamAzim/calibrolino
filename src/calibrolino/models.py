@@ -662,10 +662,10 @@ class TolinoCloud(object):
             except PytolinoException as e:
                 raise TolinoCloudException(str(e))
 
-    def upload_books(self, books):
-        """upload to the cloud the selected books
+    def upload_book(self, book):
+        """upload to the cloud the selected book
 
-        :books: list of books (dict with metada and path to the file)
+        :book: dict with metada and path to the file
 
         """
         try:
@@ -673,24 +673,23 @@ class TolinoCloud(object):
         except PytolinoException as e:
             raise CalibrolinoException(str(e))
         else:
-            for book in books:
-                title = book['title']
-                print(f'uploading {title}')
-                file_path = book['file_path']
+            title = book['title']
+            print(f'uploading {title}')
+            file_path = book['file_path']
+            try:
+                book_id = self._client.upload(file_path)
+            except PytolinoException as e:
+                raise CalibrolinoException(str(e))
+            else:
                 try:
-                    book_id = self._client.upload(file_path)
+                    self._upload_cover(book, book_id)
                 except PytolinoException as e:
                     raise CalibrolinoException(str(e))
-                else:
-                    try:
-                        self._upload_cover(book, book_id)
-                    except PytolinoException as e:
-                        raise CalibrolinoException(str(e))
-                    try:
-                        self._upload_meta(book, book_id)
-                    except PytolinoException as e:
-                        raise CalibrolinoException(str(e))
-                    print('book uploaded')
+                try:
+                    self._upload_meta(book, book_id)
+                except PytolinoException as e:
+                    raise CalibrolinoException(str(e))
+                print('book uploaded')
 
     def download_book(self, online_id: str):
         """
