@@ -9,21 +9,16 @@ class ControllerException(Exception):
 
 
 class Controller(metaclass=ABCMeta):
-
-    """Controller for calibrolino """
+    """Controller for calibrolino"""
 
     @abstractproperty
     def partners(self) -> dict:
-        """list of tolino partner (arg for tolinocloud class)
-
-        """
+        """list of tolino partner (arg for tolinocloud class)"""
         pass
 
     @abstractproperty
     def credentials(self) -> dict:
-        """credentials that can be saved and loaded from disk
-
-        """
+        """credentials that can be saved and loaded from disk"""
         pass
 
     @abstractproperty
@@ -42,9 +37,7 @@ class Controller(metaclass=ABCMeta):
 
     @abstractmethod
     def sync_upload(self) -> None:
-        """upload all local books that are not yet online
-
-        """
+        """upload all local books that are not yet online"""
         pass
 
     @abstractmethod
@@ -66,10 +59,7 @@ class Controller(metaclass=ABCMeta):
 
     @abstractmethod
     def download_book(self, online_id: str):
-        """download book from cloud and store in library
-
-
-        """
+        """download book from cloud and store in library"""
         pass
 
     @abstractmethod
@@ -83,9 +73,7 @@ class Controller(metaclass=ABCMeta):
 
     @abstractmethod
     def delete_book_locally(self, book_id: int):
-        """delete the book from the local library
-
-        """
+        """delete the book from the local library"""
         pass
 
     @abstractmethod
@@ -99,9 +87,7 @@ class Controller(metaclass=ABCMeta):
 
     @abstractmethod
     def pull(self):
-        """fetch sync data from server and apply changes to local lib
-
-        """
+        """fetch sync data from server and apply changes to local lib"""
         pass
 
     @abstractmethod
@@ -115,7 +101,6 @@ class Controller(metaclass=ABCMeta):
 
 
 class View(metaclass=ABCMeta):
-
     """GUI interface for calibrolino"""
 
     @abstractproperty
@@ -125,7 +110,7 @@ class View(metaclass=ABCMeta):
 
     @abstractmethod
     def __init__(self):
-        """gui interface. controller must be set after init """
+        """gui interface. controller must be set after init"""
         pass
 
     @abstractmethod

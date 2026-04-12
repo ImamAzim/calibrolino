@@ -13,8 +13,8 @@ from pytolino.tolino_cloud import Client, PytolinoException
 import xdg_base_dirs
 
 
-ONLINE_ID = 'online_id'
-CUSTOM_COLUMNS = 'custom_columns'
+ONLINE_ID = "online_id"
+CUSTOM_COLUMNS = "custom_columns"
 
 
 class CalibrolinoException(Exception):
@@ -42,27 +42,27 @@ class TolinoCloudException(Exception):
 
 
 class CalibreDBReader(object):
-
     """prepare and upload the calibre library to the cloud"""
-    _calibre_db_command = 'calibredb'
-    _calibre_db_table = [
-            'books',
-            'data',
-            'series',
-            'books_series_link',
-            'tags',
-            'books_tags_link',
-            'authors',
-            'books_authors_link',
-            'publishers',
-            'books_publishers_link',
-            'languages',
-            'books_languages_link',
-            CUSTOM_COLUMNS,
-            ]
 
-    _accepted_formats = {'EPUB'}
-    _column_status_name = 'status'
+    _calibre_db_command = "calibredb"
+    _calibre_db_table = [
+        "books",
+        "data",
+        "series",
+        "books_series_link",
+        "tags",
+        "books_tags_link",
+        "authors",
+        "books_authors_link",
+        "publishers",
+        "books_publishers_link",
+        "languages",
+        "books_languages_link",
+        CUSTOM_COLUMNS,
+    ]
+
+    _accepted_formats = {"EPUB"}
+    _column_status_name = "status"
 
     @property
     def books(self) -> dict:
@@ -99,23 +99,21 @@ class CalibreDBReader(object):
 
     def _create_online_id_custom_column(self):
         self._close_db()
-        cmd = 'add_custom_column'
+        cmd = "add_custom_column"
         label = ONLINE_ID
         name = ONLINE_ID
-        datatype = 'text'
+        datatype = "text"
         arg = [label, name, datatype]
         full_cmd = [self._calibre_db_command, cmd] + arg
         subprocess.run(full_cmd, capture_output=False)
         self._load_db()
 
     def _get_calibre_db(self):
-        """search in home calibre db
-
-        """
-        calibre_config_fn = 'global.py.json'
-        calibre_folder = 'calibre'
-        db_fn = 'metadata.db'
-        library_config_key = 'library_path'
+        """search in home calibre db"""
+        calibre_config_fn = "global.py.json"
+        calibre_folder = "calibre"
+        db_fn = "metadata.db"
+        library_config_key = "library_path"
         folder = os.path.join(xdg_base_dirs.xdg_config_home(), calibre_folder)
         calibre_config_path = os.path.join(folder, calibre_config_fn)
         with open(calibre_config_path) as myfile:
@@ -126,7 +124,8 @@ class CalibreDBReader(object):
 
         if not os.path.exists(self._db_path):
             raise CalibrolinoException(
-                    'could not found the calibre db. is calibre installed?')
+                "could not found the calibre db. is calibre installed?"
+            )
 
     def _load_db(self):
         con = sqlite3.connect(self._db_path)
@@ -140,11 +139,8 @@ class CalibreDBReader(object):
         self._con.close()
 
     def _get_table(self, table_name):
-        """load the book table from the calibre db
-
-
-        """
-        sql = f'SELECT * from {table_name}'
+        """load the book table from the calibre db"""
+        sql = f"SELECT * from {table_name}"
         res = self._con.execute(sql)
         table = res.fetchall()
 
@@ -158,25 +154,27 @@ class CalibreDBReader(object):
         :book_id:
 
         """
-        value = patch['value']
-        if value.get('category') == 'collection':
-            tag_name = value['name']
-            op = patch['op']
-            if op == 'add':
+        value = patch["value"]
+        if value.get("category") == "collection":
+            tag_name = value["name"]
+            op = patch["op"]
+            if op == "add":
                 try:
                     self.add_tag(book_id, tag_name)
                 except TagPresentError:
                     raise PatchAlreadyAppliedError
-            elif op == 'replace':
+            elif op == "replace":
                 raise NotImplementedError(
-                        'do not know what to do if op is to replace tag')
+                    "do not know what to do if op is to replace tag"
+                )
             else:
                 raise NotImplementedError(
-                        'do not know what to do if op is to remove tag')
+                    "do not know what to do if op is to remove tag"
+                )
         else:
             raise NotImplementedError(
-                    'patch type (bookmark or reading position)'
-                    ' not implemented')
+                "patch type (bookmark or reading position) not implemented"
+            )
 
     def unapply_patch(self, patch, book_id):
         """remove a patch (remove from  collection or...), according
@@ -186,25 +184,27 @@ class CalibreDBReader(object):
         :book_id:
 
         """
-        value = patch['value']
-        if value.get('category') == 'collection':
-            tag_name = value['name']
-            op = patch['op']
-            if op == 'add':
+        value = patch["value"]
+        if value.get("category") == "collection":
+            tag_name = value["name"]
+            op = patch["op"]
+            if op == "add":
                 try:
                     self.rm_tag(book_id, tag_name)
                 except TagAbsentError:
                     raise PatchAlreadyUnappliedError
-            elif op == 'replace':
+            elif op == "replace":
                 raise NotImplementedError(
-                        'do not know what to do if op was to replace tag')
+                    "do not know what to do if op was to replace tag"
+                )
             else:
                 raise NotImplementedError(
-                        'do not know what to do if op was to remove tag')
+                    "do not know what to do if op was to remove tag"
+                )
         else:
             raise NotImplementedError(
-                    'patch type (bookmark or reading position)'
-                    ' not implemented')
+                "patch type (bookmark or reading position) not implemented"
+            )
 
     def reset_all_metadata(self, books: dict):
         """in prevision to pull online sync data, delete ALL tags from
@@ -228,8 +228,8 @@ class CalibreDBReader(object):
             self.rm_online_id(book_id)
 
     def _rm_all_tags(self, book_id):
-        """ rm all tags of a book. need to commit after """
-        tags = self.books[book_id]['tags']
+        """rm all tags of a book. need to commit after"""
+        tags = self.books[book_id]["tags"]
         while tags:
             tag = tags[0]
             self.rm_tag(book_id, tag)
@@ -251,11 +251,11 @@ class CalibreDBReader(object):
 
         """
         self._close_db()
-        cmd = 'add'
+        cmd = "add"
         arg = fp.as_posix()
         options_list = list()
         for option, value in options.items():
-            option_i = [f'--{option}', f'{value}']
+            option_i = [f"--{option}", f"{value}"]
             options_list = options_list + option_i
         full_cmd = [self._calibre_db_command, cmd] + options_list + [arg]
         completed_process = subprocess.run(full_cmd, capture_output=True)
@@ -280,10 +280,9 @@ class CalibreDBReader(object):
         """
         self._close_db()
         if book_id not in self._books:
-            raise CalibrolinoException(
-                    'no book in the library with this id')
-        cmd = 'remove'
-        arg = f'{book_id}'
+            raise CalibrolinoException("no book in the library with this id")
+        cmd = "remove"
+        arg = f"{book_id}"
         full_cmd = [self._calibre_db_command, cmd, arg]
         subprocess.run(full_cmd)
         self._load_db()
@@ -302,11 +301,12 @@ class CalibreDBReader(object):
         book = self.books[book_id]
         if book.get(ONLINE_ID):
             raise CalibrolinoException(
-                    'there is already an online id for this book')
+                "there is already an online id for this book"
+            )
         if online_id in self.online_books:
-            raise('a book already has this online id')
+            raise ("a book already has this online id")
         online_id_id = self._create_online_id(online_id)
-        link_table_name = f'books_custom_column_{column_id}_link'
+        link_table_name = f"books_custom_column_{column_id}_link"
         sql = f"""
         INSERT INTO {link_table_name} (book, value)
         VALUES ({book_id}, '{online_id_id}');
@@ -319,7 +319,7 @@ class CalibreDBReader(object):
 
     def _create_online_id(self, online_id):
         column_id = self._custom_columns_id[ONLINE_ID]
-        table_name = f'custom_column_{column_id}'
+        table_name = f"custom_column_{column_id}"
 
         sql = f"""
         INSERT INTO {table_name} (value)
@@ -338,23 +338,21 @@ class CalibreDBReader(object):
 
         """
         book = self.books[book_id]
-        if tag_name in book['tags']:
-            raise TagPresentError('tag is already on this book')
+        if tag_name in book["tags"]:
+            raise TagPresentError("tag is already on this book")
         if tag_name not in self._tags:
             tag_id = self._create_tag(tag_name)
         tag_id = self._tags[tag_name]
-        table_name = 'books_tags_link'
+        table_name = "books_tags_link"
         sql = f"""
         INSERT INTO {table_name} (book, tag)
         VALUES ({book_id}, {tag_id});
         """
         self._con.execute(sql)
-        book['tags'].append(tag_name)
+        book["tags"].append(tag_name)
 
     def commit(self):
-        """save changes to the db
-
-        """
+        """save changes to the db"""
         self._con.commit()
 
     def rm_online_id(self, book_id):
@@ -367,12 +365,12 @@ class CalibreDBReader(object):
         """
         book = self.books[book_id]
         if not book.get(ONLINE_ID):
-            raise CalibrolinoException('this book has no online id')
+            raise CalibrolinoException("this book has no online id")
         else:
             online_id = book[ONLINE_ID]
-        table_name = 'books_tags_link'
+        table_name = "books_tags_link"
         column_id = self._custom_columns_id[ONLINE_ID]
-        table_name = f'books_custom_column_{column_id}_link'
+        table_name = f"books_custom_column_{column_id}_link"
         sql = f"""
         DELETE FROM {table_name}
         WHERE book={book_id};
@@ -380,7 +378,7 @@ class CalibreDBReader(object):
         self._con.execute(sql)
         self._tables[table_name] = self._get_table(table_name)
 
-        table_name = f'custom_column_{column_id}'
+        table_name = f"custom_column_{column_id}"
         sql = f"""
         DELETE FROM {table_name}
         WHERE value='{online_id}';
@@ -398,34 +396,34 @@ class CalibreDBReader(object):
         """
 
         book = self.books[book_id]
-        if tag_name not in book['tags']:
-            raise TagAbsentError('no such tag in this book')
+        if tag_name not in book["tags"]:
+            raise TagAbsentError("no such tag in this book")
         tag_id = self._tags[tag_name]
-        table_name = 'books_tags_link'
+        table_name = "books_tags_link"
         sql = f"""
         DELETE FROM {table_name}
         WHERE book={book_id} AND tag={tag_id};
         """
         res = self._con.execute(sql)
 
-        table_name = 'books_tags_link'
+        table_name = "books_tags_link"
         sql = f"""
         SELECT * FROM {table_name}
         WHERE tag={tag_id};
         """
         res = self._con.execute(sql)
         if res.fetchone() is None:
-            table_name = 'tags'
+            table_name = "tags"
             sql = f"""
             DELETE FROM {table_name}
             WHERE name='{tag_name}';
             """
             res = self._con.execute(sql)
             del self._tags[tag_name]
-        book['tags'].remove(tag_name)
+        book["tags"].remove(tag_name)
 
     def _create_tag(self, tag_name):
-        table_name = 'tags'
+        table_name = "tags"
         sql = f"""
         INSERT INTO {table_name} (name)
         VALUES ('{tag_name}');
@@ -445,73 +443,73 @@ class CalibreDBReader(object):
     def _add_custom_columns_tables(self):
 
         for column_name, column_id in self._custom_columns_id.items():
-            custom_column_table_name = f'custom_column_{column_id}'
-            custom_link_table_name = f'books_custom_column_{column_id}_link'
+            custom_column_table_name = f"custom_column_{column_id}"
+            custom_link_table_name = f"books_custom_column_{column_id}_link"
             self._tables[custom_column_table_name] = self._get_table(
-                    custom_column_table_name)
+                custom_column_table_name
+            )
             self._tables[custom_link_table_name] = self._get_table(
-                    custom_link_table_name)
+                custom_link_table_name
+            )
 
     def _create_tags_dict(self):
         self._tags = dict()
-        metadata_tables = self._tables['tags']
+        metadata_tables = self._tables["tags"]
         for row in metadata_tables:
-            self._tags[row['name']] = row['id']
+            self._tags[row["name"]] = row["id"]
 
     def _create_custom_columns_id_dict(self):
         self._custom_columns_id = dict()
         table = self._tables[CUSTOM_COLUMNS]
         for row in table:
-            self._custom_columns_id[row['name']] = row['id']
+            self._custom_columns_id[row["name"]] = row["id"]
 
     def _create_online_books_dict(self):
 
         try:
             column_id = self._custom_columns_id[ONLINE_ID]
         except KeyError:
-            warnings.warn('no custom column for online_id in DB')
+            warnings.warn("no custom column for online_id in DB")
         else:
-            table_name = f'custom_column_{column_id}'
-            link_table_name = f'books_custom_column_{column_id}_link'
+            table_name = f"custom_column_{column_id}"
+            link_table_name = f"books_custom_column_{column_id}_link"
             link_table = self._tables[link_table_name]
             for row in link_table:
-                book_id = row['book']
-                online_id_id = row['value']
+                book_id = row["book"]
+                online_id_id = row["value"]
                 sql = f"""
                 SELECT * FROM {table_name}
                 WHERE id={online_id_id};
                 """
                 res = self._con.execute(sql)
                 row = res.fetchone()
-                online_id = row['value']
+                online_id = row["value"]
                 self._books[book_id][ONLINE_ID] = online_id
                 self._online_books[online_id] = book_id
 
     def _create_books_dict(self):
 
-        files_data = {row['book']: row for row in self._tables['data']}
+        files_data = {row["book"]: row for row in self._tables["data"]}
 
         data_names = dict()
         metadata = dict()
         datas = [
-                ('series', 'name', 'series'),
-                ('tags', 'name', 'tag'),
-                ('authors', 'name', 'author'),
-                ('publishers', 'name', 'publisher'),
-                ('languages', 'lang_code', 'lang_code'),
-                ]
+            ("series", "name", "series"),
+            ("tags", "name", "tag"),
+            ("authors", "name", "author"),
+            ("publishers", "name", "publisher"),
+            ("languages", "lang_code", "lang_code"),
+        ]
         if self._status_is_defined:
-            datas.append(
-                    (self._status_table_name, 'value', 'value')
-                    )
+            datas.append((self._status_table_name, "value", "value"))
         for data, column_name0, column_name in datas:
             data_names[data] = dict()
             for row in self._tables[data]:
-                data_names[data][row['id']] = row[column_name0]
+                data_names[data][row["id"]] = row[column_name0]
             metadata[data] = dict()
-            table_link_name = f'books_{data}_link'
+            table_link_name = f"books_{data}_link"
             for row in self._tables[table_link_name]:
-                book_id = row['book']
+                book_id = row["book"]
                 data_id = row[column_name]
                 metadata_value = data_names[data][data_id]
                 if book_id not in metadata[data]:
@@ -521,18 +519,20 @@ class CalibreDBReader(object):
 
         self._books = dict()
 
-        for book_row in self._tables['books']:
-            book_id = book_row['id']
+        for book_row in self._tables["books"]:
+            book_id = book_row["id"]
             file_data = files_data[book_id]
-            book_format = file_data['format']
+            book_format = file_data["format"]
             if book_format in self._accepted_formats:
                 file_path = self._get_file_path(book_row, file_data)
-                title = book_row['title']
-                serie_name = metadata['series'].get(book_id)
-                series_index=book_row['series_index']
+                title = book_row["title"]
+                serie_name = metadata["series"].get(book_id)
+                series_index = book_row["series_index"]
                 if serie_name is not None:
                     serie_name = serie_name[0]
-                    full_title = get_serie_title(title, series_index, serie_name)
+                    full_title = get_serie_title(
+                        title, series_index, serie_name
+                    )
                 else:
                     full_title = title
                 if self._status_is_defined:
@@ -541,29 +541,31 @@ class CalibreDBReader(object):
                     status = None
                 cover_path = self._get_cover_path(book_row, file_data)
 
-                issued_datetime = datetime.datetime.fromisoformat(book_row['pubdate'])
+                issued_datetime = datetime.datetime.fromisoformat(
+                    book_row["pubdate"]
+                )
                 issued_timestamps = int(issued_datetime.timestamp())
 
                 book = dict(
-                        title=title,
-                        full_title=full_title,
-                        authors=metadata['authors'].get(book_id, []),
-                        uuid=book_row['uuid'],
-                        file_path=file_path,
-                        publishers=metadata['publishers'].get(book_id, []),
-                        series_index=series_index,
-                        serie_name=serie_name,
-                        tags=metadata['tags'].get(book_id, []),
-                        status=status,
-                        isbn=book_row['isbn'],
-                        pubdate=book_row['pubdate'],
-                        issued=issued_timestamps,
-                        languages=metadata['languages'].get(book_id, []),
-                        cover_path=cover_path,
-                        has_cover=book_row['has_cover'],
-                        last_modified=book_row['last_modified'],
-                        book_id=book_id,
-                        )
+                    title=title,
+                    full_title=full_title,
+                    authors=metadata["authors"].get(book_id, []),
+                    uuid=book_row["uuid"],
+                    file_path=file_path,
+                    publishers=metadata["publishers"].get(book_id, []),
+                    series_index=series_index,
+                    serie_name=serie_name,
+                    tags=metadata["tags"].get(book_id, []),
+                    status=status,
+                    isbn=book_row["isbn"],
+                    pubdate=book_row["pubdate"],
+                    issued=issued_timestamps,
+                    languages=metadata["languages"].get(book_id, []),
+                    cover_path=cover_path,
+                    has_cover=book_row["has_cover"],
+                    last_modified=book_row["last_modified"],
+                    book_id=book_id,
+                )
                 self._books[book_id] = book
 
     def search_book(self, key, value):
@@ -576,18 +578,18 @@ class CalibreDBReader(object):
         """
         for book_id, book in self._books.items():
             if book[key] == value:
-                    return book_id
-        raise CalibrolinoException('no book found')
+                return book_id
+        raise CalibrolinoException("no book found")
 
     def _get_file_path(self, book, data):
-        sub_folder = book['path']
+        sub_folder = book["path"]
         filename = f"{data['name']}.{data['format'].lower()}"
         path = os.path.join(self._db_folder, sub_folder, filename)
         return path
 
     def _get_cover_path(self, book, data):
-        sub_folder = book['path']
-        filename = 'cover.jpg'
+        sub_folder = book["path"]
+        filename = "cover.jpg"
         path = os.path.join(self._db_folder, sub_folder, filename)
         return path
 
@@ -606,13 +608,12 @@ class CalibreDBReader(object):
 
 
 def get_serie_title(title, serie_index, serie_name):
-    new_title = f'{serie_name}: {serie_index} - {title}'
+    new_title = f"{serie_name}: {serie_index} - {title}"
     return new_title
 
 
 class TolinoCloud(object):
-
-    """Docstring for TolinoCloud. """
+    """Docstring for TolinoCloud."""
 
     def __init__(self, partner, username, password):
         """
@@ -655,8 +656,8 @@ class TolinoCloud(object):
                 inventory = self._client.get_inventory()
                 uploaded_books = dict()
                 for book in inventory:
-                    full_title = book['epubMetaData']['title']
-                    book_id = book['publicationId']
+                    full_title = book["epubMetaData"]["title"]
+                    book_id = book["publicationId"]
                     uploaded_books[book_id] = full_title
                 return uploaded_books
             except PytolinoException as e:
@@ -673,9 +674,9 @@ class TolinoCloud(object):
         except PytolinoException as e:
             raise CalibrolinoException(str(e))
         else:
-            title = book['title']
-            print(f'uploading {title}')
-            file_path = book['file_path']
+            title = book["title"]
+            print(f"uploading {title}")
+            file_path = book["file_path"]
             try:
                 book_id = self._client.upload(file_path)
             except PytolinoException as e:
@@ -689,7 +690,7 @@ class TolinoCloud(object):
                     self._upload_meta(book, book_id)
                 except PytolinoException as e:
                     raise CalibrolinoException(str(e))
-                print('book uploaded')
+                print("book uploaded")
                 return book_id
 
     def download_book(self, online_id: str):
@@ -715,7 +716,7 @@ class TolinoCloud(object):
         upload tags that are on local book
 
         """
-        tags = book['tags']
+        tags = book["tags"]
         patches = dict()
         revision = None
         for tag in tags:
@@ -724,26 +725,25 @@ class TolinoCloud(object):
             patches[patch_rev] = patch
         return revision, patches
 
-
     # def upload_metadata(self, book, book_id):
-        # """upload the metadata and cover of a book,
-        # :book: dict with title, file path an metadata of the book
-        # :book_id: ref on the cloud pointing to the book"""
+    # """upload the metadata and cover of a book,
+    # :book: dict with title, file path an metadata of the book
+    # :book_id: ref on the cloud pointing to the book"""
 
-        # title = book['title']
-        # print(f'uploading {title} on id={book_id}')
+    # title = book['title']
+    # print(f'uploading {title} on id={book_id}')
 
-        # try:
-            # self._client.login(self._password)
-        # except PytolinoException as e:
-            # raise CalibrolinoException(str(e))
-        # else:
-            # try:
-                # self._add_to_collection(book, book_id)
-                # self._upload_cover(book, book_id)
-                # self._upload_meta(book, book_id)
-            # except PytolinoException as e:
-                # raise CalibrolinoException(str(e))
+    # try:
+    # self._client.login(self._password)
+    # except PytolinoException as e:
+    # raise CalibrolinoException(str(e))
+    # else:
+    # try:
+    # self._add_to_collection(book, book_id)
+    # self._upload_cover(book, book_id)
+    # self._upload_meta(book, book_id)
+    # except PytolinoException as e:
+    # raise CalibrolinoException(str(e))
 
     def delete_book(self, book_id):
         """delete book from online lib
@@ -760,42 +760,36 @@ class TolinoCloud(object):
                 raise CalibrolinoException(str(e))
 
     def _upload_cover(self, book, book_id):
-        """private method to upload the cover
-
-
-        """
-        if book['has_cover']:
-            cover_path = book['cover_path']
+        """private method to upload the cover"""
+        if book["has_cover"]:
+            cover_path = book["cover_path"]
             self._client.add_cover(book_id, cover_path)
 
     def get_ebook_id(self, patch):
         return self._client.get_book_id_from_patch(patch)
 
     def _upload_meta(self, book, book_id):
-        """private method that upload the metadata
-
-        """
-        full_title = book['full_title']
-        language = book['languages'][0] if book['languages'] else ''
+        """private method that upload the metadata"""
+        full_title = book["full_title"]
+        language = book["languages"][0] if book["languages"] else ""
         metadata = dict(
-                title=full_title,
-                isbn=book['isbn'],
-                language=language,
-                publisher=', '.join(book['publishers']),
-                issued=book['issued'],
-                author=', '.join(book['authors']),
-                )
+            title=full_title,
+            isbn=book["isbn"],
+            language=language,
+            publisher=", ".join(book["publishers"]),
+            issued=book["issued"],
+            author=", ".join(book["authors"]),
+        )
         self._client.upload_metadata(book_id, **metadata)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     calibre_db = CalibreDBReader()
     print(calibre_db._tables[CUSTOM_COLUMNS])
 
     # for title, book in books.items():
-        # print('==========')
-        # print(title)
-        # for key, value in book.items():
-            # print(f'{key}: {value}')
+    # print('==========')
+    # print(title)
+    # for key, value in book.items():
+    # print(f'{key}: {value}')
     # print(calibre_db._tables)
-
