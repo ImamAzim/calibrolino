@@ -115,7 +115,12 @@ class CalibrolinoController(Controller):
             self._varbox.revision = revision
             self._varbox.patches = dict()
 
-    def pull(self):
+    def pull(self, force=False):
+        """
+        force: if True, it will look at new patches even if revision
+        number did not change. That is usefull if a book has been
+        added to the library
+        """
 
         if not hasattr(self._varbox, 'revision'):
             answer = self._view.askokcancel(
@@ -138,7 +143,7 @@ class CalibrolinoController(Controller):
             self._view.showerror(e)
             self._view.showerror('could not get online sync data')
         else:
-            if not online_revision == local_revision:
+            if not online_revision == local_revision or force:
                 revision_applied = True
                 added = 0
                 for patch_rev, patch in online_patches.items():
@@ -258,7 +263,7 @@ class CalibrolinoController(Controller):
                 else:
                     self._calibre_db.add_online_id(book_id, online_id)
                     self._calibre_db.commit()
-                    self.pull()
+                    self.pull(force=True)
 
     def download_all(self):
         self.local_books
