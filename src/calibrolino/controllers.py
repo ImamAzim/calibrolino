@@ -287,7 +287,7 @@ class CalibrolinoController(Controller):
                 except CalibrolinoException as e:
                     self._view.showerror(e)
                 except NotImplementedError as e:
-                    self._view.showerror(e)
+                    self._view.showerror('not implemented')
 
     def upload_book(self, local_id: int):
         try:
