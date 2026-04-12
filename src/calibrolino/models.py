@@ -475,6 +475,7 @@ class CalibreDBReader(object):
 
     def _create_online_books_dict(self):
 
+        self._online_books = dict()
         try:
             column_id = self._custom_columns_id[ONLINE_ID]
         except KeyError:
