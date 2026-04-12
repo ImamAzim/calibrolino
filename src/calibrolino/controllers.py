@@ -273,7 +273,21 @@ class CalibrolinoController(Controller):
                 self.download_book(online_id)
 
     def delete_book_locally(self, book_id):
-        pass
+        self._read_db()
+        if book_id not in self.local_books:
+            self._view.showerror("this book is not present in the library")
+        else:
+            book = self.local_books[book_id]
+            book_title = book['title']
+            msg = f"delete {book_title} from calibre. Are you sure?"
+            answer = self._view.askyesno(msg)
+            if answer:
+                try:
+                    self._calibre_db.delete_book(book_id)
+                except CalibrolinoException as e:
+                    self._view.showerror(e)
+                except NotImplementedError as e:
+                    self._view.showerror(e)
 
     def upload_book(self, local_id: int):
         try:
