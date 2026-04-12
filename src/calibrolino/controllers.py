@@ -294,6 +294,8 @@ class CalibrolinoController(Controller):
                     self._view.showerror(e)
                 except NotImplementedError as e:
                     self._view.showerror('not implemented')
+                else:
+                    self._clean_local_revision()
 
     def upload_book(self, local_id: int):
         try:
@@ -361,8 +363,12 @@ class CalibrolinoController(Controller):
         """read the calibre library and get books"""
         try:
             self._calibre_db.read_db()
+            self._clean_local_revision()
         except CalibrolinoException:
             self._view.showerror('failed to read the calibre db')
+
+    def _clean_local_revision(self):
+        pass
 
     def get_full_library(self, include_online: bool) -> DataFrame:
         self._read_db()
