@@ -368,7 +368,16 @@ class CalibrolinoController(Controller):
             self._view.showerror('failed to read the calibre db')
 
     def _clean_local_revision(self):
-        pass
+        local_patches = self._varbox.patches
+        new_local_patches = dict()
+
+        online_books = self.get_online_books()
+
+        for patch_rev, patch in local_patches.items():
+            online_id = self._tolino_cloud.get_ebook_id(patch)
+            if online_id in online_books:
+                new_local_patches[patch_rev] = patch
+        self._varbox.patches = new_local_patches
 
     def get_full_library(self, include_online: bool) -> DataFrame:
         self._read_db()
