@@ -242,7 +242,8 @@ class CalibreDBReader(object):
         """
         self._close_db()
         cmd = 'remove'
-        full_cmd = [self._calibre_db_command, cmd]
+        arg = str(book_id)
+        full_cmd = [self._calibre_db_command, cmd, arg]
         completed_process = subprocess.run(full_cmd, capture_output=True)
         error = completed_process.stderr.decode()
         self._load_db()
