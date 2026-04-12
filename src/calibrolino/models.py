@@ -240,7 +240,15 @@ class CalibreDBReader(object):
         :book_id:
 
         """
-        raise NotImplementedError
+        self._close_db()
+        cmd = 'remove'
+        full_cmd = [self._calibre_db_command, cmd]
+        completed_process = subprocess.run(full_cmd, capture_output=True)
+        error = completed_process.stderr.decode()
+        self._load_db()
+        self.read_db()
+        if error:
+            raise CalibrolinoException(error)
 
     def add_book(self, fp: Path, **options):
         """add a book to the library
