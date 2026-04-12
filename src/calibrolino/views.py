@@ -7,7 +7,7 @@ from calibrolino.interfaces import View, Controller
 class CalibrolinoShellView(View):
     """view in shell with a menu to run calibrolino"""
 
-    _welcome_msg = "welcome to the calibrolino menu"
+    _welcome_msg = 'welcome to the calibrolino menu'
 
     @property
     def controller(self) -> Controller:
@@ -18,35 +18,35 @@ class CalibrolinoShellView(View):
         self._controller = value
 
     def showinfo(self, msg: str):
-        print("info:", msg)
+        print('info:', msg)
 
     def showerror(self, msg: str):
-        print("error!", msg)
+        print('error!', msg)
 
     def __init__(self):
         self._menu = {
-            "1": dict(
-                display="change credentials",
+            '1': dict(
+                display='change credentials',
                 method=self._change_credentials,
             ),
-            "99": dict(
-                display="show fill lib",
+            '99': dict(
+                display='show fill lib',
                 method=self._show_full_library,
             ),
-            "2": dict(
-                display="upload all the calibre library",
+            '2': dict(
+                display='upload all the calibre library',
                 method=self._upload_all,
             ),
-            "3": dict(
-                display="upload only one book",
+            '3': dict(
+                display='upload only one book',
                 method=self._upload_one,
             ),
-            "4": dict(
-                display="show all my books",
+            '4': dict(
+                display='show all my books',
                 method=self._print_books,
             ),
-            "q": dict(
-                display="quit",
+            'q': dict(
+                display='quit',
                 method=self._quit,
             ),
         }
@@ -59,19 +59,19 @@ class CalibrolinoShellView(View):
         while self._running:
             self._print_menu()
             print(
-                f"I found {len(self._local_books)} books in your "
-                "calibre library",
+                f'I found {len(self._local_books)} books in your '
+                'calibre library',
             )
-            choice = input("please select:\n")
+            choice = input('please select:\n')
             try:
-                self._menu[choice]["method"]()
+                self._menu[choice]['method']()
             except KeyError:
-                print("please select a valid option")
-            print("===")
+                print('please select a valid option')
+            print('===')
 
     def _print_menu(self):
         for key, element in self._menu.items():
-            print(key, element["display"])
+            print(key, element['display'])
 
     def _show_credentials(self):
         credentials = self.controller.credentials
@@ -89,21 +89,21 @@ class CalibrolinoShellView(View):
         """
         partners_list = self.controller.partners
         for i, partner in enumerate(partners_list):
-            print(f"{i}: {partner}")
+            print(f'{i}: {partner}')
         id_partner = input(
-            "please enter the number of the tolino partner you want:"
+            'please enter the number of the tolino partner you want:'
         )
         try:
             i = int(id_partner)
         except ValueError:
-            print("failed! you must enter a valid number partner number")
+            print('failed! you must enter a valid number partner number')
         else:
             try:
                 user_partner = partners_list[i]
             except IndexError:
-                print("failed! you must enter a valid number partner number")
+                print('failed! you must enter a valid number partner number')
             else:
-                username = input("username: ")
+                username = input('username: ')
                 password = getpass.getpass()
                 credentials = dict(
                     partner=user_partner,
@@ -122,21 +122,21 @@ class CalibrolinoShellView(View):
         self._local_books = self.controller.local_books
         book_list = list(self._local_books.keys())
         for book_index, title in enumerate(book_list):
-            print(f"{book_index}: {title}")
+            print(f'{book_index}: {title}')
         book_index_choice = input(
-            "enter the book number you want to upload:\n"
+            'enter the book number you want to upload:\n'
         )
 
         try:
             i = int(book_index_choice)
         except ValueError:
-            print("failed! you must enter a valid number")
+            print('failed! you must enter a valid number')
         else:
             try:
                 title = book_list[i]
             except IndexError:
                 print(
-                    "failed! you must enter the book number you want to upload"
+                    'failed! you must enter the book number you want to upload'
                 )
             else:
                 self.controller.upload_book(title)
@@ -144,31 +144,31 @@ class CalibrolinoShellView(View):
     def _print_books(self):
         self._local_books = self.controller.local_books
         for full_title, book in self._local_books.items():
-            print("==========")
+            print('==========')
             print(full_title)
             for key, value in book.items():
-                print(f"{key}: {value}")
+                print(f'{key}: {value}')
 
     def _quit(self):
         """
         quit
 
         """
-        print("goodbye")
+        print('goodbye')
         self._running = False
 
     def askokcancel(self, msg: str) -> bool:
-        answer = input(f"{msg} (ok/cancel) [ok]:\n")
-        answer = "ok" if not answer else answer
-        return True if answer.lower() == "ok" else False
+        answer = input(f'{msg} (ok/cancel) [ok]:\n')
+        answer = 'ok' if not answer else answer
+        return True if answer.lower() == 'ok' else False
 
     def askyesno(self, msg: str) -> bool:
-        answer = input(f"{msg} (yes/no) [yes]:\n")
-        answer = "yes" if not answer else answer
-        return True if answer.lower() == "yes" else False
+        answer = input(f'{msg} (yes/no) [yes]:\n')
+        answer = 'yes' if not answer else answer
+        return True if answer.lower() == 'yes' else False
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     view = CalibrolinoShellView()
-    answer = view.askyesno("are you sure?")
+    answer = view.askyesno('are you sure?')
     print(answer)

@@ -45,3 +45,6 @@ calibrolino = "calibrolino.launcher:start_calibrolino"
 
 [tool.ruff]
 line-length = 79
+
+[tool.ruff.format]
+quote-style = 'single'

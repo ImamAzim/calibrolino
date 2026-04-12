@@ -19,15 +19,15 @@ class CredentialsPrompt(simpledialog.Dialog):
         """ """
         self._partners_list = ttk.Combobox(
             master,
-            state="readonly",
+            state='readonly',
             values=self._partners,
         )
         self._partners_list.set(self._partners[0])
         self._partners_list.grid(column=0, row=0, columnspan=2)
-        ttk.Label(master, text="username:").grid(column=0, row=1)
+        ttk.Label(master, text='username:').grid(column=0, row=1)
         self._username = ttk.Entry(master)
         self._username.grid(column=1, row=1)
-        ttk.Label(master, text="password:").grid(column=0, row=2)
+        ttk.Label(master, text='password:').grid(column=0, row=2)
         self._password = ttk.Entry(master)
         self._password.grid(column=1, row=2)
         self.new_credentials = None
@@ -46,7 +46,7 @@ class CredentialsPrompt(simpledialog.Dialog):
 class CalibrolinoGUIView(View, tkinter.Tk):
     """GUI view run calibrolino"""
 
-    _welcome_msg = "welcome to the calibrolino menu"
+    _welcome_msg = 'welcome to the calibrolino menu'
 
     @property
     def controller(self) -> Controller:
@@ -58,13 +58,13 @@ class CalibrolinoGUIView(View, tkinter.Tk):
 
     def showerror(self, msg: str):
         tkinter.messagebox.showerror(
-            title="error",
+            title='error',
             message=msg,
         )
 
     def showinfo(self, msg: str):
         tkinter.messagebox.showinfo(
-            title="info",
+            title='info',
             message=msg,
         )
 
@@ -98,52 +98,52 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         """
         ttk.Button(
             self._options_frame,
-            text="test",
+            text='test',
             command=self._test,
         ).grid(column=0, row=0)
         ttk.Button(
             self._options_frame,
-            text="refresh",
+            text='refresh',
             command=self._update_library_display,
         ).grid(column=1, row=0)
         ttk.Button(
             self._options_frame,
-            text="pull",
+            text='pull',
             command=self._pull,
         ).grid(column=2, row=0)
         ttk.Button(
             self._options_frame,
-            text="push",
+            text='push',
             command=self._push,
         ).grid(column=3, row=0)
         ttk.Button(
             self._options_frame,
-            text="upload all",
+            text='upload all',
             command=self._upload_all,
         ).grid(column=0, row=1)
         ttk.Button(
             self._options_frame,
-            text="upload selection",
+            text='upload selection',
             command=self._upload_one,
         ).grid(column=1, row=1)
         ttk.Button(
             self._options_frame,
-            text="delete selection (online)",
+            text='delete selection (online)',
             command=self._delete_selected_book,
         ).grid(column=2, row=1)
         ttk.Button(
             self._options_frame,
-            text="download all",
+            text='download all',
             command=self._download_all,
         ).grid(column=0, row=2)
         ttk.Button(
             self._options_frame,
-            text="download selection",
+            text='download selection',
             command=self._download_one,
         ).grid(column=1, row=2)
         ttk.Button(
             self._options_frame,
-            text="delete selection (locally)",
+            text='delete selection (locally)',
             command=self._delete_book_locally,
         ).grid(column=2, row=2)
 
@@ -155,11 +155,11 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         self._update_library_display()
 
     def _push(self):
-        self.showinfo("not implemented")
+        self.showinfo('not implemented')
         self._update_library_display()
 
     def _test(self):
-        self.showinfo("test")
+        self.showinfo('test')
 
     def _prompt_credentials(
         self,
@@ -183,23 +183,23 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         self.config(menu=menubar)
         file_menu = tkinter.Menu(menubar)
         file_menu.add_command(
-            label="set credentials...",
+            label='set credentials...',
             command=self._prompt_credentials,
         )
         file_menu.add_command(
-            label="delete credentials...",
+            label='delete credentials...',
             command=self._del_credentials,
         )
         file_menu.add_command(
-            label="reset...",
+            label='reset...',
             command=self._reset,
         )
         file_menu.add_command(
-            label="quit",
+            label='quit',
             command=self.destroy,
         )
         menubar.add_cascade(
-            label="File",
+            label='File',
             menu=file_menu,
             underline=0,
         )
@@ -229,7 +229,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
 
     def _download_one(self):
         rowdata = self._library_table.getSelectedRowData()
-        online_id = rowdata["online_id"].values[0]
+        online_id = rowdata['online_id'].values[0]
         try:
             self.controller.download_book(online_id)
         except ControllerException as e:
@@ -239,21 +239,21 @@ class CalibrolinoGUIView(View, tkinter.Tk):
 
     def _delete_book_locally(self):
         rowdata = self._library_table.getSelectedRowData()
-        book_id = rowdata["local_id"].values[0]
+        book_id = rowdata['local_id'].values[0]
         self.controller.delete_book_locally(book_id)
         self._update_library_display()
 
     def _upload_one(self):
         """upload selected book"""
         rowdata = self._library_table.getSelectedRowData()
-        local_id = rowdata["local_id"].values[0]
+        local_id = rowdata['local_id'].values[0]
         self.controller.upload_book(local_id)
         self._update_library_display()
 
     def _delete_selected_book(self):
         """delete selected book from the cloud"""
         rowdata = self._library_table.getSelectedRowData()
-        online_id = rowdata["online_id"].values[0]
+        online_id = rowdata['online_id'].values[0]
         self.controller.delete_book(online_id)
         self._update_library_display()
 
@@ -264,8 +264,8 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         return tkinter.messagebox.askyesno(message=msg)
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     view = CalibrolinoGUIView()
-    answer = view.askyesno("are you sure?")
+    answer = view.askyesno('are you sure?')
     print(answer)
     pass

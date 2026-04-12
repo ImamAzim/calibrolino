@@ -20,12 +20,12 @@ class CalibrolinoController(Controller):
     def __init__(self, view: View):
         Controller.__init__(self)
         self._view = view
-        self._varbox = VarBox("calibrolino")
+        self._varbox = VarBox('calibrolino')
         try:
             self._calibre_db = CalibreDBReader()
         except CalibrolinoException:
             self._calibre_db = None
-            self._view.showerror("could not read calibre library!")
+            self._view.showerror('could not read calibre library!')
 
         self._tolino_cloud = None
         credentials = self.credentials
@@ -37,7 +37,7 @@ class CalibrolinoController(Controller):
             tc = TolinoCloud(**credentials)
         except CalibrolinoException as e:
             self._view.showerror(e)
-            self._view.showerror("could not use the credentials. bad format?")
+            self._view.showerror('could not use the credentials. bad format?')
             return False
         else:
             self._tolino_cloud = tc
@@ -63,25 +63,25 @@ class CalibrolinoController(Controller):
     def credentials(self, value: dict):
         success = self._init_tolino_cloud(value)
         if success:
-            self._varbox.partner = value["partner"]
-            self._varbox.username = value["username"]
-            self._varbox.password = value["password"]
+            self._varbox.partner = value['partner']
+            self._varbox.username = value['username']
+            self._varbox.password = value['password']
             msg = (
-                "credentials are saved on the disk. "
-                "if you wish to delete them, you can do it "
-                "in the menu"
+                'credentials are saved on the disk. '
+                'if you wish to delete them, you can do it '
+                'in the menu'
             )
             self._view.showinfo(msg)
 
     @credentials.deleter
     def credentials(self):
-        if hasattr(self._varbox, "partner"):
-            delattr(self._varbox, "partner")
-        if hasattr(self._varbox, "username"):
-            delattr(self._varbox, "username")
-        if hasattr(self._varbox, "password"):
-            delattr(self._varbox, "password")
-        self._varbox.info = "this attr has been set to delete the cred"
+        if hasattr(self._varbox, 'partner'):
+            delattr(self._varbox, 'partner')
+        if hasattr(self._varbox, 'username'):
+            delattr(self._varbox, 'username')
+        if hasattr(self._varbox, 'password'):
+            delattr(self._varbox, 'password')
+        self._varbox.info = 'this attr has been set to delete the cred'
         self._tolino_cloud = None
 
     @property
@@ -94,7 +94,7 @@ class CalibrolinoController(Controller):
         online_lib = self.get_online_books()
         local_books_to_sync = dict()
         for book_id, book in local_lib.items():
-            title = book["full_title"]
+            title = book['full_title']
             if title in online_lib.values():
                 for online_id, online_title in online_lib.items():
                     if title == online_title:
@@ -103,24 +103,24 @@ class CalibrolinoController(Controller):
                         break
         n = len(local_books_to_sync)
         answer = self._view.askyesno(
-            "delete all local tags for books that are also"
-            f" online ({n} books). are you sure?"
+            'delete all local tags for books that are also'
+            f' online ({n} books). are you sure?'
         )
         if not answer:
             return
         else:
             self._calibre_db.reset_all_metadata(local_books_to_sync)
 
-            revision = "needToPullData"
+            revision = 'needToPullData'
             self._varbox.revision = revision
             self._varbox.patches = dict()
 
     def pull(self):
 
-        if not hasattr(self._varbox, "revision"):
+        if not hasattr(self._varbox, 'revision'):
             answer = self._view.askokcancel(
-                "there are no local sync data. I will create "
-                "an empty one and delete all local tags"
+                'there are no local sync data. I will create '
+                'an empty one and delete all local tags'
             )
             if not answer:
                 return
@@ -136,7 +136,7 @@ class CalibrolinoController(Controller):
             online_revision, online_patches = x1, x2
         except CalibrolinoException as e:
             self._view.showerror(e)
-            self._view.showerror("could not get online sync data")
+            self._view.showerror('could not get online sync data')
         else:
             if not online_revision == local_revision:
                 revision_applied = True
@@ -153,7 +153,7 @@ class CalibrolinoController(Controller):
                                 self._view.showerror(e)
                             except PatchAlreadyAppliedError as e:
                                 logging.warning(e)
-                                logging.warning("patch were already applied")
+                                logging.warning('patch were already applied')
                                 local_patches[patch_rev] = patch
                             else:
                                 local_patches[patch_rev] = patch
@@ -172,7 +172,7 @@ class CalibrolinoController(Controller):
                                 self._view.showerror(e)
                             except PatchAlreadyUnappliedError as e:
                                 logging.warning(e)
-                                logging.warning("patch were already unapplied")
+                                logging.warning('patch were already unapplied')
                                 patch_rev_to_delete.append(patch_rev)
                             else:
                                 patch_rev_to_delete.append(patch_rev)
@@ -184,16 +184,16 @@ class CalibrolinoController(Controller):
                     self._varbox.patches = local_patches
                     self._varbox.revision = online_revision
                     self._view.showinfo(
-                        f"pull sync finished. {added} patch added, "
-                        f"{suppressed} patch removed"
+                        f'pull sync finished. {added} patch added, '
+                        f'{suppressed} patch removed'
                     )
                 else:
                     self._view.showinfo(
-                        "revision not applied because some patches"
-                        " are not implemented"
+                        'revision not applied because some patches'
+                        ' are not implemented'
                     )
             else:
-                self._view.showinfo("local books already synced")
+                self._view.showinfo('local books already synced')
 
     def get_online_books(self) -> dict:
         online_books = dict()
@@ -202,11 +202,11 @@ class CalibrolinoController(Controller):
                 ob = self._tolino_cloud.get_uploaded_books()
             except CalibrolinoException as e:
                 self._view.showerror(e)
-                self._view.showerror("could not get online books inv")
+                self._view.showerror('could not get online books inv')
             else:
                 online_books = ob
         else:
-            msg = "please enter first your credentials in the main menu"
+            msg = 'please enter first your credentials in the main menu'
             self._view.showinfo(msg)
         return online_books
 
@@ -216,10 +216,10 @@ class CalibrolinoController(Controller):
         if online_books is not None:
             books_to_upload = list()
             for local_id, book in local_books.items():
-                online_id = book.get("online_id")
+                online_id = book.get('online_id')
                 if online_id not in online_books:
                     books_to_upload.append(local_id)
-            msg = f"I will upload {len(books_to_upload)} books"
+            msg = f'I will upload {len(books_to_upload)} books'
             answer = self._view.askokcancel(msg)
             if answer:
                 for book_id in books_to_upload:
@@ -228,13 +228,13 @@ class CalibrolinoController(Controller):
     def download_book(self, online_id):
         self._read_db()
         if online_id in self._calibre_db.online_books:
-            msg = "book is already in the local lib. use PULL to sync data"
+            msg = 'book is already in the local lib. use PULL to sync data'
             raise ControllerException(msg)
         online_books = self.get_online_books()
         try:
             online_books[online_id]
         except KeyError:
-            self._view.showerror("book not found on the cloud")
+            self._view.showerror('book not found on the cloud')
         else:
             try:
                 res = self._tolino_cloud.download_book(online_id)
@@ -247,8 +247,8 @@ class CalibrolinoController(Controller):
                     for key, value in metadata.items()
                     if value is not None
                 }
-                metadata_nonone.pop("publisher")
-                metadata_nonone.pop("issued")
+                metadata_nonone.pop('publisher')
+                metadata_nonone.pop('issued')
                 try:
                     book_id = self._calibre_db.add_book(
                         book_path, **metadata_nonone
@@ -266,7 +266,7 @@ class CalibrolinoController(Controller):
         for online_id in online_books:
             if online_id not in self._calibre_db.online_books:
                 books_to_download.append(online_id)
-        msg = f"I will download {len(books_to_download)} books"
+        msg = f'I will download {len(books_to_download)} books'
         answer = self._view.askokcancel(msg)
         if answer:
             for online_id in books_to_download:
@@ -275,11 +275,11 @@ class CalibrolinoController(Controller):
     def delete_book_locally(self, book_id):
         self._read_db()
         if book_id not in self.local_books:
-            self._view.showerror("this book is not present in the library")
+            self._view.showerror('this book is not present in the library')
         else:
             book = self.local_books[book_id]
             book_title = book['title']
-            msg = f"delete {book_title} from calibre. Are you sure?"
+            msg = f'delete {book_title} from calibre. Are you sure?'
             answer = self._view.askyesno(msg)
             if answer:
                 try:
@@ -294,10 +294,10 @@ class CalibrolinoController(Controller):
             book = self.local_books[local_id]
         except KeyError:
             self._view.showerror(
-                "this book is not present in the local library"
+                'this book is not present in the local library'
             )
         else:
-            online_id = book.get("online_id")
+            online_id = book.get('online_id')
             online_lib = self.get_online_books()
             if online_id not in online_lib:
                 try:
@@ -305,7 +305,7 @@ class CalibrolinoController(Controller):
                 except CalibrolinoException as e:
                     self._view.showerror(e)
                 else:
-                    if book.get("online_id"):
+                    if book.get('online_id'):
                         self._calibre_db.rm_online_id(local_id)
                     self._calibre_db.add_online_id(local_id, online_id)
                     self._calibre_db.commit()
@@ -324,19 +324,19 @@ class CalibrolinoController(Controller):
                             self._varbox.save()
             else:
                 msg = (
-                    "book already present on the cloud. use PUSH "
-                    "function (not implemented) to update tags and "
-                    "others data"
+                    'book already present on the cloud. use PUSH '
+                    'function (not implemented) to update tags and '
+                    'others data'
                 )
                 self._view.showinfo(msg)
 
     def delete_book(self, online_id: str):
         online_books = self.get_online_books()
         if online_id not in online_books:
-            self._view.showerror("this book is not present on the cloud")
+            self._view.showerror('this book is not present on the cloud')
         else:
             book_title = online_books[online_id]
-            msg = f"delete {book_title} from the online library. Are you sure?"
+            msg = f'delete {book_title} from the online library. Are you sure?'
             answer = self._view.askyesno(msg)
             if answer:
                 try:
@@ -348,7 +348,7 @@ class CalibrolinoController(Controller):
                     if local_id:
                         self._calibre_db.rm_online_id(local_id)
                         self._calibre_db.commit()
-                    msg = f"{book_title} has been deleted"
+                    msg = f'{book_title} has been deleted'
                     self._view.showinfo(msg)
 
     def _read_db(self):
@@ -356,7 +356,7 @@ class CalibrolinoController(Controller):
         try:
             self._calibre_db.read_db()
         except CalibrolinoException:
-            self._view.showerror("failed to read the calibre db")
+            self._view.showerror('failed to read the calibre db')
 
     def get_full_library(self, include_online: bool) -> DataFrame:
         self._read_db()
@@ -366,19 +366,19 @@ class CalibrolinoController(Controller):
         else:
             online_lib = dict()
         df = DataFrame(
-            dict(title="", local_id=0, online_id=""), local_lib.keys()
+            dict(title='', local_id=0, online_id=''), local_lib.keys()
         )
         for book_id, book in local_lib.items():
-            df.at[book_id, "title"] = book["full_title"]
-            df.at[book_id, "local_id"] = book_id
+            df.at[book_id, 'title'] = book['full_title']
+            df.at[book_id, 'local_id'] = book_id
             online_id = book.get(ONLINE_ID)
             if online_id in online_lib:
-                df.at[book_id, "online_id"] = online_id
+                df.at[book_id, 'online_id'] = online_id
         for online_id, title in online_lib.items():
             if online_id not in self._calibre_db.online_books:
                 df.loc[online_id] = {
-                    "title": title,
-                    "local_id": 0,
-                    "online_id": online_id,
+                    'title': title,
+                    'local_id': 0,
+                    'online_id': online_id,
                 }
         return df

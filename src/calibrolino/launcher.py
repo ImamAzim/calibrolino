@@ -7,22 +7,22 @@ from calibrolino.apps import CalibrolinoShellApp, CalibrolinoTkinterApp
 
 def start_calibrolino():
     parser = argparse.ArgumentParser(
-        prog="calibrolino",
-        description="sync calibre library to mytolino",
+        prog='calibrolino',
+        description='sync calibre library to mytolino',
     )
 
     parser.add_argument(
-        "-v",
-        "--verbose",
-        action="store_true",
-        help="increase verboxity",
+        '-v',
+        '--verbose',
+        action='store_true',
+        help='increase verboxity',
     )
 
     parser.add_argument(
-        "-t",
-        "--textmode",
-        action="store_true",
-        help="use text mode (no GUI)",
+        '-t',
+        '--textmode',
+        action='store_true',
+        help='use text mode (no GUI)',
     )
 
     args = parser.parse_args()
