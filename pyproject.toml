@@ -19,11 +19,11 @@ classifiers = [
 ]
 description = "a script to upload calibre library to the tolino cloud"
 dependencies = [
-	'pytolino @ git+https://github.com/ImamAzim/pytolino.git@dev',
         'xdg-base-dirs',
         'varboxes',
-	'pandas',
-	'pandastable',
+        'pandas',
+        'pandastable',
+        "pytolino",
 ]
 
 [project.optional-dependencies]
@@ -48,3 +48,6 @@ line-length = 79
 
 [tool.ruff.format]
 quote-style = 'single'
+
+[tool.uv.sources]
+pytolino = { git = "https://github.com/ImamAzim/pytolino.git", rev = "dev" }
