@@ -687,7 +687,7 @@ class TolinoCloud(object):
         title = book['title']
         print(f'uploading {title}')
         file_path = book['file_path']
-        book_id = self._try_before_login(self._client_upload, file_path)
+        book_id = self._try_before_login(self._client.upload, file_path)
         self._try_before_login(self._upload_cover, book, book_id)
         self._try_before_login(self._upload_meta, book, book_id)
         print('book uploaded')
