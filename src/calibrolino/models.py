@@ -722,17 +722,9 @@ class TolinoCloud(object):
         :online_id:
 
         """
-        try:
-            self._client.login(self._password)
-        except PytolinoException as e:
-            raise CalibrolinoException(str(e))
-        else:
-            try:
-                res = self._client.download(online_id)
-            except PytolinoException as e:
-                raise CalibrolinoException(str(e))
-            else:
-                return res
+        func = self._client.download
+        res = self._try_before_login(func, online_id)
+        return res
 
     def upload_all_tags_of_book(self, book, online_id):
         """
