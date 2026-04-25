@@ -7,6 +7,7 @@ import datetime
 from pathlib import Path
 import subprocess
 import warnings
+import logging
 
 
 from pytolino.tolino_cloud import Client, PytolinoException
@@ -638,6 +639,25 @@ class TolinoCloud(object):
             self._client = Client(server_name=partner, username=username)
         except PytolinoException as e:
             raise TolinoCloudException(str(e))
+
+    def _try_before_login(func, *args, **kwargs):
+        try:
+            res = func(*args, **kwargs)
+        except PytolinoException:
+            logging.info('error with server. I try to login first..')
+            try:
+                self._client.login(self._password)
+            except PytolinoException as e:
+                raise CalibrolinoException(str(e))
+            else:
+                try:
+                    res = func(*args, **kwargs)
+                except PytolinoException:
+                    raise CalibrolinoException(str(e))
+                else:
+                    return res
+        else:
+            return res
 
     def get_sync_data(self):
         try:
