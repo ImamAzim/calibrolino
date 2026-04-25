@@ -640,7 +640,7 @@ class TolinoCloud(object):
         except PytolinoException as e:
             raise TolinoCloudException(str(e))
 
-    def _try_before_login(func, *args, **kwargs):
+    def _try_before_login(self, func, *args, **kwargs):
         try:
             res = func(*args, **kwargs)
         except PytolinoException:
@@ -677,6 +677,8 @@ class TolinoCloud(object):
         :returns: dict of uploaded books (online_id: title)
 
         """
+        func = self._client.get_inventory
+        inventory = self._try_before_login(func, )
         try:
             self._client.login(self._password)
         except PytolinoException as e:
