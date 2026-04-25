@@ -678,22 +678,13 @@ class TolinoCloud(object):
 
         """
         func = self._client.get_inventory
-        inventory = self._try_before_login(func, )
-        try:
-            self._client.login(self._password)
-        except PytolinoException as e:
-            raise CalibrolinoException(str(e))
-        else:
-            try:
-                inventory = self._client.get_inventory()
-                uploaded_books = dict()
-                for book in inventory:
-                    full_title = book['epubMetaData']['title']
-                    book_id = book['publicationId']
-                    uploaded_books[book_id] = full_title
-                return uploaded_books
-            except PytolinoException as e:
-                raise TolinoCloudException(str(e))
+        inventory = self._try_before_login(func)
+        uploaded_books = dict()
+        for book in inventory:
+            full_title = book['epubMetaData']['title']
+            book_id = book['publicationId']
+            uploaded_books[book_id] = full_title
+        return uploaded_books
 
     def upload_book(self, book):
         """upload to the cloud the selected book
