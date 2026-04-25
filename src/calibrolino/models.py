@@ -660,17 +660,9 @@ class TolinoCloud(object):
             return res
 
     def get_sync_data(self):
-        try:
-            self._client.login(self._password)
-        except PytolinoException as e:
-            raise CalibrolinoException(str(e))
-        else:
-            try:
-                revision, patches = self._client.get_sync_data()
-            except PytolinoException as e:
-                raise CalibrolinoException(str(e))
-            else:
-                return revision, patches
+        func = self._client.get_sync_data
+        revision, patches = self._try_before_login(func)
+        return revision, patches
 
     def get_uploaded_books(self):
         """connect to the cloud and get the books that where already uploaded
