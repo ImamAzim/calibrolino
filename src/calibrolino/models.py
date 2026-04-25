@@ -723,11 +723,12 @@ class TolinoCloud(object):
         upload tags that are on local book
 
         """
+        func = self._client.add_to_collection
         tags = book['tags']
         patches = dict()
         revision = None
         for tag in tags:
-            res = self._client.add_to_collection(online_id, tag)
+            res = self._try_before_login(func, online_id, tag)
             revision, patch_rev, patch = res
             patches[patch_rev] = patch
         return revision, patches
