@@ -771,16 +771,8 @@ class TolinoCloud(object):
     def delete_book(self, book_id):
         """delete book from online lib
         :book_id: ref on the cloud pointing to the book"""
-
-        try:
-            self._client.login(self._password)
-        except PytolinoException as e:
-            raise CalibrolinoException(str(e))
-        else:
-            try:
-                self._client.delete_ebook(book_id)
-            except PytolinoException as e:
-                raise CalibrolinoException(str(e))
+        func = self._client.delete_ebook
+        self._try_before_login(func, book_id)
 
     def _upload_cover(self, book, book_id):
         """private method to upload the cover"""
