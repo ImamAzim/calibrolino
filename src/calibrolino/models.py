@@ -652,7 +652,7 @@ class TolinoCloud(object):
             else:
                 try:
                     res = func(*args, **kwargs)
-                except PytolinoException:
+                except PytolinoException as e:
                     raise CalibrolinoException(str(e))
                 else:
                     return res
@@ -684,29 +684,14 @@ class TolinoCloud(object):
         :book: dict with metada and path to the file
 
         """
-        try:
-            self._client.login(self._password)
-        except PytolinoException as e:
-            raise CalibrolinoException(str(e))
-        else:
-            title = book['title']
-            print(f'uploading {title}')
-            file_path = book['file_path']
-            try:
-                book_id = self._client.upload(file_path)
-            except PytolinoException as e:
-                raise CalibrolinoException(str(e))
-            else:
-                try:
-                    self._upload_cover(book, book_id)
-                except PytolinoException as e:
-                    raise CalibrolinoException(str(e))
-                try:
-                    self._upload_meta(book, book_id)
-                except PytolinoException as e:
-                    raise CalibrolinoException(str(e))
-                print('book uploaded')
-                return book_id
+        title = book['title']
+        print(f'uploading {title}')
+        file_path = book['file_path']
+        book_id = self._try_before_login(self._client_upload, file_path)
+        self._try_before_login(self._upload_cover, book, book_id)
+        self._try_before_login(self._upload_meta, book, book_id)
+        print('book uploaded')
+        return book_id
 
     def download_book(self, online_id: str):
         """
