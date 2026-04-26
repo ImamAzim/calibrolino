@@ -2511,7 +2511,7 @@ sdist = { url = "https://files.pythonhosted.org/packages/ef/c6/2c5999de3bb153352
 [[package]]
 name = "pytolino"
 version = "3"
-source = { git = "https://github.com/ImamAzim/pytolino.git?rev=dev#b6d6dd27309120d8fd2d0292255e96b7d15396c9" }
+source = { git = "https://github.com/ImamAzim/pytolino.git?rev=dev#dd475fba45f2be4fc29427689cee5bac558cb1ed" }
 dependencies = [
     { name = "curl-cffi" },
     { name = "mechanize" },
