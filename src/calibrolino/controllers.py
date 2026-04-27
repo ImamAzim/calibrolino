@@ -371,7 +371,7 @@ class CalibrolinoController(Controller):
         local_patches = self._varbox.patches
         new_local_patches = dict()
 
-        online_books = self.get_online_books()
+        online_books = self._calibre_db.online_books
 
         for patch_rev, patch in local_patches.items():
             online_id = self._tolino_cloud.get_ebook_id(patch)
