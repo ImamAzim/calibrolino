@@ -140,7 +140,10 @@ class CalibrolinoController(Controller):
         last_push_date = self._varbox[LAST_PUSH_DATE]
         books_to_push = self._calibre_db.get_last_modified_books(
                 last_push_date)
-        self._pull()
+        for book_id in books_to_push:
+            book = self._calibre_db.books[book_id]
+            print(book['title'])
+        # self._pull()
         self._push(books_to_push)
         now = time.time()
         self._varbox[LAST_PUSH_DATE] = now
