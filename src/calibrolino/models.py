@@ -252,6 +252,17 @@ class CalibreDBReader(object):
         if error:
             raise CalibrolinoException(error)
 
+    def get_last_modified_books(self, last_push_date):
+        """since last push date
+
+        :last_push_date: seconds since epoch
+        :returns: list of book_id that were modif
+
+        """
+        last_modified_books = list()
+        # TODO: add last modif books
+        return last_modified_books
+
     def add_book(self, fp: Path, **options):
         """add a book to the library
 
