@@ -122,7 +122,7 @@ class CalibrolinoController(Controller):
         self._pull()
         pass
 
-    def push(self):
+    def _push(self):
         pass
 
     def _pull(self, force=False):
