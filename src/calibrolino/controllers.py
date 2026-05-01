@@ -14,6 +14,9 @@ from calibrolino.models import TolinoCloudException
 from calibrolino.interfaces import ControllerException
 
 
+LAST_PUSH_DATE = 'last push date'
+
+
 class CalibrolinoController(Controller):
     """controller of calibrolino in mvc arch"""
 
@@ -115,9 +118,10 @@ class CalibrolinoController(Controller):
             self._varbox.revision = revision
             self._varbox.patches = dict()
 
+    def push(self):
+        pass
+
     def pull(self, force=False):
-        """
-        """
 
         if not hasattr(self._varbox, 'revision'):
             answer = self._view.askokcancel(
