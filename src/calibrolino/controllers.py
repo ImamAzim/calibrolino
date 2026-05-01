@@ -15,8 +15,6 @@ from calibrolino.models import TolinoCloudException
 from calibrolino.interfaces import ControllerException
 
 
-LAST_PUSH_DATE = 'last push date'
-
 
 class CalibrolinoController(Controller):
     """controller of calibrolino in mvc arch"""
@@ -25,8 +23,8 @@ class CalibrolinoController(Controller):
         Controller.__init__(self)
         self._view = view
         self._varbox = VarBox('calibrolino')
-        if not hasattr(self._varbox, LAST_PUSH_DATE):
-            self._varbox[LAST_PUSH_DATE] = 0
+        if not hasattr(self._varbox, 'last_push_date'):
+            self._varbox.last_push_date = 0
         try:
             self._calibre_db = CalibreDBReader()
         except CalibrolinoException:
@@ -136,8 +134,8 @@ class CalibrolinoController(Controller):
                     return
                 else:
                     now = time.time()
-                    self._varbox[LAST_PUSH_DATE] = now
-        last_push_date = self._varbox[LAST_PUSH_DATE]
+                    self._varbox.last_push_date = now
+        last_push_date = self._varbox.last_push_date
         books_to_push = self._calibre_db.get_last_modified_books(
                 last_push_date)
         for book_id in books_to_push:
@@ -146,7 +144,7 @@ class CalibrolinoController(Controller):
         # self._pull()
         self._push(books_to_push)
         now = time.time()
-        self._varbox[LAST_PUSH_DATE] = now
+        self._varbox.last_push_date = now
 
     def _push(self, books_to_push):
         # TODO: push data
