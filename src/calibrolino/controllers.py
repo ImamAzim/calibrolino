@@ -15,7 +15,6 @@ from calibrolino.models import TolinoCloudException
 from calibrolino.interfaces import ControllerException
 
 
-
 class CalibrolinoController(Controller):
     """controller of calibrolino in mvc arch"""
 
@@ -137,7 +136,8 @@ class CalibrolinoController(Controller):
                     self._varbox.last_push_date = now
         last_push_date = self._varbox.last_push_date
         books_to_push = self._calibre_db.get_last_modified_books(
-                last_push_date)
+            last_push_date
+        )
         for book_id in books_to_push:
             book = self._calibre_db.books[book_id]
             print(book['title'])
@@ -151,7 +151,6 @@ class CalibrolinoController(Controller):
         pass
 
     def _pull(self, force=False):
-
 
         self._read_db()
 
