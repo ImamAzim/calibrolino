@@ -110,23 +110,16 @@ class CalibrolinoController(Controller):
             f' online ({n} books). are you sure?'
         )
         if not answer:
-            return
+            return False
         else:
             self._calibre_db.reset_all_metadata(local_books_to_sync)
 
             revision = 'needToPullData'
             self._varbox.revision = revision
             self._varbox.patches = dict()
+            return True
 
     def sync(self):
-        self._pull()
-        pass
-
-    def _push(self):
-        pass
-
-    def _pull(self, force=False):
-
         if not hasattr(self._varbox, 'revision'):
             answer = self._view.askokcancel(
                 'there are no local sync data. I will create '
@@ -135,7 +128,17 @@ class CalibrolinoController(Controller):
             if not answer:
                 return
             else:
-                self.reset_local_library()
+                completed = self.reset_local_library()
+                if not completed:
+                    return
+        self._pull()
+        pass
+
+    def _push(self):
+        pass
+
+    def _pull(self, force=False):
+
 
         self._read_db()
 
