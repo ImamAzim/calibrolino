@@ -25,6 +25,8 @@ class CalibrolinoController(Controller):
         Controller.__init__(self)
         self._view = view
         self._varbox = VarBox('calibrolino')
+        if not hasattr(self._varbox, LAST_PUSH_DATE):
+            self._varbox[LAST_PUSH_DATE] = 0
         try:
             self._calibre_db = CalibreDBReader()
         except CalibrolinoException:
