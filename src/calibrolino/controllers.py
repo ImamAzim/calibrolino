@@ -312,7 +312,7 @@ class CalibrolinoController(Controller):
                     self._calibre_db.delete_book(book_id)
                 except CalibrolinoException as e:
                     self._view.showerror(e)
-                except NotImplementedError as e:
+                except NotImplementedError:
                     self._view.showerror('not implemented')
                 else:
                     self._clean_local_revision()
