@@ -113,8 +113,8 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         ).grid(column=2, row=0)
         ttk.Button(
             self._options_frame,
-            text='push',
-            command=self._push,
+            text='sync',
+            command=self._sync,
         ).grid(column=3, row=0)
         ttk.Button(
             self._options_frame,
@@ -154,8 +154,8 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         self.controller.pull()
         self._update_library_display()
 
-    def _push(self):
-        self.showinfo('not implemented')
+    def _sync(self):
+        self.controller.sync()
         self._update_library_display()
 
     def _test(self):
