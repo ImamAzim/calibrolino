@@ -118,6 +118,9 @@ class CalibrolinoController(Controller):
             self._varbox.revision = revision
             self._varbox.patches = dict()
 
+    def sync(self):
+        pass
+
     def push(self):
         pass
 
