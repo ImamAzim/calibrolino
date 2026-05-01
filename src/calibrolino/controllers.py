@@ -119,12 +119,13 @@ class CalibrolinoController(Controller):
             self._varbox.patches = dict()
 
     def sync(self):
+        self._pull()
         pass
 
     def push(self):
         pass
 
-    def pull(self, force=False):
+    def _pull(self, force=False):
 
         if not hasattr(self._varbox, 'revision'):
             answer = self._view.askokcancel(
@@ -267,7 +268,7 @@ class CalibrolinoController(Controller):
                 else:
                     self._calibre_db.add_online_id(book_id, online_id)
                     self._calibre_db.commit()
-                    self.pull(force=True)
+                    self._pull(force=True)
 
     def download_all(self):
         self.local_books

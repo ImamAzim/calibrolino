@@ -108,14 +108,9 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         ).grid(column=1, row=0)
         ttk.Button(
             self._options_frame,
-            text='pull',
-            command=self._pull,
-        ).grid(column=2, row=0)
-        ttk.Button(
-            self._options_frame,
             text='sync',
             command=self._sync,
-        ).grid(column=3, row=0)
+        ).grid(column=2, row=0)
         ttk.Button(
             self._options_frame,
             text='upload all',
@@ -149,10 +144,6 @@ class CalibrolinoGUIView(View, tkinter.Tk):
 
     def _reset(self):
         self.controller.reset_local_library()
-
-    def _pull(self):
-        self.controller.pull()
-        self._update_library_display()
 
     def _sync(self):
         self.controller.sync()
