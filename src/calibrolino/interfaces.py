@@ -87,7 +87,11 @@ class Controller(metaclass=ABCMeta):
 
     @abstractmethod
     def pull(self):
-        """fetch sync data from server and apply changes to local lib"""
+        """fetch sync data from server and apply changes to local lib
+        force: if True, it will look at new patches even if revision
+        number did not change. That is usefull if a book has been
+        added to the library
+        """
         pass
 
     @abstractmethod

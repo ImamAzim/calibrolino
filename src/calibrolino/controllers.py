@@ -117,9 +117,6 @@ class CalibrolinoController(Controller):
 
     def pull(self, force=False):
         """
-        force: if True, it will look at new patches even if revision
-        number did not change. That is usefull if a book has been
-        added to the library
         """
 
         if not hasattr(self._varbox, 'revision'):
