@@ -2,6 +2,7 @@ from varboxes import VarBox
 from pytolino.tolino_cloud import PARTNERS
 from pandas import DataFrame
 import logging
+import time
 
 
 from calibrolino.interfaces import Controller, View
@@ -131,6 +132,10 @@ class CalibrolinoController(Controller):
                 completed = self.reset_local_library()
                 if not completed:
                     return
+                else:
+                    now = time.time()
+                    self._varbox[LAST_PUSH_DATE] = now
+        last_push_date = self._varbox[LAST_PUSH_DATE]
         self._pull()
         pass
 
