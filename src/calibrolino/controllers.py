@@ -147,7 +147,9 @@ class CalibrolinoController(Controller):
         # TODO: push data
         local_revision = self._varbox.revision
         local_patches = self._varbox.patches
-        tags_to_add, tags_to_delete = self._calibre_db.ge
+        tags_to_add, tags_to_delete = self._calibre_db.get_tags_to_sync(
+            local_patches, books_to_push
+        )
         pass
 
     def _pull(self, force=False):
