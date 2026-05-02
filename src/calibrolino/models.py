@@ -722,6 +722,17 @@ class TolinoCloud(object):
         res = self._try_before_login(func, online_id)
         return res
 
+    def get_tags_to_sync(self, local_patches, book_ids):
+        """compare tag of the books to the applied patches. return tags to add
+        and to be removed
+
+        :local_patches:
+        :book_ids:
+        :returns: tags_to_add, tags_to_delete
+
+        """
+        pass
+
     def upload_all_tags_of_book(self, book, online_id):
         """
         upload tags that are on local book

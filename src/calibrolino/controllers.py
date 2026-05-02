@@ -138,16 +138,15 @@ class CalibrolinoController(Controller):
         books_to_push = self._calibre_db.get_last_modified_books(
             last_push_date
         )
-        for book_id in books_to_push:
-            book = self._calibre_db.books[book_id]
-            print(book['title'])
-        # self._pull()
+        self._pull()
         self._push(books_to_push)
         now = time.time()
         self._varbox.last_push_date = now
 
     def _push(self, books_to_push):
         # TODO: push data
+        local_revision = self._varbox.revision
+        local_patches = self._varbox.patches
         pass
 
     def _pull(self, force=False):
