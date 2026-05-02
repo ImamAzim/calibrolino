@@ -261,9 +261,14 @@ class CalibreDBReader(object):
 
         """
         last_modified_books = list()
-        for book in self.books:
+        for book_id, book in self.books.items():
             last_modified = book[LAST_MODIFIED]
-        # TODO: add last modif books
+            last_modified_datetime = datetime.datetime.fromisoformat(
+                last_modified
+            )
+            last_modified_ts = last_modified_datetime.timestamp()
+            if last_modified_ts > last_push_date:
+                last_modified_books.append(book_id)
         return last_modified_books
 
     def add_book(self, fp: Path, **options):
@@ -790,5 +795,9 @@ if __name__ == '__main__':
         print('==========')
         print(book['title'])
         print(book[LAST_MODIFIED])
+        last_mod = book[LAST_MODIFIED]
+        x = datetime.datetime.fromisoformat(last_mod)
+        y = x.timestamp()
+        print(y)
         # for key, value in book.items():
         # print(f'{key}: {value}')
