@@ -16,6 +16,7 @@ import xdg_base_dirs
 
 ONLINE_ID = 'online_id'
 CUSTOM_COLUMNS = 'custom_columns'
+LAST_MODIFIED = 'last_modified'
 
 
 class CalibrolinoException(Exception):
@@ -260,6 +261,8 @@ class CalibreDBReader(object):
 
         """
         last_modified_books = list()
+        for book in self.books:
+            last_modified = book[LAST_MODIFIED]
         # TODO: add last modif books
         return last_modified_books
 
@@ -585,7 +588,7 @@ class CalibreDBReader(object):
                     languages=metadata['languages'].get(book_id, []),
                     cover_path=cover_path,
                     has_cover=book_row['has_cover'],
-                    last_modified=book_row['last_modified'],
+                    last_modified=book_row[LAST_MODIFIED],
                     book_id=book_id,
                 )
                 self._books[book_id] = book
@@ -786,6 +789,6 @@ if __name__ == '__main__':
     for book_id, book in books.items():
         print('==========')
         print(book['title'])
-        print(book['last_modified'])
+        print(book[LAST_MODIFIED])
         # for key, value in book.items():
         # print(f'{key}: {value}')
