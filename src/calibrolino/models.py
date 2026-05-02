@@ -253,6 +253,17 @@ class CalibreDBReader(object):
         if error:
             raise CalibrolinoException(error)
 
+    def get_tags_to_sync(self, local_patches, book_ids):
+        """compare tag of the books to the applied patches. return tags to add
+        and to be removed
+
+        :local_patches:
+        :book_ids:
+        :returns: tags_to_add, tags_to_delete
+
+        """
+        pass
+
     def get_last_modified_books(self, last_push_date):
         """since last push date
 
@@ -721,17 +732,6 @@ class TolinoCloud(object):
         func = self._client.download
         res = self._try_before_login(func, online_id)
         return res
-
-    def get_tags_to_sync(self, local_patches, book_ids):
-        """compare tag of the books to the applied patches. return tags to add
-        and to be removed
-
-        :local_patches:
-        :book_ids:
-        :returns: tags_to_add, tags_to_delete
-
-        """
-        pass
 
     def upload_all_tags_of_book(self, book, online_id):
         """
