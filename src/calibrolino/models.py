@@ -261,6 +261,8 @@ class CalibreDBReader(object):
         :returns: tags_to_add, tags_to_delete
 
         """
+        tags_to_add = dict()
+        tags_to_delete = dict()
         for book_id, patches in sorted_patches.items():
             local_tags = set(self.books[book_id]['tags'])
             online_tags = set()
@@ -272,8 +274,10 @@ class CalibreDBReader(object):
                         tag_name = value['name']
                         online_tags.add(tag_name)
             print(book_id, online_tags, local_tags)
+            tags_to_add[book_id] = ()
+            tags_to_delete[book_id] = ()
 
-        raise NotImplementedError
+        return tags_to_add, tags_to_delete
 
     def sort_patch_by_books(self, patches, book_ids):
         sorted_patches = {book_id: list() for book_id in book_ids}

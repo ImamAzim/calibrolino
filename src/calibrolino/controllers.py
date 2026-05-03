@@ -152,6 +152,7 @@ class CalibrolinoController(Controller):
         tags_to_add, tags_to_delete = self._calibre_db.get_tags_to_sync(
                 sorted_patches
         )
+        print(tags_to_add, tags_to_delete)
         raise NotImplementedError
 
     def _pull(self, force=False):
