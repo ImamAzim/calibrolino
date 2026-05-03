@@ -780,7 +780,7 @@ class TolinoCloud(object):
         patches = dict()
         revision = None
         for tag in tags:
-            res = self._try_before_login(func, online_id, tag)
+            res = self._try_before_login(func, book_id, tag)
             revision, patch_rev, patch = res
             patches[patch_rev] = patch
         return revision, patches
