@@ -148,7 +148,7 @@ class CalibrolinoController(Controller):
         local_patches = self._varbox.patches
         sorted_patches = self._calibre_db.sort_patch_by_books(
                 local_patches, books_to_push)
-        print(sorted_patches)
+        # print(sorted_patches)
         tags_to_add, tags_to_delete = self._calibre_db.get_tags_to_sync(
                 sorted_patches
         )

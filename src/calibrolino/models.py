@@ -261,6 +261,16 @@ class CalibreDBReader(object):
         :returns: tags_to_add, tags_to_delete
 
         """
+        for book_id, patches in sorted_patches.items():
+            online_tags = set()
+            for patch in patches:
+                value = patch['value']
+                if value.get('category') == 'collection':
+                    op = patch['op']
+                    if op == 'add':
+                        tag_name = value['name']
+                        online_tags.add(tag_name)
+            print(book_id, online_tags)
 
         raise NotImplementedError
 
