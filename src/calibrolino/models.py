@@ -253,23 +253,18 @@ class CalibreDBReader(object):
         if error:
             raise CalibrolinoException(error)
 
-    def get_tags_to_sync(self, local_patches, book_ids):
+    def get_tags_to_sync(self, sorted_patches):
         """compare tag of the books to the applied patches. return tags to add
         and to be removed
 
-        :local_patches:
-        :book_ids:
+        :sorted_patches: book_id: patches
         :returns: tags_to_add, tags_to_delete
 
         """
-        sorted_patches = self._sort_patch_by_books(local_patches, book_ids)
-        for book_id in book_ids:
-
-        print(sorted_patches)
 
         raise NotImplementedError
 
-    def _sort_patch_by_books(self, patches, book_ids):
+    def sort_patch_by_books(self, patches, book_ids):
         sorted_patches = {book_id: list() for book_id in book_ids}
         for patch_rev, patch in patches.items():
             online_id = Client.get_book_id_from_patch(None, patch)

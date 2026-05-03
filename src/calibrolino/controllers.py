@@ -144,11 +144,13 @@ class CalibrolinoController(Controller):
         self._varbox.last_push_date = now
 
     def _push(self, books_to_push):
-        # TODO: push data
         local_revision = self._varbox.revision
         local_patches = self._varbox.patches
+        sorted_patches = self._calibre_db.sort_patch_by_books(
+                local_patches, books_to_push)
+        print(sorted_patches)
         tags_to_add, tags_to_delete = self._calibre_db.get_tags_to_sync(
-            local_patches, books_to_push
+                sorted_patches
         )
         raise NotImplementedError
 
