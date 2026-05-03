@@ -264,7 +264,7 @@ class CalibreDBReader(object):
         tags_to_add = dict()
         tags_to_delete = dict()
         for online_id, patches in sorted_patches.items():
-            local_id = self.books[online_id]
+            local_id = self.online_books[online_id]
             local_tags = set(self.books[local_id]['tags'])
             online_tags = set()
             for patch in patches:
