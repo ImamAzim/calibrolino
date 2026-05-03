@@ -771,6 +771,20 @@ class TolinoCloud(object):
             patches[patch_rev] = patch
         return revision, patches
 
+    def upload_tags(self, book_id, tags):
+        """
+        upload tags
+
+        """
+        func = self._client.add_to_collection
+        patches = dict()
+        revision = None
+        for tag in tags:
+            res = self._try_before_login(func, online_id, tag)
+            revision, patch_rev, patch = res
+            patches[patch_rev] = patch
+        return revision, patches
+
     # def upload_metadata(self, book, book_id):
     # """upload the metadata and cover of a book,
     # :book: dict with title, file path an metadata of the book
