@@ -262,14 +262,16 @@ class CalibreDBReader(object):
         :returns: tags_to_add, tags_to_delete
 
         """
-        self._sort_patch_by_books(local_patches)
+        sorted_patches = self._sort_patch_by_books(local_patches)
+        print(sorted_patches)
+
         raise NotImplementedError
 
     def _sort_patch_by_books(self, patches):
         sorted_patches = dict()
-        for path in patches:
-            pass
-        raise NotImplementedError
+        for patch in patches:
+            online_id = Client.get_book_id_from_patch(None, patch)
+            sorted_patches[self.online_books[online_id]] = patch
         return sorted_patches
 
     def get_last_modified_books(self, last_push_date):
