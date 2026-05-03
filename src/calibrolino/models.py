@@ -262,6 +262,7 @@ class CalibreDBReader(object):
 
         """
         for book_id, patches in sorted_patches.items():
+            local_tags = set(self.books[book_id]['tags'])
             online_tags = set()
             for patch in patches:
                 value = patch['value']
@@ -270,7 +271,7 @@ class CalibreDBReader(object):
                     if op == 'add':
                         tag_name = value['name']
                         online_tags.add(tag_name)
-            print(book_id, online_tags)
+            print(book_id, online_tags, local_tags)
 
         raise NotImplementedError
 
