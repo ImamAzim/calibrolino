@@ -144,13 +144,12 @@ class CalibrolinoController(Controller):
         self._varbox.last_push_date = now
 
     def _push(self, books_to_push):
-        local_revision = self._varbox.revision
         local_patches = self._varbox.patches
         sorted_patches = self._calibre_db.sort_patch_by_books(
-                local_patches, books_to_push)
-        # print(sorted_patches)
+            local_patches, books_to_push
+        )
         tags_to_add, tags_to_delete = self._calibre_db.get_tags_to_sync(
-                sorted_patches
+            sorted_patches
         )
         print(tags_to_add, tags_to_delete)
         raise NotImplementedError
@@ -224,7 +223,8 @@ class CalibrolinoController(Controller):
                     )
             else:
                 self._view.showinfo(
-                        'no needs to pull data, all patches applied')
+                    'no needs to pull data, all patches applied'
+                )
 
     def get_online_books(self) -> dict:
         online_books = dict()
