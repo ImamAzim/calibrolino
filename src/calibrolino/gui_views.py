@@ -146,7 +146,10 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         self.controller.reset_local_library()
 
     def _sync(self):
-        self.controller.sync()
+        try:
+            self.controller.sync()
+        except NotImplementedError:
+            self.showerror('not implemented')
         self._update_library_display()
 
     def _test(self):
