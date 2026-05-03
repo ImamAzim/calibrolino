@@ -263,8 +263,9 @@ class CalibreDBReader(object):
         """
         tags_to_add = dict()
         tags_to_delete = dict()
-        for book_id, patches in sorted_patches.items():
-            local_tags = set(self.books[book_id]['tags'])
+        for online_id, patches in sorted_patches.items():
+            local_id = self.books[online_id]
+            local_tags = set(self.books[local_id]['tags'])
             online_tags = set()
             for patch in patches:
                 value = patch['value']
@@ -273,18 +274,21 @@ class CalibreDBReader(object):
                     if op == 'add':
                         tag_name = value['name']
                         online_tags.add(tag_name)
-            tags_to_add[book_id] = local_tags - online_tags
-            tags_to_delete[book_id] = online_tags - local_tags
+            tags_to_add[online_id] = local_tags - online_tags
+            tags_to_delete[online_id] = online_tags - local_tags
 
         return tags_to_add, tags_to_delete
 
     def sort_patch_by_books(self, patches, book_ids):
-        sorted_patches = {book_id: list() for book_id in book_ids}
+        sorted_patches = {
+            online_id: list()
+            for online_id, local_id in self.online_books.items()
+            if local_id in book_ids
+        }
         for patch_rev, patch in patches.items():
             online_id = Client.get_book_id_from_patch(None, patch)
-            local_id = self.online_books[online_id]
-            if local_id in sorted_patches:
-                sorted_patches[local_id].append(patch)
+            if online_id in sorted_patches:
+                sorted_patches[online_id].append(patch)
         return sorted_patches
 
     def get_last_modified_books(self, last_push_date):
