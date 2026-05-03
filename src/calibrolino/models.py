@@ -269,7 +269,7 @@ class CalibreDBReader(object):
 
     def _sort_patch_by_books(self, patches):
         sorted_patches = dict()
-        for patch in patches:
+        for patch_rev, patch in patches.items():
             online_id = Client.get_book_id_from_patch(None, patch)
             sorted_patches[self.online_books[online_id]] = patch
         return sorted_patches

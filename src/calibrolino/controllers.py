@@ -220,7 +220,8 @@ class CalibrolinoController(Controller):
                         ' are not implemented'
                     )
             else:
-                self._view.showinfo('local books already synced')
+                self._view.showinfo(
+                        'no needs to pull data, all patches applied')
 
     def get_online_books(self) -> dict:
         online_books = dict()
