@@ -273,9 +273,8 @@ class CalibreDBReader(object):
                     if op == 'add':
                         tag_name = value['name']
                         online_tags.add(tag_name)
-            print(book_id, online_tags, local_tags)
-            tags_to_add[book_id] = ()
-            tags_to_delete[book_id] = ()
+            tags_to_add[book_id] = local_tags - online_tags
+            tags_to_delete[book_id] = online_tags - local_tags
 
         return tags_to_add, tags_to_delete
 
