@@ -151,6 +151,7 @@ class CalibrolinoController(Controller):
         tags_to_add, tags_to_delete = self._calibre_db.get_tags_to_sync(
             sorted_patches
         )
+        print(tags_to_add, tags_to_delete)
         for book_id, tags in tags_to_add.items():
             res = self._tolino_cloud.upload_tags(book_id, tags)
             revision, patches = res
@@ -166,7 +167,7 @@ class CalibrolinoController(Controller):
                 saved_patches: dict = self._varbox.patches
                 self._varbox.revision = revision
                 patches_to_delete = set()
-                for patch in patches:
+                for patch in patches.values():
                     if patch['op'] == 'remove':
                         tag_name = patch['value']['name']
                         online_id = self._tolino_cloud.get_ebook_id(patch)
