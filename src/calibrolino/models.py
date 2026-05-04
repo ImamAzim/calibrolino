@@ -802,7 +802,7 @@ class TolinoCloud(object):
         remove tags
 
         """
-        func = self._client.rm_book_from_collection()
+        func = self._client.rm_book_from_collection
         patches = dict()
         revision = None
         for tag in tags:
