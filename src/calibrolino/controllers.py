@@ -153,29 +153,21 @@ class CalibrolinoController(Controller):
         )
         print(tags_to_add, tags_to_delete)
         for book_id, tags in tags_to_add.items():
-            try:
-                res = self._tolino_cloud.upload_tags(book_id, tags)
-                revision, patches = res
-            except CalibrolinoException as e:
-                self._view.showerror(e)
-            else:
-                if revision:
-                    saved_patches = self._varbox.patches
-                    self._varbox.revision = revision
-                    saved_patches.update(patches)
-                    self._varbox.save()
+            res = self._tolino_cloud.upload_tags(book_id, tags)
+            revision, patches = res
+            if revision:
+                saved_patches = self._varbox.patches
+                self._varbox.revision = revision
+                saved_patches.update(patches)
+                self._varbox.save()
         for book_id, tags in tags_to_delete.items():
-            try:
-                res = self._tolino_cloud.remove_tags(book_id, tags)
-                revision, patches = res
-            except CalibrolinoException as e:
-                self._view.showerror(e)
-            else:
-                if revision:
-                    saved_patches = self._varbox.patches
-                    self._varbox.revision = revision
-                    saved_patches.update(patches)
-                    self._varbox.save()
+            res = self._tolino_cloud.remove_tags(book_id, tags)
+            revision, patches = res
+            if revision:
+                saved_patches = self._varbox.patches
+                self._varbox.revision = revision
+                saved_patches.update(patches)
+                self._varbox.save()
         raise NotImplementedError
 
     def _pull(self, force=False):
@@ -367,19 +359,15 @@ class CalibrolinoController(Controller):
                         self._calibre_db.rm_online_id(local_id)
                     self._calibre_db.add_online_id(local_id, online_id)
                     self._calibre_db.commit()
-                    try:
-                        res = self._tolino_cloud.upload_all_tags_of_book(
-                            book, online_id
-                        )
-                        revision, patches = res
-                    except CalibrolinoException as e:
-                        self._view.showerror(e)
-                    else:
-                        if revision:
-                            saved_patches = self._varbox.patches
-                            self._varbox.revision = revision
-                            saved_patches.update(patches)
-                            self._varbox.save()
+                    res = self._tolino_cloud.upload_all_tags_of_book(
+                        book, online_id
+                    )
+                    revision, patches = res
+                    if revision:
+                        saved_patches = self._varbox.patches
+                        self._varbox.revision = revision
+                        saved_patches.update(patches)
+                        self._varbox.save()
             else:
                 msg = (
                     'book already present on the cloud. use PUSH '
