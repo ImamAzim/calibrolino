@@ -151,7 +151,6 @@ class CalibrolinoController(Controller):
         tags_to_add, tags_to_delete = self._calibre_db.get_tags_to_sync(
             sorted_patches
         )
-        print(tags_to_add, tags_to_delete)
         for book_id, tags in tags_to_add.items():
             res = self._tolino_cloud.upload_tags(book_id, tags)
             revision, patches = res
@@ -164,9 +163,22 @@ class CalibrolinoController(Controller):
             res = self._tolino_cloud.remove_tags(book_id, tags)
             revision, patches = res
             if revision:
-                saved_patches = self._varbox.patches
+                saved_patches: dict = self._varbox.patches
                 self._varbox.revision = revision
-                saved_patches.update(patches)
+                patches_to_delete = set()
+                for patch in patches:
+                    if patch['op'] == 'remove':
+                        tag_name = patch['value']['name']
+                        online_id = self._tolino_cloud.get_ebook_id(patch)
+                        for rev, local_patch in saved_patches.items():
+                            if (
+                                self._tolino_cloud.get_ebook_id(local_patch)
+                                == online_id
+                            ):
+                                if tag_name == local_patch['value']['name']:
+                                    patches_to_delete.add(rev)
+                for rev in patches_to_delete:
+                    del saved_patches[rev]
                 self._varbox.save()
         raise NotImplementedError
 
