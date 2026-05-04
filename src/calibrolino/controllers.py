@@ -180,7 +180,6 @@ class CalibrolinoController(Controller):
                 for rev in patches_to_delete:
                     del saved_patches[rev]
                 self._varbox.save()
-        raise NotImplementedError
 
     def _pull(self, force=False):
 
