@@ -164,6 +164,18 @@ class CalibrolinoController(Controller):
                     self._varbox.revision = revision
                     saved_patches.update(patches)
                     self._varbox.save()
+        for book_id, tags in tags_to_delete.items():
+            try:
+                res = self._tolino_cloud.remove_tags(book_id, tags)
+                revision, patches = res
+            except CalibrolinoException as e:
+                self._view.showerror(e)
+            else:
+                if revision:
+                    saved_patches = self._varbox.patches
+                    self._varbox.revision = revision
+                    saved_patches.update(patches)
+                    self._varbox.save()
         raise NotImplementedError
 
     def _pull(self, force=False):

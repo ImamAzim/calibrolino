@@ -770,9 +770,13 @@ class TolinoCloud(object):
         patches = dict()
         revision = None
         for tag in tags:
-            res = self._try_before_login(func, online_id, tag)
-            revision, patch_rev, patch = res
-            patches[patch_rev] = patch
+            try:
+                res = self._try_before_login(func, online_id, tag)
+            except CalibrolinoException as e:
+                logging.error(e)
+            else:
+                revision, patch_rev, patch = res
+                patches[patch_rev] = patch
         return revision, patches
 
     def upload_tags(self, book_id, tags):
@@ -784,9 +788,13 @@ class TolinoCloud(object):
         patches = dict()
         revision = None
         for tag in tags:
-            res = self._try_before_login(func, book_id, tag)
-            revision, patch_rev, patch = res
-            patches[patch_rev] = patch
+            try:
+                res = self._try_before_login(func, book_id, tag)
+            except CalibrolinoException as e:
+                logging.error(e)
+            else:
+                revision, patch_rev, patch = res
+                patches[patch_rev] = patch
         return revision, patches
 
     def remove_tags(self, book_id, tags):
@@ -798,9 +806,13 @@ class TolinoCloud(object):
         patches = dict()
         revision = None
         for tag in tags:
-            res = self._try_before_login(func, book_id, tag)
-            revision, patch_rev, patch = res
-            patches[patch_rev] = patch
+            try:
+                res = self._try_before_login(func, book_id, tag)
+            except CalibrolinoException as e:
+                logging.error(e)
+            else:
+                revision, patch_rev, patch = res
+                patches[patch_rev] = patch
         return revision, patches
 
     # def upload_metadata(self, book, book_id):
