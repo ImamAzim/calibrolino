@@ -186,7 +186,7 @@ class CalibrolinoController(Controller):
                 self._varbox.save()
                 self._view.showinfo(
                     f'pull sync finished. {added} patch added, '
-                    f'{suppressed} patch removed'
+                    f'{removed} patch removed'
                 )
 
     def _pull(self, force=False):
