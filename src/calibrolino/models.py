@@ -806,7 +806,6 @@ class TolinoCloud(object):
         patches = dict()
         revision = None
         for tag in tags:
-            print('delete', tag)
             try:
                 res = self._try_before_login(func, book_id, tag)
             except CalibrolinoException as e:
