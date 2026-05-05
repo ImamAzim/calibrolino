@@ -151,7 +151,6 @@ class CalibrolinoController(Controller):
         tags_to_add, tags_to_delete = self._calibre_db.get_tags_to_sync(
             sorted_patches
         )
-        print(tags_to_add, tags_to_delete)
         for book_id, tags in tags_to_add.items():
             res = self._tolino_cloud.upload_tags(book_id, tags)
             revision, patches = res
@@ -163,7 +162,6 @@ class CalibrolinoController(Controller):
         for book_id, tags in tags_to_delete.items():
             res = self._tolino_cloud.remove_tags(book_id, tags)
             revision, patches = res
-            print(patches)
             if revision:
                 saved_patches: dict = self._varbox.patches
                 self._varbox.revision = revision
