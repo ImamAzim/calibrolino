@@ -1,4 +1,3 @@
-from varboxes import VarBox
 from pytolino.tolino_cloud import PARTNERS
 from pandas import DataFrame
 import logging
@@ -13,6 +12,7 @@ from calibrolino.models import PatchAlreadyUnappliedError
 from calibrolino.models import TolinoCloud, ONLINE_ID
 from calibrolino.models import TolinoCloudException
 from calibrolino.interfaces import ControllerException
+from calibrolino import varbox
 
 
 class CalibrolinoController(Controller):
@@ -21,9 +21,6 @@ class CalibrolinoController(Controller):
     def __init__(self, view: View):
         Controller.__init__(self)
         self._view = view
-        self._varbox = VarBox('calibrolino')
-        if not hasattr(self._varbox, 'last_push_date'):
-            self._varbox.last_push_date = 0
         try:
             self._calibre_db = CalibreDBReader()
         except CalibrolinoException:
@@ -54,9 +51,9 @@ class CalibrolinoController(Controller):
     def credentials(self) -> dict:
         try:
             credentials = dict(
-                partner=self._varbox.partner,
-                username=self._varbox.username,
-                password=self._varbox.password,
+                partner=varbox.partner,
+                username=varbox.username,
+                password=varbox.password,
             )
         except AttributeError:
             credentials = None
@@ -66,9 +63,9 @@ class CalibrolinoController(Controller):
     def credentials(self, value: dict):
         success = self._init_tolino_cloud(value)
         if success:
-            self._varbox.partner = value['partner']
-            self._varbox.username = value['username']
-            self._varbox.password = value['password']
+            varbox.partner = value['partner']
+            varbox.username = value['username']
+            varbox.password = value['password']
             msg = (
                 'credentials are saved on the disk. '
                 'if you wish to delete them, you can do it '
@@ -78,13 +75,13 @@ class CalibrolinoController(Controller):
 
     @credentials.deleter
     def credentials(self):
-        if hasattr(self._varbox, 'partner'):
-            delattr(self._varbox, 'partner')
-        if hasattr(self._varbox, 'username'):
-            delattr(self._varbox, 'username')
-        if hasattr(self._varbox, 'password'):
-            delattr(self._varbox, 'password')
-        self._varbox.info = 'this attr has been set to delete the cred'
+        if hasattr(varbox, 'partner'):
+            delattr(varbox, 'partner')
+        if hasattr(varbox, 'username'):
+            delattr(varbox, 'username')
+        if hasattr(varbox, 'password'):
+            delattr(varbox, 'password')
+        varbox.info = 'this attr has been set to delete the cred'
         self._tolino_cloud = None
 
     @property
@@ -115,12 +112,12 @@ class CalibrolinoController(Controller):
             self._calibre_db.reset_all_metadata(local_books_to_sync)
 
             revision = 'needToPullData'
-            self._varbox.revision = revision
-            self._varbox.patches = dict()
+            varbox.revision = revision
+            varbox.patches = dict()
             return True
 
     def sync(self):
-        if not hasattr(self._varbox, 'revision'):
+        if not hasattr(varbox, 'revision'):
             answer = self._view.askokcancel(
                 'there are no local sync data. I will create '
                 'an empty one and delete all local tags'
@@ -133,18 +130,18 @@ class CalibrolinoController(Controller):
                     return
                 else:
                     now = time.time()
-                    self._varbox.last_push_date = now
-        last_push_date = self._varbox.last_push_date
+                    varbox.last_push_date = now
+        last_push_date = varbox.last_push_date
         books_to_push = self._calibre_db.get_last_modified_books(
             last_push_date
         )
         self._pull()
         self._push(books_to_push)
         now = time.time()
-        self._varbox.last_push_date = now
+        varbox.last_push_date = now
 
     def _push(self, books_to_push):
-        local_patches = self._varbox.patches
+        local_patches = varbox.patches
         sorted_patches = self._calibre_db.sort_patch_by_books(
             local_patches, books_to_push
         )
@@ -157,18 +154,18 @@ class CalibrolinoController(Controller):
             revision, patches = res
             added += len(patches)
             if revision:
-                saved_patches = self._varbox.patches
-                self._varbox.revision = revision
+                saved_patches = varbox.patches
+                varbox.revision = revision
                 saved_patches.update(patches)
-                self._varbox.save()
+                varbox.save()
         removed = 0
         for book_id, tags in tags_to_delete.items():
             res = self._tolino_cloud.remove_tags(book_id, tags)
             revision, patches = res
             removed += len(patches)
             if revision:
-                saved_patches: dict = self._varbox.patches
-                self._varbox.revision = revision
+                saved_patches: dict = varbox.patches
+                varbox.revision = revision
                 patches_to_delete = set()
                 for patch in patches.values():
                     if patch['op'] == 'remove':
@@ -183,7 +180,7 @@ class CalibrolinoController(Controller):
                                     patches_to_delete.add(rev)
                 for rev in patches_to_delete:
                     del saved_patches[rev]
-                self._varbox.save()
+                varbox.save()
                 self._view.showinfo(
                     f'pull sync finished. {added} patch added, '
                     f'{removed} patch removed'
@@ -193,8 +190,8 @@ class CalibrolinoController(Controller):
 
         self._read_db()
 
-        local_revision = self._varbox.revision
-        local_patches = self._varbox.patches
+        local_revision = varbox.revision
+        local_patches = varbox.patches
         try:
             x1, x2 = self._tolino_cloud.get_sync_data()
             online_revision, online_patches = x1, x2
@@ -245,8 +242,8 @@ class CalibrolinoController(Controller):
                     del local_patches[patch_rev]
                 if revision_applied:
                     self._calibre_db.commit()
-                    self._varbox.patches = local_patches
-                    self._varbox.revision = online_revision
+                    varbox.patches = local_patches
+                    varbox.revision = online_revision
                     self._view.showinfo(
                         f'pull sync finished. {added} patch added, '
                         f'{suppressed} patch removed'
@@ -383,10 +380,10 @@ class CalibrolinoController(Controller):
                     )
                     revision, patches = res
                     if revision:
-                        saved_patches = self._varbox.patches
-                        self._varbox.revision = revision
+                        saved_patches = varbox.patches
+                        varbox.revision = revision
                         saved_patches.update(patches)
-                        self._varbox.save()
+                        varbox.save()
             else:
                 msg = (
                     'book already present on the cloud. use PUSH '
@@ -425,7 +422,7 @@ class CalibrolinoController(Controller):
             self._view.showerror('failed to read the calibre db')
 
     def _clean_local_revision(self):
-        local_patches = self._varbox.patches
+        local_patches = varbox.patches
         new_local_patches = dict()
 
         online_books = self._calibre_db.online_books
@@ -434,7 +431,7 @@ class CalibrolinoController(Controller):
             online_id = self._tolino_cloud.get_ebook_id(patch)
             if online_id in online_books:
                 new_local_patches[patch_rev] = patch
-        self._varbox.patches = new_local_patches
+        varbox.patches = new_local_patches
 
     def get_full_library(self, include_online: bool) -> DataFrame:
         self._read_db()
