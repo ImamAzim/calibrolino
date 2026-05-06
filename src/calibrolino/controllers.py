@@ -117,7 +117,7 @@ class CalibrolinoController(Controller):
             return True
 
     def sync(self):
-        if not hasattr(varbox, 'revision'):
+        if varbox.revision == '':
             answer = self._view.askokcancel(
                 'there are no local sync data. I will create '
                 'an empty one and delete all local tags'
