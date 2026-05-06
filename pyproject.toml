@@ -23,7 +23,7 @@ dependencies = [
         'varboxes',
         'pandas',
         'pandastable',
-        "pytolino",
+        "pytolino>=3.2",
 ]
 
 [project.optional-dependencies]
@@ -48,6 +48,3 @@ line-length = 79
 
 [tool.ruff.format]
 quote-style = 'single'
-
-[tool.uv.sources]
-pytolino = { git = "https://github.com/ImamAzim/pytolino.git", rev = "dev" }
