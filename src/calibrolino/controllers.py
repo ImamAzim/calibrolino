@@ -181,10 +181,10 @@ class CalibrolinoController(Controller):
                 for rev in patches_to_delete:
                     del saved_patches[rev]
                 varbox.save()
-                self._view.showinfo(
-                    f'pull sync finished. {added} patch added, '
-                    f'{removed} patch removed'
-                )
+        self._view.showinfo(
+            f'pull sync finished. {added} patch added, '
+            f'{removed} patch removed'
+        )
 
     def _pull(self, force=False):
 
