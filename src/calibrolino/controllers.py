@@ -141,7 +141,9 @@ class CalibrolinoController(Controller):
         varbox.last_push_date = now
 
     def check_sync(self):
-        pass
+        online_lib = self.get_online_books()
+        local_lib = self._calibre_db.books
+        displayed_lib = self.get_full_library(True)
 
     def _push(self, books_to_push):
         local_patches = varbox.patches
