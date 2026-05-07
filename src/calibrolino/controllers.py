@@ -140,6 +140,9 @@ class CalibrolinoController(Controller):
         now = time.time()
         varbox.last_push_date = now
 
+    def check_sync(self):
+        pass
+
     def _push(self, books_to_push):
         local_patches = varbox.patches
         sorted_patches = self._calibre_db.sort_patch_by_books(

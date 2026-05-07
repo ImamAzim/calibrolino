@@ -113,6 +113,11 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         ).grid(column=2, row=0)
         ttk.Button(
             self._options_frame,
+            text='check sync (slow)',
+            command=self._check_sync,
+        ).grid(column=3, row=0)
+        ttk.Button(
+            self._options_frame,
             text='upload all',
             command=self._upload_all,
         ).grid(column=0, row=1)
@@ -151,6 +156,9 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         except NotImplementedError:
             self.showerror('not implemented')
         self._update_library_display()
+
+    def _check_sync(self):
+        self.controller.check_sync()
 
     def _test(self):
         self.showinfo('test')

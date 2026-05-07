@@ -97,6 +97,13 @@ class Controller(metaclass=ABCMeta):
         pass
 
     @abstractmethod
+    def check_sync(self):
+        """perform tests to check local and online db are correctly synced
+
+        """
+        pass
+
+    @abstractmethod
     def reset_local_library(self):
         """erase all metadata(tags...) for all local books that are present on the cloud.
         reset also locally the revision and patches, so that library is ready for a new sync.
