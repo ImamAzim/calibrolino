@@ -148,11 +148,16 @@ class CalibrolinoController(Controller):
         self._calibre_db.online_books
 
         df = self.get_full_library(True)
-        df_online = df[df['online_id'] != '']['title'].values
+        df_online = df[df['online_id'] != '']['online_id'].values
         x = sorted(df_online)
-        y = sorted(online_lib.values())
+        y = sorted(online_lib.keys())
         if not x == y:
             self._view.showerror('online books do not correspond!')
+        df_local = df[df['local_id'] != 0]['local_id'].values
+        x = sorted(df_local)
+        y = sorted(local_lib.keys())
+        if not x == y:
+            self._view.showerror('local books do not correspond!')
 
     def _push(self, books_to_push):
         local_patches = varbox.patches
