@@ -141,9 +141,19 @@ class CalibrolinoController(Controller):
         varbox.last_push_date = now
 
     def check_sync(self):
+        self._calibre_db.read_db()
+
         online_lib = self.get_online_books()
         local_lib = self._calibre_db.books
-        displayed_lib = self.get_full_library(True)
+        self._calibre_db.online_books
+
+        df = self.get_full_library(True)
+        df_online = df[df['online_id'] != '']
+        print(df_online['title'].values)
+        # for row in displayed_lib.iterrows():
+            # title = row['title']
+            # local_id = row['local_id']
+            # online_id = row['online_id']
 
     def _push(self, books_to_push):
         local_patches = varbox.patches
