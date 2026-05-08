@@ -297,6 +297,14 @@ class CalibreDBReader(object):
                 sorted_patches[online_id].append(patch)
         return sorted_patches
 
+    def check_all_patches_are_implemented(self, sorted_patches):
+        """TODO: Docstring for check_all_patch_are_implemented.
+        :sorted_patches: TODO
+        :returns: TODO
+
+        """
+        pass
+
     def get_last_modified_books(self, last_push_date):
         """since last push date
 
