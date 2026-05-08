@@ -180,7 +180,7 @@ class CalibrolinoController(Controller):
         )
         if msg is not None:
             self._view.showerror(msg)
-        self._view.showinfo("check done!")
+        self._view.showinfo('check done!')
 
     def _push(self, books_to_push):
         local_patches = varbox.patches

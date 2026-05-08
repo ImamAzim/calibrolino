@@ -289,8 +289,7 @@ class CalibreDBReader(object):
             }
         else:
             sorted_patches = {
-                online_id: list()
-                for online_id in self.online_books
+                online_id: list() for online_id in self.online_books
             }
         for patch_rev, patch in patches.items():
             online_id = Client.get_book_id_from_patch(None, patch)
@@ -336,7 +335,7 @@ class CalibreDBReader(object):
         completed_process = subprocess.run(full_cmd, capture_output=True)
         answer = completed_process.stdout.decode()
         doc = minidom.parseString(answer)
-        items = doc.getElementsByTagName("dc:subject")
+        items = doc.getElementsByTagName('dc:subject')
         tags = {item.firstChild.data for item in items}
         return tags
 
