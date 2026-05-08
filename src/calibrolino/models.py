@@ -314,9 +314,21 @@ class CalibreDBReader(object):
                         tag_name = value['name']
                         online_tags.add(tag_name)
             local_id = self.online_books[online_id]
-            # local_tags = set(self.books[local_id]['tags'])
+            local_tags = self._get_local_tags_from_calibredb(local_id)
+            print(online_id, online_tags, local_tags)
         self._load_db()
         self.read_db()
+
+    def _get_local_tags_from_calibredb(self, book_id):
+        cmd = 'add'
+        arg = fp.as_posix()
+        options_list = list()
+        for option, value in options.items():
+            option_i = [f'--{option}', f'{value}']
+            options_list = options_list + option_i
+        full_cmd = [self._calibre_db_command, cmd] + options_list + [arg]
+        completed_process = subprocess.run(full_cmd, capture_output=True)
+        answer = completed_process.stdout.decode()
 
     def get_last_modified_books(self, last_push_date):
         """since last push date
