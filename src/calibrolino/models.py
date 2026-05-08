@@ -8,6 +8,7 @@ from pathlib import Path
 import subprocess
 import warnings
 import logging
+from xml.dom import minidom
 
 
 from pytolino.tolino_cloud import Client, PytolinoException
@@ -322,15 +323,14 @@ class CalibreDBReader(object):
     def _get_local_tags_from_calibredb(self, book_id):
         cmd = 'show_metadata'
         arg = str(book_id)
-        options = dict()
-        options_list = list()
-        for option, value in options.items():
-            option_i = [f'--{option}', f'{value}']
-            options_list = options_list + option_i
+        options_list = ['--as-opf']
         full_cmd = [self._calibre_db_command, cmd] + options_list + [arg]
         completed_process = subprocess.run(full_cmd, capture_output=True)
         answer = completed_process.stdout.decode()
-        return answer
+        doc = minidom.parseString(answer)
+        items = doc.getElementsByTagName("dc:subject")
+        tags = {item.firstChild.data for item in items}
+        return tags
 
     def get_last_modified_books(self, last_push_date):
         """since last push date
