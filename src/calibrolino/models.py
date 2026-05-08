@@ -304,6 +304,7 @@ class CalibreDBReader(object):
         :returns: TODO
 
         """
+        success = True
         self._close_db()
         for online_id, patches in sorted_patches.items():
             online_tags = set()
@@ -316,9 +317,16 @@ class CalibreDBReader(object):
                         online_tags.add(tag_name)
             local_id = self.online_books[online_id]
             local_tags = self._get_local_tags_from_calibredb(local_id)
-            print(online_id, online_tags, local_tags)
+            if local_tags != online_tags:
+                success = False
+                msg = f'tags do not correspond for book {online_id}'
+                break
         self._load_db()
         self.read_db()
+        if success:
+            return None
+        else:
+            return msg
 
     def _get_local_tags_from_calibredb(self, book_id):
         cmd = 'show_metadata'
