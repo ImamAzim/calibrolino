@@ -174,6 +174,7 @@ class CalibrolinoController(Controller):
 
         x1, x2 = self._tolino_cloud.get_sync_data()
         online_revision, online_patches = x1, x2
+        sorted_patches = self._calibre_db.sort_patch_by_books(online_patches)
 
     def _push(self, books_to_push):
         local_patches = varbox.patches
