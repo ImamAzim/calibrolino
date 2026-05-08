@@ -303,7 +303,20 @@ class CalibreDBReader(object):
         :returns: TODO
 
         """
-        pass
+        self._close_db()
+        for online_id, patches in sorted_patches.items():
+            online_tags = set()
+            for patch in patches:
+                value = patch['value']
+                if value.get('category') == 'collection':
+                    op = patch['op']
+                    if op == 'add':
+                        tag_name = value['name']
+                        online_tags.add(tag_name)
+            local_id = self.online_books[online_id]
+            # local_tags = set(self.books[local_id]['tags'])
+        self._load_db()
+        self.read_db()
 
     def get_last_modified_books(self, last_push_date):
         """since last push date
