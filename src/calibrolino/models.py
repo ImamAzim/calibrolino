@@ -279,12 +279,18 @@ class CalibreDBReader(object):
 
         return tags_to_add, tags_to_delete
 
-    def sort_patch_by_books(self, patches, book_ids):
-        sorted_patches = {
-            online_id: list()
-            for online_id, local_id in self.online_books.items()
-            if local_id in book_ids
-        }
+    def sort_patch_by_books(self, patches, book_ids=None):
+        if book_ids is not None:
+            sorted_patches = {
+                online_id: list()
+                for online_id, local_id in self.online_books.items()
+                if local_id in book_ids
+            }
+        else:
+            sorted_patches = {
+                online_id: list()
+                for online_id in self.online_books
+            }
         for patch_rev, patch in patches.items():
             online_id = Client.get_book_id_from_patch(None, patch)
             if online_id in sorted_patches:
