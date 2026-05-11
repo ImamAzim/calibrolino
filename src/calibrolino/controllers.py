@@ -281,9 +281,9 @@ class CalibrolinoController(Controller):
                                 suppressed += 1
                 for patch_rev in patch_rev_to_delete:
                     del local_patches[patch_rev]
+                self._calibre_db.commit()
+                varbox.patches = local_patches
                 if revision_applied:
-                    self._calibre_db.commit()
-                    varbox.patches = local_patches
                     varbox.revision = online_revision
                     self._view.showinfo(
                         f'pull sync finished. {added} patch added, '
@@ -291,7 +291,7 @@ class CalibrolinoController(Controller):
                     )
                 else:
                     self._view.showinfo(
-                        'revision not applied because some patches'
+                        'revision not fully applied because some patches'
                         ' are not implemented'
                     )
             else:
