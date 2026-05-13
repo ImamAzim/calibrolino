@@ -88,7 +88,7 @@ class CalibrolinoController(Controller):
     def local_books(self) -> dict[dict]:
         return self._calibre_db.books
 
-    def reset_local_library(self):
+    def autodetect_to_sync_books(self):
         self._calibre_db.read_db()
         local_lib = self.local_books
         online_lib = self.get_online_books()
@@ -117,20 +117,6 @@ class CalibrolinoController(Controller):
             return True
 
     def sync(self):
-        if varbox.revision == '':
-            answer = self._view.askokcancel(
-                'there are no local sync data. I will create '
-                'an empty one and delete all local tags'
-            )
-            if not answer:
-                return
-            else:
-                completed = self.reset_local_library()
-                if not completed:
-                    return
-                else:
-                    now = time.time()
-                    varbox.last_push_date = now
         last_push_date = varbox.last_push_date
         books_to_push = self._calibre_db.get_last_modified_books(
             last_push_date
