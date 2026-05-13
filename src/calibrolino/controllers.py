@@ -97,13 +97,16 @@ class CalibrolinoController(Controller):
             for book_id, book in local_lib.items()
             if not book.get(ONLINE_ID)
         }
-        for book_id, books in not_synced_books.items():
+        for book_id, book in not_synced_books.items():
             title = book['full_title']
             if title in online_lib.values():
                 for online_id, online_title in online_lib.items():
-                    if title == online_title and online_title not in self._calibre_db.online_books:
-                            self._calibre_db.add_online_id(book_id, online_id)
-                            break
+                    if (
+                        title == online_title
+                        and online_title not in self._calibre_db.online_books
+                    ):
+                        self._calibre_db.add_online_id(book_id, online_id)
+                        break
 
     def sync(self):
         books_with_deprec_online_ids = list()
@@ -155,7 +158,7 @@ class CalibrolinoController(Controller):
             print(x, y)
 
         x1, x2 = self._tolino_cloud.get_sync_data()
-        online_revision, online_patches = x1, x2
+        _, online_patches = x1, x2
         sorted_patches = self._calibre_db.sort_patch_by_books(online_patches)
         msg = self._calibre_db.check_all_patches_are_implemented(
             sorted_patches
