@@ -149,6 +149,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
 
     def _autodetect_sync(self):
         self.controller.autodetect_to_sync_books()
+        self._update_library_display()
 
     def _sync(self):
         try:
