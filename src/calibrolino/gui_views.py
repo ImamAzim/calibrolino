@@ -117,11 +117,6 @@ class CalibrolinoGUIView(View, tkinter.Tk):
             command=self._check_sync,
         ttk.Button(
             self._options_frame,
-            text='auto detect books to sync',
-            command=self._detect_books_to_sync,
-        ).grid(column=3, row=0)
-        ttk.Button(
-            self._options_frame,
             text='upload all',
             command=self._upload_all,
         ).grid(column=0, row=1)
@@ -151,8 +146,8 @@ class CalibrolinoGUIView(View, tkinter.Tk):
             command=self._delete_book_locally,
         ).grid(column=2, row=2)
 
-    def _reset(self):
-        self.controller.reset_local_library()
+    def _autodetect_sync(self):
+        self.controller.autodetect_to_sync_books()
 
     def _sync(self):
         try:
@@ -197,8 +192,8 @@ class CalibrolinoGUIView(View, tkinter.Tk):
             command=self._del_credentials,
         )
         file_menu.add_command(
-            label='reset...',
-            command=self._reset,
+            label='detect books to be synced...',
+            command=self._autodetect_sync,
         )
         file_menu.add_command(
             label='quit',
