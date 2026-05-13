@@ -107,6 +107,7 @@ class CalibrolinoController(Controller):
                     ):
                         self._calibre_db.add_online_id(book_id, online_id)
                         break
+        self._calibre_db.commit()
 
     def sync(self):
         books_with_deprec_online_ids = list()
