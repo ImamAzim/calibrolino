@@ -69,7 +69,7 @@ class CalibreDBReader(object):
 
     @property
     def books(self) -> dict:
-        """a dictionnory of books (keys are the titles). each book dict
+        """a dictionnory of books (keys are book_id). each book dict
         contains metadata of the books and file path to book"""
         return self._books
 

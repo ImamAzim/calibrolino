@@ -92,6 +92,11 @@ class CalibrolinoController(Controller):
         self._calibre_db.read_db()
         local_lib = self.local_books
         online_lib = self.get_online_books()
+        not_synced_books = {
+            book_id: book
+            for book_id, book in local_lib.items()
+            if not book.get(ONLINE_ID)
+        }
         local_books_to_sync = dict()
         for book_id, book in local_lib.items():
             title = book['full_title']
