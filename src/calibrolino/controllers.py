@@ -97,29 +97,13 @@ class CalibrolinoController(Controller):
             for book_id, book in local_lib.items()
             if not book.get(ONLINE_ID)
         }
-        local_books_to_sync = dict()
-        for book_id, book in local_lib.items():
+        for book_id, books in not_synced_books.items():
             title = book['full_title']
             if title in online_lib.values():
                 for online_id, online_title in online_lib.items():
-                    if title == online_title:
-                        local_books_to_sync[book_id] = online_id
-                        online_lib.pop(online_id)
-                        break
-        n = len(local_books_to_sync)
-        answer = self._view.askyesno(
-            'delete all local tags for books that are also'
-            f' online ({n} books). are you sure?'
-        )
-        if not answer:
-            return False
-        else:
-            self._calibre_db.reset_all_metadata(local_books_to_sync)
-
-            revision = 'needToPullData'
-            varbox.revision = revision
-            varbox.patches = dict()
-            return True
+                    if title == online_title and online_title not in self._calibre_db.online_books:
+                            self._calibre_db.add_online_id(book_id, online_id)
+                            break
 
     def sync(self):
         books_with_deprec_online_ids = list()
