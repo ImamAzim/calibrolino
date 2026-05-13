@@ -122,6 +122,13 @@ class CalibrolinoController(Controller):
             return True
 
     def sync(self):
+        books_with_deprec_online_ids = list()
+        online_books = self.get_online_books()
+        for online_id, local_id in self._calibre_db.online_books.items():
+            if online_id not in online_books:
+                books_with_deprec_online_ids.append(local_id)
+        for local_id in books_with_deprec_online_ids:
+            self._calibre_db.rm_online_id(local_id)
         last_push_date = varbox.last_push_date
         books_to_push = self._calibre_db.get_last_modified_books(
             last_push_date
