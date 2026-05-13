@@ -115,6 +115,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
             self._options_frame,
             text='check sync (slow)',
             command=self._check_sync,
+        ).grid(column=3, row=0)
         ttk.Button(
             self._options_frame,
             text='upload all',
