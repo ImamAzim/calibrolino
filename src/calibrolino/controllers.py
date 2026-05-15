@@ -328,7 +328,7 @@ class CalibrolinoController(Controller):
         else:
             try:
                 res = self._tolino_cloud.download_book(online_id)
-                book_path, cover_path, options = res
+                book_path, options = res
             except TolinoCloudException as e:
                 self._view.showerror(e)
             else:

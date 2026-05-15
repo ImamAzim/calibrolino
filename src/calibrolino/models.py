@@ -822,7 +822,7 @@ class TolinoCloud(object):
         if serie:
             options["series"] = serie
             options["series-index"] = serie_index
-        return epub_fp, cover_path, options
+        return epub_fp, options
 
     def upload_all_tags_of_book(self, book, online_id):
         """
