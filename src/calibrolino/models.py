@@ -727,6 +727,7 @@ def get_serie_title(title, serie_index, serie_name):
     new_title = f'{serie_name}: {serie_index} - {title}'
     return new_title
 
+
 def get_title_and_serie_from_full_title(full_title):
     raise NotImplementedError
     return title, serie, serie_index
@@ -812,16 +813,18 @@ class TolinoCloud(object):
         res = self._try_before_login(func, online_id)
         epub_fp, cover_path, metadata = res
         options = dict()
-        keys = ["authors", "isbn", "languages"]
+        keys = ['authors', 'isbn', 'languages']
         for key in keys:
             if metadata.get(key):
                 options[key] = metadata[key]
-        full_title = metadata["title"]
-        title, serie, serie_index = get_title_and_serie_from_full_title(full_title)
-        options["title"] = title
+        full_title = metadata['title']
+        title, serie, serie_index = get_title_and_serie_from_full_title(
+            full_title
+        )
+        options['title'] = title
         if serie:
-            options["series"] = serie
-            options["series-index"] = serie_index
+            options['series'] = serie
+            options['series-index'] = serie_index
         return epub_fp, options
 
     def upload_all_tags_of_book(self, book, online_id):
