@@ -328,20 +328,13 @@ class CalibrolinoController(Controller):
         else:
             try:
                 res = self._tolino_cloud.download_book(online_id)
-                book_path, cover_path, metadata = res
+                book_path, cover_path, options = res
             except TolinoCloudException as e:
                 self._view.showerror(e)
             else:
-                metadata_nonone = {
-                    key: value
-                    for key, value in metadata.items()
-                    if value is not None
-                }
-                metadata_nonone.pop('publisher')
-                metadata_nonone.pop('issued')
                 try:
                     book_id = self._calibre_db.add_book(
-                        book_path, **metadata_nonone
+                        book_path, **options
                     )
                 except CalibrolinoException as e:
                     self._view.showerror(e)
