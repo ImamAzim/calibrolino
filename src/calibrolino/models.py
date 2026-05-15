@@ -813,6 +813,7 @@ class TolinoCloud(object):
         res = self._try_before_login(func, online_id)
         epub_fp, cover_path, metadata = res
         options = dict()
+        # options["cover" ] = cover_path.as_posix()
         keys = ['authors', 'isbn', 'languages']
         for key in keys:
             if metadata.get(key):
