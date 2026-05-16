@@ -7,6 +7,7 @@ from calibrolino.models import (
     CalibreDBReader,
     get_serie_title,
     CalibrolinoException,
+    parse_full_title,
 )
 
 TEST_BOOK_TITLE = 'added by calibrolino'
@@ -59,6 +60,14 @@ class TestCalibreDBReader(unittest.TestCase):
         expected_full_title = "myserie: 42 - mytitle"
         new_title = get_serie_title(title, serie_index, serie_name)
         self.assertEqual(new_title, expected_full_title)
+
+    def test_parse_full_title(self):
+        full_title = "myserie: 42 - mytitle"
+        title, serie, serie_index = parse_full_title(full_title)
+        self.assertEqual(title, "mytitle")
+        self.assertEqual(serie, "myserie")
+        self.assertEqual(serie_index, "42")
+
 
     def test_online_id(self):
         cdb = self.calibre_db_reader

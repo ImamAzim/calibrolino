@@ -728,7 +728,7 @@ def get_serie_title(title, serie_index, serie_name):
     return new_title
 
 
-def get_title_and_serie_from_full_title(full_title):
+def parse_full_title(full_title):
     splitted_title = full_title.split(' - ')
     if len(splitted_title) == 1:
         title = full_title
@@ -825,7 +825,7 @@ class TolinoCloud(object):
             if metadata.get(key):
                 options[key] = metadata[key]
         full_title = metadata['title']
-        title, serie, serie_index = get_title_and_serie_from_full_title(
+        title, serie, serie_index = parse_full_title(
             full_title
         )
         options['title'] = title
