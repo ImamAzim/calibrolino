@@ -735,7 +735,25 @@ def parse_full_title(full_title):
         serie = None
         serie_index = None
     else:
-        pass
+        pre = splitted_title[0]
+        extracted_title = "".join(splitted_title[1:])
+        pre_splitted = pre.split(": ")
+        if len(pre_splitted) != 2:
+            title = full_title
+            serie = None
+            serie_index = None
+        else:
+            extracted_index = pre_splitted[1]
+            try:
+                float(extracted_index)
+            except ValueError:
+                title = full_title
+                serie = None
+                serie_index = None
+            else:
+                title = extracted_title
+                serie = pre_splitted[0]
+                serie_index = extracted_index
     return title, serie, serie_index
 
 
