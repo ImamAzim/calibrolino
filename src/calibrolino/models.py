@@ -729,7 +729,13 @@ def get_serie_title(title, serie_index, serie_name):
 
 
 def get_title_and_serie_from_full_title(full_title):
-    raise NotImplementedError
+    splitted_title = full_title.split(' - ')
+    if len(splitted_title) == 1:
+        title = full_title
+        serie = None
+        serie_index = None
+    else:
+        pass
     return title, serie, serie_index
 
 

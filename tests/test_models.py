@@ -56,11 +56,9 @@ class TestCalibreDBReader(unittest.TestCase):
         title = 'mytitle'
         serie_name = 'myserie'
         serie_index = '42'
+        expected_full_title = "myserie: 42 - mytitle"
         new_title = get_serie_title(title, serie_index, serie_name)
-        self.assertIsInstance(new_title, str)
-        self.assertIn(title, new_title)
-        self.assertIn(serie_name, new_title)
-        self.assertIn(serie_index, new_title)
+        self.assertEqual(new_title, expected_full_title)
 
     def test_online_id(self):
         cdb = self.calibre_db_reader
