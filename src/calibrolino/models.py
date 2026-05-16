@@ -736,8 +736,8 @@ def parse_full_title(full_title):
         serie_index = None
     else:
         pre = splitted_title[0]
-        extracted_title = "".join(splitted_title[1:])
-        pre_splitted = pre.split(": ")
+        extracted_title = ''.join(splitted_title[1:])
+        pre_splitted = pre.split(': ')
         if len(pre_splitted) != 2:
             title = full_title
             serie = None
@@ -843,9 +843,7 @@ class TolinoCloud(object):
             if metadata.get(key):
                 options[key] = metadata[key]
         full_title = metadata['title']
-        title, serie, serie_index = parse_full_title(
-            full_title
-        )
+        title, serie, serie_index = parse_full_title(full_title)
         options['title'] = title
         if serie:
             options['series'] = serie

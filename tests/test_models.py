@@ -57,22 +57,21 @@ class TestCalibreDBReader(unittest.TestCase):
         title = 'mytitle'
         serie_name = 'myserie'
         serie_index = '42'
-        expected_full_title = "myserie: 42 - mytitle"
+        expected_full_title = 'myserie: 42 - mytitle'
         new_title = get_serie_title(title, serie_index, serie_name)
         self.assertEqual(new_title, expected_full_title)
 
     def test_parse_full_title(self):
-        full_title = "myserie: 42 - mytitle"
+        full_title = 'myserie: 42 - mytitle'
         title, serie, serie_index = parse_full_title(full_title)
-        self.assertEqual(title, "mytitle")
-        self.assertEqual(serie, "myserie")
-        self.assertEqual(serie_index, "42")
-        full_title = "mytitle"
+        self.assertEqual(title, 'mytitle')
+        self.assertEqual(serie, 'myserie')
+        self.assertEqual(serie_index, '42')
+        full_title = 'mytitle'
         title, serie, serie_index = parse_full_title(full_title)
-        self.assertEqual(title, "mytitle")
+        self.assertEqual(title, 'mytitle')
         self.assertFalse(serie)
         self.assertFalse(serie_index)
-
 
     def test_online_id(self):
         cdb = self.calibre_db_reader

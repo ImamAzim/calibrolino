@@ -98,9 +98,7 @@ class Controller(metaclass=ABCMeta):
 
     @abstractmethod
     def check_sync(self):
-        """perform tests to check local and online db are correctly synced
-
-        """
+        """perform tests to check local and online db are correctly synced"""
         pass
 
     @abstractmethod
