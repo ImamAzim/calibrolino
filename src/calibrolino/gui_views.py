@@ -264,7 +264,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         df_online = df[(df['local_id'] == 0) & (df['online_id'] != '')][
             ['title']
         ]
-        self._synced_table.model.df = df_sync
+        self._synced_table.model.df = df_sync["title"]
         self._synced_table.autoResizeColumns()
         self._online_table.model.df = df_online
         self._online_table.autoResizeColumns()
