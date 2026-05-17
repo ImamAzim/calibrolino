@@ -93,7 +93,6 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         pt = Table(
             table_frame,
         )
-        pt.showindex = True
         pt.show()
         self._synced_table = pt
         button_frame = ttk.Frame(frame)
@@ -115,7 +114,6 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         pt = Table(
             table_frame,
         )
-        pt.showindex = True
         pt.show()
         self._local_table = pt
         button_frame = ttk.Frame(frame)
@@ -132,7 +130,6 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         pt = Table(
             table_frame,
         )
-        pt.showindex = True
         pt.show()
         self._online_table = pt
         button_frame = ttk.Frame(frame)
