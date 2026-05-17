@@ -100,8 +100,8 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         button_frame.pack()
         ttk.Button(
             button_frame,
-            text='test',
-            command=self._test,
+            text='delete selection (online)',
+            command=self._delete_selected_book_online_from_sync,
         ).grid(column=0, row=0)
 
         frame = local_frame
@@ -173,11 +173,11 @@ class CalibrolinoGUIView(View, tkinter.Tk):
             text='upload selection',
             command=self._upload_one,
         ).grid(column=1, row=1)
-        ttk.Button(
-            self._options_frame,
-            text='delete selection (online)',
-            command=self._delete_selected_book,
-        ).grid(column=2, row=1)
+        # ttk.Button(
+            # self._options_frame,
+            # text='delete selection (online)',
+            # command=self._delete_selected_book,
+        # ).grid(column=2, row=1)
         ttk.Button(
             self._options_frame,
             text='download all',
@@ -309,10 +309,11 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         self.controller.upload_book(local_id)
         self._update_library_display()
 
-    def _delete_selected_book(self):
+    def _delete_selected_book_online_from_sync(self):
         """delete selected book from the cloud"""
-        rowdata = self._library_table.getSelectedRowData()
+        rowdata = self._synced_table.getSelectedRowData()
         online_id = rowdata['online_id'].values[0]
+        print(online_id)
         self.controller.delete_book(online_id)
         self._update_library_display()
 
