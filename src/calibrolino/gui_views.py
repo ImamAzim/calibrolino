@@ -92,6 +92,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         table_frame.pack()
         pt = Table(
             table_frame,
+            width=200,
         )
         pt.show()
         self._synced_table = pt
@@ -113,6 +114,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         table_frame.pack()
         pt = Table(
             table_frame,
+            width=200,
         )
         pt.show()
         self._local_table = pt
@@ -134,6 +136,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         table_frame.pack()
         pt = Table(
             table_frame,
+            width=200,
         )
         pt.show()
         self._online_table = pt
