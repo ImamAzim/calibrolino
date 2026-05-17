@@ -122,6 +122,11 @@ class CalibrolinoGUIView(View, tkinter.Tk):
             button_frame,
             text='delete',
             command=self._delete_selected_book_local_from_local,
+        ).grid(column=0, row=0)
+        ttk.Button(
+            button_frame,
+            text='upload',
+            command=self._upload_one,
         ).grid(column=1, row=0)
 
         frame = online_frame
@@ -175,11 +180,6 @@ class CalibrolinoGUIView(View, tkinter.Tk):
             text='upload all',
             command=self._upload_all,
         ).grid(column=0, row=1)
-        ttk.Button(
-            self._options_frame,
-            text='upload selection',
-            command=self._upload_one,
-        ).grid(column=1, row=1)
         ttk.Button(
             self._options_frame,
             text='download all',
