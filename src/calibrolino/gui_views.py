@@ -309,7 +309,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
 
     def _delete_selected_book_online_from_online(self):
         """delete selected book from the cloud"""
-        rowdata = self._synced_table.getSelectedRowData()
+        rowdata = self._online_table.getSelectedRowData()
         online_id = rowdata.index.values[0]
         self.controller.delete_book(online_id)
         self._update_library_display()
