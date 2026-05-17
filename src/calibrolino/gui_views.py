@@ -117,8 +117,8 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         button_frame.pack()
         ttk.Button(
             button_frame,
-            text='test',
-            command=self._test,
+            text='upload selection',
+            command=self._upload_one,
         ).grid(column=0, row=0)
 
         frame = online_frame
@@ -304,8 +304,8 @@ class CalibrolinoGUIView(View, tkinter.Tk):
 
     def _upload_one(self):
         """upload selected book"""
-        rowdata = self._library_table.getSelectedRowData()
-        local_id = rowdata['local_id'].values[0]
+        rowdata = self._local_table.getSelectedRowData()
+        local_id = rowdata.index.values[0]
         self.controller.upload_book(local_id)
         self._update_library_display()
 
