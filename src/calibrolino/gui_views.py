@@ -120,9 +120,14 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         button_frame.pack()
         ttk.Button(
             button_frame,
-            text='upload selection',
+            text='upload',
             command=self._upload_one,
         ).grid(column=0, row=0)
+        ttk.Button(
+            button_frame,
+            text='delete',
+            command=self._delete_selected_book_local_from_local,
+        ).grid(column=1, row=0)
 
         frame = online_frame
         table_frame = ttk.Frame(frame)
@@ -136,8 +141,8 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         button_frame.pack()
         ttk.Button(
             button_frame,
-            text='test',
-            command=self._test,
+            text='delete',
+            command=self._delete_selected_book_online_from_online,
         ).grid(column=0, row=0)
 
     def _create_buttons_in_options_frame(self):
@@ -302,10 +307,24 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         self.controller.delete_book(online_id)
         self._update_library_display()
 
+    def _delete_selected_book_online_from_online(self):
+        """delete selected book from the cloud"""
+        rowdata = self._synced_table.getSelectedRowData()
+        online_id = rowdata.index.values[0]
+        self.controller.delete_book(online_id)
+        self._update_library_display()
+
     def _delete_selected_book_local_from_sync(self):
         """delete selected book from the local lib"""
         rowdata = self._synced_table.getSelectedRowData()
         book_id = rowdata['local_id'].values[0]
+        self.controller.delete_book_locally(book_id)
+        self._update_library_display()
+
+    def _delete_selected_book_local_from_local(self):
+        """delete selected book from the local lib"""
+        rowdata = self._local_table.getSelectedRowData()
+        book_id = rowdata.index.values[0]
         self.controller.delete_book_locally(book_id)
         self._update_library_display()
 
