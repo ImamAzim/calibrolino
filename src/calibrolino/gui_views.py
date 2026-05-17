@@ -264,11 +264,14 @@ class CalibrolinoGUIView(View, tkinter.Tk):
             ['title']
         ]
         self._synced_table.model.df = df_sync
-        self._synced_table.redraw()
+        # self._synced_table.redraw()
+        self._synced_table.autoResizeColumns()
         self._online_table.model.df = df_online
-        self._online_table.redraw()
+        # self._online_table.redraw()
+        self._online_table.autoResizeColumns()
         self._local_table.model.df = df_local
-        self._local_table.redraw()
+        self._local_table.autoResizeColumns()
+        # self._local_table.redraw()
 
     def _upload_all(self):
         """upload the whole library"""
