@@ -95,6 +95,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         )
         pt.showindex = True
         pt.show()
+        self._synced_table = pt
         button_frame = ttk.Frame(frame)
         button_frame.pack()
         ttk.Button(
@@ -103,20 +104,39 @@ class CalibrolinoGUIView(View, tkinter.Tk):
             command=self._test,
         ).grid(column=0, row=0)
 
+        frame = local_frame
+        table_frame = ttk.Frame(frame)
+        table_frame.pack()
+        pt = Table(
+            table_frame,
+        )
+        pt.showindex = True
+        pt.show()
         self._synced_table = pt
+        button_frame = ttk.Frame(frame)
+        button_frame.pack()
+        ttk.Button(
+            button_frame,
+            text='test',
+            command=self._test,
+        ).grid(column=0, row=0)
 
+        frame = online_frame
+        table_frame = ttk.Frame(frame)
+        table_frame.pack()
         pt = Table(
-            local_frame,
+            table_frame,
         )
         pt.showindex = True
         pt.show()
-        self._local_table = pt
-        pt = Table(
-            online_frame,
-        )
-        pt.showindex = True
-        pt.show()
-        self._online_table = pt
+        self._synced_table = pt
+        button_frame = ttk.Frame(frame)
+        button_frame.pack()
+        ttk.Button(
+            button_frame,
+            text='test',
+            command=self._test,
+        ).grid(column=0, row=0)
 
     def _create_buttons_in_options_frame(self):
         """
