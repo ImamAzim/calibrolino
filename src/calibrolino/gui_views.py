@@ -80,12 +80,10 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         self.update()
 
     def _create_lib_table(self):
-        """
-        :returns: TODO
-
-        """
+        synced_frame = ttk.LabelFrame(self._library_frame, text='synced books')
+        synced_frame.pack(side=tkinter.LEFT)
         pt = Table(
-            self._library_frame,
+            synced_frame,
         )
         pt.showindex = True
         pt.show()
