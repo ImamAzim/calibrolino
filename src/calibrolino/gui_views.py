@@ -257,6 +257,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         """ """
         df = self.controller.get_full_library(include_online)
         df_sync = df[(df['local_id'] != 0) & (df['online_id'] != '')]
+        self._df_sync = df_sync
         df_local = df[(df['local_id'] != 0) & (df['online_id'] == '')][
             ['title']
         ]
@@ -264,14 +265,11 @@ class CalibrolinoGUIView(View, tkinter.Tk):
             ['title']
         ]
         self._synced_table.model.df = df_sync
-        # self._synced_table.redraw()
         self._synced_table.autoResizeColumns()
         self._online_table.model.df = df_online
-        # self._online_table.redraw()
         self._online_table.autoResizeColumns()
         self._local_table.model.df = df_local
         self._local_table.autoResizeColumns()
-        # self._local_table.redraw()
 
     def _upload_all(self):
         """upload the whole library"""
@@ -316,7 +314,9 @@ class CalibrolinoGUIView(View, tkinter.Tk):
     def _delete_selected_book_local_from_sync(self):
         """delete selected book from the local lib"""
         rowdata = self._synced_table.getSelectedRowData()
-        book_id = rowdata['local_id'].values[0]
+        # book_id = rowdata['local_id'].values[0]
+        row_index = rowdata.index.values[0]
+        book_id = self._df_sync.at[row_index, "local_id"]
         self.controller.delete_book_locally(book_id)
         self._update_library_display()
 
