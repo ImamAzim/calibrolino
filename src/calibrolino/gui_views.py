@@ -300,7 +300,8 @@ class CalibrolinoGUIView(View, tkinter.Tk):
     def _delete_selected_book_online_from_sync(self):
         """delete selected book from the cloud"""
         rowdata = self._synced_table.getSelectedRowData()
-        online_id = rowdata['online_id'].values[0]
+        row_index = rowdata.index.values[0]
+        online_id = self._df_sync.at[row_index, "online_id"]
         self.controller.delete_book(online_id)
         self._update_library_display()
 
@@ -314,7 +315,6 @@ class CalibrolinoGUIView(View, tkinter.Tk):
     def _delete_selected_book_local_from_sync(self):
         """delete selected book from the local lib"""
         rowdata = self._synced_table.getSelectedRowData()
-        # book_id = rowdata['local_id'].values[0]
         row_index = rowdata.index.values[0]
         book_id = self._df_sync.at[row_index, "local_id"]
         self.controller.delete_book_locally(book_id)
