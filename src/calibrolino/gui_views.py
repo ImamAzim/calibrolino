@@ -86,12 +86,25 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         local_frame.pack(side=tkinter.LEFT)
         online_frame = ttk.LabelFrame(self._library_frame, text='online books')
         online_frame.pack(side=tkinter.LEFT)
+
+        frame = synced_frame
+        table_frame = ttk.Frame(frame)
+        table_frame.pack()
         pt = Table(
-            synced_frame,
+            table_frame,
         )
         pt.showindex = True
         pt.show()
+        button_frame = ttk.Frame(frame)
+        button_frame.pack()
+        ttk.Button(
+            button_frame,
+            text='test',
+            command=self._test,
+        ).grid(column=0, row=0)
+
         self._synced_table = pt
+
         pt = Table(
             local_frame,
         )
