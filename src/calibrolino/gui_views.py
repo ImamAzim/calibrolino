@@ -178,11 +178,6 @@ class CalibrolinoGUIView(View, tkinter.Tk):
             text='upload selection',
             command=self._upload_one,
         ).grid(column=1, row=1)
-        # ttk.Button(
-            # self._options_frame,
-            # text='delete selection (online)',
-            # command=self._delete_selected_book,
-        # ).grid(column=2, row=1)
         ttk.Button(
             self._options_frame,
             text='download all',
@@ -193,11 +188,6 @@ class CalibrolinoGUIView(View, tkinter.Tk):
             text='download selection',
             command=self._download_one,
         ).grid(column=1, row=2)
-        ttk.Button(
-            self._options_frame,
-            text='delete selection (locally)',
-            command=self._delete_book_locally,
-        ).grid(column=2, row=2)
 
     def _autodetect_sync(self):
         self.controller.autodetect_to_sync_books()
@@ -301,12 +291,6 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         else:
             self._update_library_display()
 
-    def _delete_book_locally(self):
-        rowdata = self._library_table.getSelectedRowData()
-        book_id = rowdata['local_id'].values[0]
-        self.controller.delete_book_locally(book_id)
-        self._update_library_display()
-
     def _upload_one(self):
         """upload selected book"""
         rowdata = self._local_table.getSelectedRowData()
@@ -318,16 +302,14 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         """delete selected book from the cloud"""
         rowdata = self._synced_table.getSelectedRowData()
         online_id = rowdata['online_id'].values[0]
-        print(online_id)
         self.controller.delete_book(online_id)
         self._update_library_display()
 
     def _delete_selected_book_local_from_sync(self):
-        """delete selected book from the cloud"""
+        """delete selected book from the local lib"""
         rowdata = self._synced_table.getSelectedRowData()
-        online_id = rowdata['local_id'].values[0]
-        print(online_id)
-        self.controller.delete_book(online_id)
+        book_id = rowdata['local_id'].values[0]
+        self.controller.delete_book_locally(book_id)
         self._update_library_display()
 
     def askokcancel(self, msg: str) -> bool:
