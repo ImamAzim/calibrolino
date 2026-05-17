@@ -257,16 +257,17 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         """ """
         df = self.controller.get_full_library(include_online)
         df_sync = df[(df['local_id'] != 0) & (df['online_id'] != '')]
-        df_local = df[(df['local_id'] != 0) & (df['online_id'] == '')]
-        df_online = df[(df['local_id'] == 0) & (df['online_id'] != '')]
+        df_local = df[(df['local_id'] != 0) & (df['online_id'] == '')][
+            ['title']
+        ]
+        df_online = df[(df['local_id'] == 0) & (df['online_id'] != '')][
+            ['title']
+        ]
         self._synced_table.model.df = df_sync
-        self._synced_table.sortTable(1)
         self._synced_table.redraw()
         self._online_table.model.df = df_online
-        self._online_table.sortTable(1)
         self._online_table.redraw()
         self._local_table.model.df = df_local
-        self._local_table.sortTable(1)
         self._local_table.redraw()
 
     def _upload_all(self):
