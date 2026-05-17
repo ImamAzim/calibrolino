@@ -144,6 +144,11 @@ class CalibrolinoGUIView(View, tkinter.Tk):
             text='delete',
             command=self._delete_selected_book_online_from_online,
         ).grid(column=0, row=0)
+        ttk.Button(
+            button_frame,
+            text='download',
+            command=self._download_one,
+        ).grid(column=1, row=0)
 
     def _create_buttons_in_options_frame(self):
         """
@@ -185,11 +190,6 @@ class CalibrolinoGUIView(View, tkinter.Tk):
             text='download all',
             command=self._download_all,
         ).grid(column=0, row=2)
-        ttk.Button(
-            self._options_frame,
-            text='download selection',
-            command=self._download_one,
-        ).grid(column=1, row=2)
 
     def _autodetect_sync(self):
         self.controller.autodetect_to_sync_books()
@@ -284,8 +284,8 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         self._update_library_display()
 
     def _download_one(self):
-        rowdata = self._library_table.getSelectedRowData()
-        online_id = rowdata['online_id'].values[0]
+        rowdata = self._online_table.getSelectedRowData()
+        online_id = rowdata.index.values[0]
         try:
             self.controller.download_book(online_id)
         except ControllerException as e:
