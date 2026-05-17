@@ -311,7 +311,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
 
     def _delete_selected_book_local_from_sync(self):
         """delete selected book from the local lib"""
-        rowdata = self._local_table.getSelectedRowData()
+        rowdata = self._sync_table.getSelectedRowData()
         book_id = rowdata['local_id'].values[0]
         self.controller.delete_book_locally(book_id)
         self._update_library_display()
