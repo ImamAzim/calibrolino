@@ -120,11 +120,6 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         button_frame.pack()
         ttk.Button(
             button_frame,
-            text='upload',
-            command=self._upload_one,
-        ).grid(column=0, row=0)
-        ttk.Button(
-            button_frame,
             text='delete',
             command=self._delete_selected_book_local_from_local,
         ).grid(column=1, row=0)
