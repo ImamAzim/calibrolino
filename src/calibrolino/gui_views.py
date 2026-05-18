@@ -163,36 +163,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         :returns: TODO
 
         """
-        ttk.Button(
-            self._options_frame,
-            text='test',
-            command=self._test,
-        ).grid(column=0, row=0)
-        ttk.Button(
-            self._options_frame,
-            text='refresh',
-            command=self._update_library_display,
-        ).grid(column=1, row=0)
-        ttk.Button(
-            self._options_frame,
-            text='sync',
-            command=self._sync,
-        ).grid(column=2, row=0)
-        ttk.Button(
-            self._options_frame,
-            text='check sync (slow)',
-            command=self._check_sync,
-        ).grid(column=3, row=0)
-        ttk.Button(
-            self._options_frame,
-            text='upload all',
-            command=self._upload_all,
-        ).grid(column=0, row=1)
-        ttk.Button(
-            self._options_frame,
-            text='download all',
-            command=self._download_all,
-        ).grid(column=0, row=2)
+        pass
 
     def _autodetect_sync(self):
         self.controller.autodetect_to_sync_books()
@@ -243,6 +214,26 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         file_menu.add_command(
             label='detect books to be synced...',
             command=self._autodetect_sync,
+        )
+        file_menu.add_command(
+            label='refresh...',
+            command=self._update_library_display,
+        )
+        file_menu.add_command(
+            label='sync...',
+            command=self._sync,
+        )
+        file_menu.add_command(
+            label='check sync (slow)...',
+            command=self._check_sync,
+        )
+        file_menu.add_command(
+            label='upload all books...',
+            command=self._upload_all,
+        )
+        file_menu.add_command(
+            label='download all books',
+            command=self._download_all,
         )
         file_menu.add_command(
             label='quit',
