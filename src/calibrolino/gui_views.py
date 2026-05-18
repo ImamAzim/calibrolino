@@ -108,6 +108,11 @@ class CalibrolinoGUIView(View, tkinter.Tk):
             text='delete from local lib',
             command=self._delete_selected_book_local_from_sync,
         ).grid(column=1, row=0)
+        ttk.Button(
+            button_frame,
+            text="un-sync book",
+            command=self._unsync_book,
+        ).grid(column=2, row=0)
 
         frame = local_frame
         table_frame = ttk.Frame(frame)
