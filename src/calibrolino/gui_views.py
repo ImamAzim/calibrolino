@@ -110,7 +110,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         ).grid(column=1, row=0)
         ttk.Button(
             button_frame,
-            text="un-sync book",
+            text='un-sync book',
             command=self._unsync_book,
         ).grid(column=2, row=0)
 
@@ -272,7 +272,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         df_online = df[(df['local_id'] == 0) & (df['online_id'] != '')][
             ['title']
         ]
-        self._synced_table.model.df = df_sync[["title"]]
+        self._synced_table.model.df = df_sync[['title']]
         self._synced_table.autoResizeColumns()
         self._online_table.model.df = df_online
         self._online_table.autoResizeColumns()
@@ -309,7 +309,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         """keep separated local and online version of ebook"""
         rowdata = self._synced_table.getSelectedRowData()
         row_index = rowdata.index.values[0]
-        local_id = self._df_sync.at[row_index, "local_id"]
+        local_id = self._df_sync.at[row_index, 'local_id']
         self.controller.unsync_book(local_id)
         self._update_library_display()
 
@@ -317,7 +317,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         """delete selected book from the cloud"""
         rowdata = self._synced_table.getSelectedRowData()
         row_index = rowdata.index.values[0]
-        online_id = self._df_sync.at[row_index, "online_id"]
+        online_id = self._df_sync.at[row_index, 'online_id']
         self.controller.delete_book(online_id)
         self._update_library_display()
 
@@ -332,7 +332,7 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         """delete selected book from the local lib"""
         rowdata = self._synced_table.getSelectedRowData()
         row_index = rowdata.index.values[0]
-        book_id = self._df_sync.at[row_index, "local_id"]
+        book_id = self._df_sync.at[row_index, 'local_id']
         self.controller.delete_book_locally(book_id)
         self._update_library_display()
 
