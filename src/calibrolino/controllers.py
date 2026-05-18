@@ -315,6 +315,10 @@ class CalibrolinoController(Controller):
                 for book_id in books_to_upload:
                     self.upload_book(book_id)
 
+    def unsync_book(self, local_id):
+        self._calibre_db.rm_online_id(local_id)
+        self._read_db()
+
     def download_book(self, online_id):
         self._read_db()
         if online_id in self._calibre_db.online_books:

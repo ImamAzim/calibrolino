@@ -112,10 +112,9 @@ class Controller(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def unsync_book(self, online_id, local_id):
+    def unsync_book(self, local_id):
         """separate local and online version of book
 
-        :online_id: TODO
         :local_id: TODO
         :returns: TODO
 
