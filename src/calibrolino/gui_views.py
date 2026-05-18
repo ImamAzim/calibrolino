@@ -74,9 +74,6 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         self._library_frame = ttk.LabelFrame(self)
         self._library_frame.pack()
         self._create_lib_table()
-        self._options_frame = ttk.LabelFrame(self)
-        self._options_frame.pack()
-        self._create_buttons_in_options_frame()
         self.update()
 
     def _create_lib_table(self):
@@ -157,13 +154,6 @@ class CalibrolinoGUIView(View, tkinter.Tk):
             text='download',
             command=self._download_one,
         ).grid(column=1, row=0)
-
-    def _create_buttons_in_options_frame(self):
-        """
-        :returns: TODO
-
-        """
-        pass
 
     def _autodetect_sync(self):
         self.controller.autodetect_to_sync_books()
