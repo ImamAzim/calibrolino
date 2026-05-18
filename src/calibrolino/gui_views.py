@@ -300,6 +300,15 @@ class CalibrolinoGUIView(View, tkinter.Tk):
         self.controller.upload_book(local_id)
         self._update_library_display()
 
+    def _unsync_book(self):
+        """keep separated local and online version of ebook"""
+        rowdata = self._synced_table.getSelectedRowData()
+        row_index = rowdata.index.values[0]
+        online_id = self._df_sync.at[row_index, "online_id"]
+        local_id = self._df_sync.at[row_index, "local_id"]
+
+        self._update_library_display()
+
     def _delete_selected_book_online_from_sync(self):
         """delete selected book from the cloud"""
         rowdata = self._synced_table.getSelectedRowData()
