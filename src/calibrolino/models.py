@@ -630,6 +630,32 @@ class CalibreDBReader(object):
                     self._books[book_id][ONLINE_ID] = online_id
                     self._online_books[online_id] = book_id
 
+    def _get_finished_books(self):
+        pass
+
+        self._online_books = dict()
+        try:
+            column_id = self._custom_columns_id[ONLINE_ID]
+        except KeyError:
+            warnings.warn('no custom column for online_id in DB')
+        else:
+            table_name = f'custom_column_{column_id}'
+            link_table_name = f'books_custom_column_{column_id}_link'
+            link_table = self._tables[link_table_name]
+            if link_table is not None:
+                for row in link_table:
+                    book_id = row['book']
+                    online_id_id = row['value']
+                    sql = f"""
+                    SELECT * FROM {table_name}
+                    WHERE id={online_id_id};
+                    """
+                    res = self._con.execute(sql)
+                    row = res.fetchone()
+                    online_id = row['value']
+                    self._books[book_id][ONLINE_ID] = online_id
+                    self._online_books[online_id] = book_id
+
     def _create_books_dict(self):
 
         files_data = {row['book']: row for row in self._tables['data']}
@@ -748,6 +774,7 @@ class CalibreDBReader(object):
         self._create_custom_columns_id_dict()
         self._add_custom_columns_tables()
         self._create_online_books_dict()
+        self._get_finished_books()
 
 
 def get_serie_title(title, serie_index, serie_name):
@@ -969,10 +996,4 @@ if __name__ == '__main__':
     for book_id, book in books.items():
         print('==========')
         print(book['title'])
-        print(book[LAST_MODIFIED])
-        last_mod = book[LAST_MODIFIED]
-        x = datetime.datetime.fromisoformat(last_mod)
-        y = x.timestamp()
-        print(y)
-        # for key, value in book.items():
-        # print(f'{key}: {value}')
+        print(book.get(FINISHED))
