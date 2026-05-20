@@ -16,6 +16,7 @@ import xdg_base_dirs
 
 
 ONLINE_ID = 'online_id'
+FINISHED = "finished"
 CUSTOM_COLUMNS = 'custom_columns'
 LAST_MODIFIED = 'last_modified'
 
@@ -88,6 +89,7 @@ class CalibreDBReader(object):
         self._get_calibre_db()
         self._load_db()
         self._check_online_id_custom_column()
+        self._check_finished_custom_column()
         self.read_db()
 
     def _check_online_id_custom_column(self):
@@ -106,6 +108,27 @@ class CalibreDBReader(object):
         label = ONLINE_ID
         name = ONLINE_ID
         datatype = 'text'
+        arg = [label, name, datatype]
+        full_cmd = [self._calibre_db_command, cmd] + arg
+        subprocess.run(full_cmd, capture_output=False)
+        self._load_db()
+
+    def _check_finished_custom_column(self):
+        table_name = CUSTOM_COLUMNS
+        sql = f"""
+        SELECT * FROM {table_name}
+        WHERE name='{FINISHED}';
+        """
+        res = self._con.execute(sql)
+        if res.fetchone() is None:
+            self._create_finished_custom_column()
+
+    def _create_finished_custom_column(self):
+        self._close_db()
+        cmd = 'add_custom_column'
+        label = FINISHED
+        name = FINISHED
+        datatype = 'bool'
         arg = [label, name, datatype]
         full_cmd = [self._calibre_db_command, cmd] + arg
         subprocess.run(full_cmd, capture_output=False)
