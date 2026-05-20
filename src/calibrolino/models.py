@@ -443,7 +443,7 @@ class CalibreDBReader(object):
         sql = f"""
         INSERT INTO {table_name} (book, value)
         VALUES ({book_id}, {1})
-        ON CONFLICT({book_id})
+        ON CONFLICT(book)
         DO UPDATE SET
         value = excluded.value;
         """
@@ -465,7 +465,7 @@ class CalibreDBReader(object):
         sql = f"""
         INSERT INTO {table_name} (book, value)
         VALUES ({book_id}, {0})
-        ON CONFLICT({book_id})
+        ON CONFLICT(book)
         DO UPDATE SET
         value = excluded.value;
         """
