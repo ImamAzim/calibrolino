@@ -154,7 +154,7 @@ def mark_as_finished_test(calibre_db, book_id):
     books = calibre_db.books
     book = books[book_id]
     print(book['title'])
-    print('finished', book.get('finished'), False)
+    print('finished', book.get('finished', False))
     try:
         calibre_db.mark_book_as_finished(book_id)
     except CalibrolinoException as e:
@@ -163,7 +163,7 @@ def mark_as_finished_test(calibre_db, book_id):
         print('book marked as read:')
         books = calibre_db.books
         book = books[book_id]
-        print('finished', book.get('finished'), False)
+        print('finished', book.get('finished', False))
 
 def mark_as_not_finished_test(calibre_db, book_id):
     books = calibre_db.books
