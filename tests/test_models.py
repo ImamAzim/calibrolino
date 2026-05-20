@@ -142,9 +142,10 @@ def add_online_id_test(calibre_db, book_id):
         print('online_id', book.get('online_id'))
         print(calibre_db.online_books)
 
-def mark_as_read_test(calibre_db, book_id):
+def mark_as_finished_test(calibre_db, book_id):
     books = calibre_db.books
     book = books[book_id]
+    print(book['title'])
     print('finished', book.get('finished'), False)
     try:
         calibre_db.mark_book_as_finished(book_id)
@@ -156,6 +157,20 @@ def mark_as_read_test(calibre_db, book_id):
         book = books[book_id]
         print('finished', book.get('finished'), False)
 
+def mark_as_not_finished_test(calibre_db, book_id):
+    books = calibre_db.books
+    book = books[book_id]
+    print(book['title'])
+    print('finished', book.get('finished'), False)
+    try:
+        calibre_db.mark_book_as_not_finished(book_id)
+    except CalibrolinoException as e:
+        print(e)
+    else:
+        print('book marked as not finished:')
+        books = calibre_db.books
+        book = books[book_id]
+        print('finished', book.get('finished'), False)
 
 def rm_online_id_test(calibre_db):
     print('TODO: test rm online id')
