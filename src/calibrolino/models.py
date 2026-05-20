@@ -441,8 +441,8 @@ class CalibreDBReader(object):
         table_name = f'custom_column_{column_id}'
 
         sql = f"""
-        INSERT INTO {table_name} (value)
-        VALUES ({1});
+        INSERT INTO {table_name} (book, value)
+        VALUES ({book_id}, {1});
         """
         self._cur.execute(sql)
         self._tables[table_name] = self._get_table(table_name)
@@ -460,8 +460,8 @@ class CalibreDBReader(object):
         table_name = f'custom_column_{column_id}'
 
         sql = f"""
-        INSERT INTO {table_name} (value)
-        VALUES ({0});
+        INSERT INTO {table_name} (book, value)
+        VALUES ({book_id}, {0});
         """
         self._cur.execute(sql)
         self._tables[table_name] = self._get_table(table_name)
