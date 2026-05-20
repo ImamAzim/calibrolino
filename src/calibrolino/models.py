@@ -167,9 +167,12 @@ class CalibreDBReader(object):
     def _get_table(self, table_name):
         """load the book table from the calibre db"""
         sql = f'SELECT * from {table_name}'
-        res = self._con.execute(sql)
-        table = res.fetchall()
-
+        try:
+            res = self._con.execute(sql)
+        except sqlite3.OperationalError:
+            table = dict()
+        else:
+            table = res.fetchall()
         return table
 
     def apply_patch(self, patch, book_id):
