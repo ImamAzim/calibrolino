@@ -170,7 +170,7 @@ class CalibreDBReader(object):
         try:
             res = self._con.execute(sql)
         except sqlite3.OperationalError:
-            table = dict()
+            table = None
         else:
             table = res.fetchall()
         return table
@@ -616,18 +616,19 @@ class CalibreDBReader(object):
             table_name = f'custom_column_{column_id}'
             link_table_name = f'books_custom_column_{column_id}_link'
             link_table = self._tables[link_table_name]
-            for row in link_table:
-                book_id = row['book']
-                online_id_id = row['value']
-                sql = f"""
-                SELECT * FROM {table_name}
-                WHERE id={online_id_id};
-                """
-                res = self._con.execute(sql)
-                row = res.fetchone()
-                online_id = row['value']
-                self._books[book_id][ONLINE_ID] = online_id
-                self._online_books[online_id] = book_id
+            if link_table is not None:
+                for row in link_table:
+                    book_id = row['book']
+                    online_id_id = row['value']
+                    sql = f"""
+                    SELECT * FROM {table_name}
+                    WHERE id={online_id_id};
+                    """
+                    res = self._con.execute(sql)
+                    row = res.fetchone()
+                    online_id = row['value']
+                    self._books[book_id][ONLINE_ID] = online_id
+                    self._online_books[online_id] = book_id
 
     def _create_books_dict(self):
 
