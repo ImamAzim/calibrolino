@@ -436,7 +436,7 @@ class CalibreDBReader(object):
         :returns: TODO
 
         """
-        column_id = self._custom_columns_id[ONLINE_ID]
+        column_id = self._custom_columns_id[FINISHED]
         book = self.books[book_id]
         table_name = f'custom_column_{column_id}'
 
@@ -455,7 +455,7 @@ class CalibreDBReader(object):
         :returns: TODO
 
         """
-        column_id = self._custom_columns_id[ONLINE_ID]
+        column_id = self._custom_columns_id[FINISHED]
         book = self.books[book_id]
         table_name = f'custom_column_{column_id}'
 
