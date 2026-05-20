@@ -442,7 +442,10 @@ class CalibreDBReader(object):
 
         sql = f"""
         INSERT INTO {table_name} (book, value)
-        VALUES ({book_id}, {1});
+        VALUES ({book_id}, {1})
+        ON CONFLICT({book_id})
+        DO UPDATE SETi
+        value = excluded.value;
         """
         self._cur.execute(sql)
         self._tables[table_name] = self._get_table(table_name)
@@ -461,7 +464,10 @@ class CalibreDBReader(object):
 
         sql = f"""
         INSERT INTO {table_name} (book, value)
-        VALUES ({book_id}, {0});
+        VALUES ({book_id}, {0})
+        ON CONFLICT({book_id})
+        DO UPDATE SETi
+        value = excluded.value;
         """
         self._cur.execute(sql)
         self._tables[table_name] = self._get_table(table_name)
