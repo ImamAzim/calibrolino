@@ -631,30 +631,18 @@ class CalibreDBReader(object):
                     self._online_books[online_id] = book_id
 
     def _get_finished_books(self):
-        pass
 
-        self._online_books = dict()
         try:
-            column_id = self._custom_columns_id[ONLINE_ID]
+            column_id = self._custom_columns_id[FINISHED]
         except KeyError:
-            warnings.warn('no custom column for online_id in DB')
+            warnings.warn('no custom column for FINISHED books in DB')
         else:
             table_name = f'custom_column_{column_id}'
-            link_table_name = f'books_custom_column_{column_id}_link'
-            link_table = self._tables[link_table_name]
-            if link_table is not None:
-                for row in link_table:
-                    book_id = row['book']
-                    online_id_id = row['value']
-                    sql = f"""
-                    SELECT * FROM {table_name}
-                    WHERE id={online_id_id};
-                    """
-                    res = self._con.execute(sql)
-                    row = res.fetchone()
-                    online_id = row['value']
-                    self._books[book_id][ONLINE_ID] = online_id
-                    self._online_books[online_id] = book_id
+            table = self._tables[table_name]
+            for row in table:
+                book_id = row['book']
+                finished = row['value']
+                self._books[book_id][FINISHED] = finished
 
     def _create_books_dict(self):
 
