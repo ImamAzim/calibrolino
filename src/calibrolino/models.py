@@ -429,6 +429,24 @@ class CalibreDBReader(object):
         self._load_db()
         self.read_db()
 
+    def mark_book_as_finished(self, book_id):
+        """TODO: Docstring for mark_book_as_finished.
+
+        :book_id: TODO
+        :returns: TODO
+
+        """
+        pass
+
+    def mark_book_as_not_finished(self, book_id):
+        """TODO: Docstring for mark_book_as_finished.
+
+        :book_id: TODO
+        :returns: TODO
+
+        """
+        pass
+
     def add_online_id(self, book_id, online_id):
         """
         add an id to the book corresponding to the id on the cloud. Tells that
@@ -985,3 +1003,4 @@ if __name__ == '__main__':
         print('==========')
         print(book['title'])
         print(book.get(FINISHED))
+        print(book[LAST_MODIFIED])

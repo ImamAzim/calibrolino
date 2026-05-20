@@ -142,6 +142,22 @@ def add_online_id_test(calibre_db, book_id):
         print('online_id', book.get('online_id'))
         print(calibre_db.online_books)
 
+def add_online_id_test(calibre_db, book_id):
+    books = calibre_db.books
+    book = books[book_id]
+    print(calibre_db.online_books)
+    print('online_id', book.get('online_id'))
+    try:
+        calibre_db.add_online_id(book_id, 'fakeonlineid')
+    except CalibrolinoException as e:
+        print(e)
+    else:
+        print('online id added:')
+        books = calibre_db.books
+        book = books[book_id]
+        print('online_id', book.get('online_id'))
+        print(calibre_db.online_books)
+
 
 def rm_online_id_test(calibre_db):
     print('TODO: test rm online id')
@@ -200,10 +216,10 @@ if __name__ == '__main__':
     # cb = CalibreDBReader()
     # print(cb.online_books)
 
-    online_id_db_test()
+    # online_id_db_test()
     # calibre_db = CalibreDBReader()
     # add_rm_book_test(calibre_db)
-    # full_test()
+    full_test()
     # for book in calibre_db.books:
     # print(book)
     # print(book.keys())
