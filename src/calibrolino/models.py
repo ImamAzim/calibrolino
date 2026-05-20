@@ -642,7 +642,7 @@ class CalibreDBReader(object):
             for row in table:
                 book_id = row['book']
                 finished = row['value']
-                self._books[book_id][FINISHED] = finished
+                self._books[book_id][FINISHED] = bool(finished)
 
     def _create_books_dict(self):
 
