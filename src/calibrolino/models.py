@@ -436,7 +436,17 @@ class CalibreDBReader(object):
         :returns: TODO
 
         """
-        pass
+        column_id = self._custom_columns_id[ONLINE_ID]
+        book = self.books[book_id]
+        table_name = f'custom_column_{column_id}'
+
+        sql = f"""
+        INSERT INTO {table_name} (value)
+        VALUES ({1});
+        """
+        self._cur.execute(sql)
+        self._tables[table_name] = self._get_table(table_name)
+        book[FINISHED] = True
 
     def mark_book_as_not_finished(self, book_id):
         """TODO: Docstring for mark_book_as_finished.
@@ -445,7 +455,17 @@ class CalibreDBReader(object):
         :returns: TODO
 
         """
-        pass
+        column_id = self._custom_columns_id[ONLINE_ID]
+        book = self.books[book_id]
+        table_name = f'custom_column_{column_id}'
+
+        sql = f"""
+        INSERT INTO {table_name} (value)
+        VALUES ({0});
+        """
+        self._cur.execute(sql)
+        self._tables[table_name] = self._get_table(table_name)
+        book[FINISHED] = False
 
     def add_online_id(self, book_id, online_id):
         """
