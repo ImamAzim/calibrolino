@@ -142,21 +142,19 @@ def add_online_id_test(calibre_db, book_id):
         print('online_id', book.get('online_id'))
         print(calibre_db.online_books)
 
-def add_online_id_test(calibre_db, book_id):
+def mark_as_read_test(calibre_db, book_id):
     books = calibre_db.books
     book = books[book_id]
-    print(calibre_db.online_books)
-    print('online_id', book.get('online_id'))
+    print('finished', book.get('finished'), False)
     try:
-        calibre_db.add_online_id(book_id, 'fakeonlineid')
+        calibre_db.mark_book_as_finished(book_id)
     except CalibrolinoException as e:
         print(e)
     else:
-        print('online id added:')
+        print('book marked as read:')
         books = calibre_db.books
         book = books[book_id]
-        print('online_id', book.get('online_id'))
-        print(calibre_db.online_books)
+        print('finished', book.get('finished'), False)
 
 
 def rm_online_id_test(calibre_db):
