@@ -284,9 +284,6 @@ class CalibreDBReader(object):
         :returns: tags_to_add, tags_to_delete
 
         """
-        finished = list()
-        not_finished = list()
-        return finished, not_finished
         tags_to_add = dict()
         tags_to_delete = dict()
         for online_id, patches in sorted_patches.items():
@@ -312,23 +309,9 @@ class CalibreDBReader(object):
         :returns: finished, not_finished
 
         """
-        tags_to_add = dict()
-        tags_to_delete = dict()
-        for online_id, patches in sorted_patches.items():
-            local_id = self.online_books[online_id]
-            local_tags = set(self.books[local_id]['tags'])
-            online_tags = set()
-            for patch in patches:
-                value = patch['value']
-                if value.get('category') == 'collection':
-                    op = patch['op']
-                    if op == 'add':
-                        tag_name = value['name']
-                        online_tags.add(tag_name)
-            tags_to_add[online_id] = local_tags - online_tags
-            tags_to_delete[online_id] = online_tags - local_tags
-
-        return tags_to_add, tags_to_delete
+        finished = list()
+        not_finished = list()
+        return finished, not_finished
 
     def sort_patch_by_books(self, patches, book_ids=None):
         if book_ids is not None:
