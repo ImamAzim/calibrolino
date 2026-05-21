@@ -186,7 +186,7 @@ class CalibrolinoController(Controller):
 
     def _push_finish_markers(self, sorted_patches):
         finished, not_finished = self._calibre_db.get_finished_books(sorted_patches)
-        print("finished/not finished:"finished, not_finished)
+        print("finished/not finished:", finished, not_finished)
         added = 0
         # for book_id, tags in tags_to_add.items():
             # res = self._tolino_cloud.upload_tags(book_id, tags)
