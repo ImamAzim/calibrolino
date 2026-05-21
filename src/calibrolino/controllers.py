@@ -170,21 +170,21 @@ class CalibrolinoController(Controller):
 
     def _push(self, books_to_push):
         added, removed = 0, 0
-        tag_added, tag_removed = self._push_local_tags(books_to_push)
+        local_patches = varbox.patches
+        sorted_patches = self._calibre_db.sort_patch_by_books(
+            local_patches, books_to_push
+        )
+        tag_added, tag_removed = self._push_local_tags(sorted_patches)
         added += tag_added
         removed += tag_removed
-        f_added, f_removed = self._push_finish_markers(books_to_push)
+        f_added, f_removed = self._push_finish_markers(sorted_patches)
         added += f_added
         removed += f_removed
         self._view.showinfo(
             f'push sync finished. {added} patch added, {removed} patch removed'
         )
 
-    def _push_finish_markers(self, books_to_push):
-        # local_patches = varbox.patches
-        # sorted_patches = self._calibre_db.sort_patch_by_books(
-            # local_patches, books_to_push
-        # )
+    def _push_finish_markers(self, sorted_patches):
         # tags_to_add, tags_to_delete = self._calibre_db.get_tags_to_sync(
             # sorted_patches
         # )
@@ -223,11 +223,7 @@ class CalibrolinoController(Controller):
                 # varbox.save()
         return added, removed
 
-    def _push_local_tags(self, books_to_push):
-        local_patches = varbox.patches
-        sorted_patches = self._calibre_db.sort_patch_by_books(
-            local_patches, books_to_push
-        )
+    def _push_local_tags(self, sorted_patches):
         tags_to_add, tags_to_delete = self._calibre_db.get_tags_to_sync(
             sorted_patches
         )
