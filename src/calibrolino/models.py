@@ -16,7 +16,7 @@ import xdg_base_dirs
 
 
 ONLINE_ID = 'online_id'
-FINISHED = "finished"
+FINISHED = 'finished'
 CUSTOM_COLUMNS = 'custom_columns'
 LAST_MODIFIED = 'last_modified'
 
@@ -193,24 +193,20 @@ class CalibreDBReader(object):
                 except TagPresentError:
                     raise PatchAlreadyAppliedError
             elif op == 'replace':
-                logging.warn(
-                    'do not know what to do if op is to replace tag'
-                    )
+                logging.warn('do not know what to do if op is to replace tag')
             else:
-                logging.warn(
-                    'do not know what to do if op is to remove tag'
-                )
+                logging.warn('do not know what to do if op is to remove tag')
         elif value.get('category') == 'system':
             op = patch['op']
-            name = value.get("name")
-            if op=='add' and name=="collection_finished_readings_name":
+            name = value.get('name')
+            if op == 'add' and name == 'collection_finished_readings_name':
                 self.mark_book_as_finished(book_id)
             else:
-                logging.warn(f"do not know what to apply for this system patch {op}, {name}")
+                logging.warn(
+                    f'do not know what to apply for this system patch {op}, {name}'
+                )
         else:
-            logging.warn(
-                'patch type (proba reading position) not implemented'
-            )
+            logging.warn('patch type (proba reading position) not implemented')
 
     def unapply_patch(self, patch, book_id):
         """remove a patch (remove from  collection or...), according
@@ -231,8 +227,8 @@ class CalibreDBReader(object):
                     raise PatchAlreadyUnappliedError
         elif value.get('category') == 'system':
             op = patch['op']
-            name = value.get("name")
-            if op=='add' and name=="collection_finished_readings_name":
+            name = value.get('name')
+            if op == 'add' and name == 'collection_finished_readings_name':
                 self.mark_book_as_not_finished(book_id)
 
     def reset_all_metadata(self, books: dict):

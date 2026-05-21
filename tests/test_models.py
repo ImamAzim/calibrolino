@@ -100,17 +100,17 @@ def full_test():
     calibre_db = CalibreDBReader()
     book_id = calibre_db.add_book(test_book_fp, title=TEST_BOOK_TITLE)
     print(f'book added: {book_id}')
-    print("=====search test=====")
+    print('=====search test=====')
     search_book_test(calibre_db)
-    print("=====add tag test=====")
+    print('=====add tag test=====')
     add_tag_test(calibre_db, book_id)
-    print("=====rm tag test=====")
+    print('=====rm tag test=====')
     rm_tag_test(calibre_db, book_id)
-    print("=====add online test=====")
+    print('=====add online test=====')
     add_online_id_test(calibre_db, book_id)
-    print("=====mark finished test=====")
+    print('=====mark finished test=====')
     mark_as_finished_test(calibre_db, book_id)
-    print("=====mark not finished test=====")
+    print('=====mark not finished test=====')
     mark_as_not_finished_test(calibre_db, book_id)
     calibre_db.commit()
     calibre_db.remove_book(book_id)
@@ -150,6 +150,7 @@ def add_online_id_test(calibre_db, book_id):
         print('online_id', book.get('online_id'))
         print(calibre_db.online_books)
 
+
 def mark_as_finished_test(calibre_db, book_id):
     books = calibre_db.books
     book = books[book_id]
@@ -165,6 +166,7 @@ def mark_as_finished_test(calibre_db, book_id):
         book = books[book_id]
         print('finished', book.get('finished', False))
 
+
 def mark_as_not_finished_test(calibre_db, book_id):
     books = calibre_db.books
     book = books[book_id]
@@ -179,6 +181,7 @@ def mark_as_not_finished_test(calibre_db, book_id):
         books = calibre_db.books
         book = books[book_id]
         print('finished', book.get('finished', False))
+
 
 def rm_online_id_test(calibre_db):
     print('TODO: test rm online id')
