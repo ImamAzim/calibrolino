@@ -193,16 +193,21 @@ class CalibreDBReader(object):
                 except TagPresentError:
                     raise PatchAlreadyAppliedError
             elif op == 'replace':
-                raise NotImplementedError(
+                logging.warn(
                     'do not know what to do if op is to replace tag'
-                )
+                    )
             else:
-                raise NotImplementedError(
+                logging.warn(
                     'do not know what to do if op is to remove tag'
                 )
+        elif value.get('category') == 'system':
+            op = patch['op']
+            name = value.get("name")
+            if op=='add' & name=="collection_finished_readings_nameA":
+                self.mark_book_as_finished(book_id)
         else:
             raise NotImplementedError(
-                'patch type (bookmark or reading position) not implemented'
+                'patch type (reading position) not implemented'
             )
 
     def unapply_patch(self, patch, book_id):
