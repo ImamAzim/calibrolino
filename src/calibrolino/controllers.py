@@ -169,6 +169,9 @@ class CalibrolinoController(Controller):
         self._view.showinfo('check done!')
 
     def _push(self, books_to_push):
+        self._push_local_tags(books_to_push)
+
+    def _push_local_tags(self, books_to_push):
         local_patches = varbox.patches
         sorted_patches = self._calibre_db.sort_patch_by_books(
             local_patches, books_to_push
@@ -210,7 +213,7 @@ class CalibrolinoController(Controller):
                     del saved_patches[rev]
                 varbox.save()
         self._view.showinfo(
-            f'pull sync finished. {added} patch added, {removed} patch removed'
+            f'push sync finished. {added} patch added, {removed} patch removed'
         )
 
     def _pull(self, force=False):
