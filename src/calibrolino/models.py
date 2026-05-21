@@ -313,8 +313,19 @@ class CalibreDBReader(object):
         not_finished = list()
         for online_id, patches in sorted_patches.items():
             local_id = self.online_books[online_id]
-            book_finished = self.books[local_id].get(FINISHED)
-            pass
+            local_book_is_finished = self.books[local_id].get(FINISHED)
+            online_book_is_finished = False
+            for patch in patches:
+                value = patch['value']
+                elif value.get('category') == 'system':
+                    op = patch['op']
+                    name = value.get('name')
+                    if op == 'add' and name == 'collection_finished_readings_name':
+                        online_book_is_finished = True
+            if local_book_is_finished and not online_book_is_finished:
+                finished.append(online_id)
+            elif not local_book_is_finished and online_book_is_finished:
+                not_finished.append(online_id)
         return finished, not_finished
 
     def sort_patch_by_books(self, patches, book_ids=None):
