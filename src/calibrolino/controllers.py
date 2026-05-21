@@ -169,7 +169,59 @@ class CalibrolinoController(Controller):
         self._view.showinfo('check done!')
 
     def _push(self, books_to_push):
-        self._push_local_tags(books_to_push)
+        added, removed = 0, 0
+        tag_added, tag_removed = self._push_local_tags(books_to_push)
+        added += tag_added
+        removed += tag_removed
+        f_added, f_removed = self._push_finish_markers(books_to_push)
+        added += f_added
+        removed += f_removed
+        self._view.showinfo(
+            f'push sync finished. {added} patch added, {removed} patch removed'
+        )
+
+    def _push_finish_markers(self, books_to_push):
+        # local_patches = varbox.patches
+        # sorted_patches = self._calibre_db.sort_patch_by_books(
+            # local_patches, books_to_push
+        # )
+        # tags_to_add, tags_to_delete = self._calibre_db.get_tags_to_sync(
+            # sorted_patches
+        # )
+        added = 0
+        # for book_id, tags in tags_to_add.items():
+            # res = self._tolino_cloud.upload_tags(book_id, tags)
+            # revision, patches = res
+            # added += len(patches)
+            # if revision:
+                # saved_patches = varbox.patches
+                # varbox.revision = revision
+                # saved_patches.update(patches)
+                # varbox.save()
+        removed = 0
+        # for book_id, tags in tags_to_delete.items():
+            # res = self._tolino_cloud.remove_tags(book_id, tags)
+            # revision, patches = res
+            # removed += len(patches)
+            # if revision:
+                # saved_patches: dict = varbox.patches
+                # varbox.revision = revision
+                # patches_to_delete = set()
+                # for patch in patches.values():
+                    # if patch['op'] == 'remove':
+                        # tag_name = patch['value']['name']
+                        # online_id = self._tolino_cloud.get_ebook_id(patch)
+                        # for rev, local_patch in saved_patches.items():
+                            # if (
+                                # self._tolino_cloud.get_ebook_id(local_patch)
+                                # == online_id
+                            # ):
+                                # if tag_name == local_patch['value']['name']:
+                                    # patches_to_delete.add(rev)
+                # for rev in patches_to_delete:
+                    # del saved_patches[rev]
+                # varbox.save()
+        return added, removed
 
     def _push_local_tags(self, books_to_push):
         local_patches = varbox.patches
@@ -212,9 +264,7 @@ class CalibrolinoController(Controller):
                 for rev in patches_to_delete:
                     del saved_patches[rev]
                 varbox.save()
-        self._view.showinfo(
-            f'push sync finished. {added} patch added, {removed} patch removed'
-        )
+        return added, removed
 
     def _pull(self, force=False):
 
