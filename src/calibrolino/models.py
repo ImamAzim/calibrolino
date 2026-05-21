@@ -203,11 +203,13 @@ class CalibreDBReader(object):
         elif value.get('category') == 'system':
             op = patch['op']
             name = value.get("name")
-            if op=='add' & name=="collection_finished_readings_nameA":
+            if op=='add' & name=="collection_finished_readings_name":
                 self.mark_book_as_finished(book_id)
+            else:
+                logging.warn(f"do not know what to apply for this system patch {op}, {name}")
         else:
-            raise NotImplementedError(
-                'patch type (reading position) not implemented'
+            logging.warn(
+                'patch type (proba reading position) not implemented'
             )
 
     def unapply_patch(self, patch, book_id):
@@ -227,18 +229,11 @@ class CalibreDBReader(object):
                     self.rm_tag(book_id, tag_name)
                 except TagAbsentError:
                     raise PatchAlreadyUnappliedError
-            elif op == 'replace':
-                raise NotImplementedError(
-                    'do not know what to do if op was to replace tag'
-                )
-            else:
-                raise NotImplementedError(
-                    'do not know what to do if op was to remove tag'
-                )
-        else:
-            raise NotImplementedError(
-                'patch type (bookmark or reading position) not implemented'
-            )
+        elif value.get('category') == 'system':
+            op = patch['op']
+            name = value.get("name")
+            if op=='add' & name=="collection_finished_readings_nameA":
+                self.mark_book_as_finished(book_id)
 
     def reset_all_metadata(self, books: dict):
         """in prevision to pull online sync data, delete ALL tags from
