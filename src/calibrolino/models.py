@@ -311,6 +311,10 @@ class CalibreDBReader(object):
         """
         finished = list()
         not_finished = list()
+        for online_id, patches in sorted_patches.items():
+            local_id = self.online_books[online_id]
+            book_finished = self.books[local_id].get(FINISHED)
+            pass
         return finished, not_finished
 
     def sort_patch_by_books(self, patches, book_ids=None):
