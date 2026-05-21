@@ -233,7 +233,7 @@ class CalibreDBReader(object):
             op = patch['op']
             name = value.get("name")
             if op=='add' & name=="collection_finished_readings_nameA":
-                self.mark_book_as_finished(book_id)
+                self.mark_book_as_not_finished(book_id)
 
     def reset_all_metadata(self, books: dict):
         """in prevision to pull online sync data, delete ALL tags from
