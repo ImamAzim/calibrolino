@@ -203,7 +203,7 @@ class CalibreDBReader(object):
         elif value.get('category') == 'system':
             op = patch['op']
             name = value.get("name")
-            if op=='add' & name=="collection_finished_readings_name":
+            if op=='add' and name=="collection_finished_readings_name":
                 self.mark_book_as_finished(book_id)
             else:
                 logging.warn(f"do not know what to apply for this system patch {op}, {name}")
@@ -232,7 +232,7 @@ class CalibreDBReader(object):
         elif value.get('category') == 'system':
             op = patch['op']
             name = value.get("name")
-            if op=='add' & name=="collection_finished_readings_nameA":
+            if op=='add' and name=="collection_finished_readings_name":
                 self.mark_book_as_not_finished(book_id)
 
     def reset_all_metadata(self, books: dict):
