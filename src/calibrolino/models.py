@@ -317,7 +317,7 @@ class CalibreDBReader(object):
             online_book_is_finished = False
             for patch in patches:
                 value = patch['value']
-                elif value.get('category') == 'system':
+                if value.get('category') == 'system':
                     op = patch['op']
                     name = value.get('name')
                     if op == 'add' and name == 'collection_finished_readings_name':
