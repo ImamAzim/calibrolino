@@ -2515,7 +2515,7 @@ sdist = { url = "https://files.pythonhosted.org/packages/ef/c6/2c5999de3bb153352
 
 [[package]]
 name = "pytolino"
-version = "3.2"
+version = "3.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "curl-cffi" },
@@ -2525,9 +2525,9 @@ dependencies = [
     { name = "varboxes" },
     { name = "xdg-base-dirs" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/42/9c/d444993bd9ac74defcddeba79e73fba57bd3cf9862a13fa035070a9e5d26/pytolino-3.2.tar.gz", hash = "sha256:75110a7b09931b0b8f9a26b9980ba18d1772f5edd2d3deba6af8f15810cc8da4", size = 2973098, upload-time = "2026-05-06T19:16:40.701Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/39/1e/3d17355537fb3f0922806e6812d1840351ab7011ff04f94ab998d8161b35/pytolino-3.3.tar.gz", hash = "sha256:89d2e3a91d55b0d5005ad0706328b003cda6b1849ff0d679ab6e5baf1afbed9a", size = 874424, upload-time = "2026-05-23T20:54:41.046Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/28/7f/bc5499b8dfa42e3314012b9fabc524ab4a63a3edf3a6e4f102949c4412a9/pytolino-3.2-py3-none-any.whl", hash = "sha256:928785a8a33c8414089980c0d28431b5e557232d1dc3bc804532019fbdf7ff24", size = 23958, upload-time = "2026-05-06T19:16:33.944Z" },
+    { url = "https://files.pythonhosted.org/packages/fc/91/860690514296ea960d5045dae5ccb114038180d52cbe0a552a5da2f3b87d/pytolino-3.3-py3-none-any.whl", hash = "sha256:3a20ca80247aa8668ce7a33bb1dfd6c26bc08a8d379cbd094be8f85411152018", size = 24255, upload-time = "2026-05-23T20:54:27.757Z" },
 ]
 
 [[package]]
