@@ -186,7 +186,6 @@ class CalibrolinoController(Controller):
 
     def _push_finish_markers(self, sorted_patches):
         finished_books, not_finished_books = self._calibre_db.get_finished_books(sorted_patches)
-        print("finished/not finished:", finished_books, not_finished_books)
         added = 0
         for book_id in finished_books:
             res = self._tolino_cloud.mark_finished(book_id)
