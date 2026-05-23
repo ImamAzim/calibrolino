@@ -1000,36 +1000,32 @@ class TolinoCloud(object):
         mark book as finished
 
         """
-        func = self._client.mark_book_as_finished(book_id)
-        patches = dict()
+        func = self._client.mark_book_as_finished
         revision = None
-        for tag in tags:
-            try:
-                res = self._try_before_login(func, book_id, tag)
-            except CalibrolinoException as e:
-                logging.error(e)
-            else:
-                revision, patch_rev, patch = res
-                patches[patch_rev] = patch
-        return revision, patches
+        patch = dict()
+        try:
+            res = self._try_before_login(func, book_id)
+        except CalibrolinoException as e:
+            logging.error(e)
+        else:
+            revision, patch_rev, patch = res
+        return revision, patch
 
     def mark_as_not_finished(self, book_id):
         """
         mark book as finished
 
         """
-        func = self._client.mark_book_as_not_finished(book_id)
-        patches = dict()
+        func = self._client.mark_book_as_not_finished
         revision = None
-        for tag in tags:
-            try:
-                res = self._try_before_login(func, book_id, tag)
-            except CalibrolinoException as e:
-                logging.error(e)
-            else:
-                revision, patch_rev, patch = res
-                patches[patch_rev] = patch
-        return revision, patches
+        patch = dict()
+        try:
+            res = self._try_before_login(func, book_id)
+        except CalibrolinoException as e:
+            logging.error(e)
+        else:
+            revision, patch_rev, patch = res
+        return revision, patch
 
     def remove_tags(self, book_id, tags):
         """

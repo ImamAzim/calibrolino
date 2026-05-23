@@ -188,40 +188,38 @@ class CalibrolinoController(Controller):
         finished_books, not_finished_books = self._calibre_db.get_finished_books(sorted_patches)
         print("finished/not finished:", finished_books, not_finished_books)
         added = 0
-        for finished in finished_books:
-            pass
-        # for book_id, tags in tags_to_add.items():
-            # res = self._tolino_cloud.upload_tags(book_id, tags)
-            # revision, patches = res
-            # added += len(patches)
-            # if revision:
-                # saved_patches = varbox.patches
-                # varbox.revision = revision
-                # saved_patches.update(patches)
-                # varbox.save()
+        for book_id in finished_books:
+            res = self._tolino_cloud.mark_finished(book_id)
+            revision, patches = res
+            added += len(patches)
+            if revision:
+                saved_patches = varbox.patches
+                varbox.revision = revision
+                saved_patches.update(patches)
+                varbox.save()
         removed = 0
-        # for book_id, tags in tags_to_delete.items():
-            # res = self._tolino_cloud.remove_tags(book_id, tags)
-            # revision, patches = res
-            # removed += len(patches)
-            # if revision:
-                # saved_patches: dict = varbox.patches
-                # varbox.revision = revision
-                # patches_to_delete = set()
-                # for patch in patches.values():
-                    # if patch['op'] == 'remove':
-                        # tag_name = patch['value']['name']
-                        # online_id = self._tolino_cloud.get_ebook_id(patch)
-                        # for rev, local_patch in saved_patches.items():
-                            # if (
-                                # self._tolino_cloud.get_ebook_id(local_patch)
-                                # == online_id
-                            # ):
-                                # if tag_name == local_patch['value']['name']:
-                                    # patches_to_delete.add(rev)
-                # for rev in patches_to_delete:
-                    # del saved_patches[rev]
-                # varbox.save()
+        for book_id in not_finished_books:
+            res = self._tolino_cloud.mark_as_not_finished(book_id)
+            revision, patches = res
+            removed += len(patches)
+            if revision:
+                saved_patches: dict = varbox.patches
+                varbox.revision = revision
+                patches_to_delete = set()
+                for patch in patches.values():
+                    if patch['op'] == 'remove':
+                        tag_name = patch['value']['name']
+                        online_id = self._tolino_cloud.get_ebook_id(patch)
+                        for rev, local_patch in saved_patches.items():
+                            if (
+                                self._tolino_cloud.get_ebook_id(local_patch)
+                                == online_id
+                            ):
+                                if tag_name == local_patch['value']['name']:
+                                    patches_to_delete.add(rev)
+                for rev in patches_to_delete:
+                    del saved_patches[rev]
+                varbox.save()
         return added, removed
 
     def _push_local_tags(self, sorted_patches):
