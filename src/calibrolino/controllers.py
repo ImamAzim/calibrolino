@@ -190,17 +190,17 @@ class CalibrolinoController(Controller):
         added = 0
         for book_id in finished_books:
             res = self._tolino_cloud.mark_finished(book_id)
-            revision, patch = res
+            revision, patch_rev, patch = res
             if revision:
                 added += 1
                 saved_patches = varbox.patches
                 varbox.revision = revision
-                saved_patches.update(patch)
+                saved_patches[patch_rev] = patch
                 varbox.save()
         removed = 0
         for book_id in not_finished_books:
             res = self._tolino_cloud.mark_as_not_finished(book_id)
-            revision, patch = res
+            revision, patch_rev, patch = res
             if revision:
                 removed += 1
                 saved_patches: dict = varbox.patches
