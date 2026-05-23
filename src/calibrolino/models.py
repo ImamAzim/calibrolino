@@ -995,6 +995,23 @@ class TolinoCloud(object):
                 patches[patch_rev] = patch
         return revision, patches
 
+    def mark_finished(self, book_id):
+        """
+        mark book as finished
+
+        """
+        patches = dict()
+        revision = None
+        for tag in tags:
+            try:
+                res = self._try_before_login(func, book_id, tag)
+            except CalibrolinoException as e:
+                logging.error(e)
+            else:
+                revision, patch_rev, patch = res
+                patches[patch_rev] = patch
+        return revision, patches
+
     def remove_tags(self, book_id, tags):
         """
         remove tags
