@@ -185,7 +185,9 @@ class CalibrolinoController(Controller):
         )
 
     def _push_finish_markers(self, sorted_patches):
-        finished_books, not_finished_books = self._calibre_db.get_finished_books(sorted_patches)
+        finished_books, not_finished_books = (
+            self._calibre_db.get_finished_books(sorted_patches)
+        )
         added = 0
         for book_id in finished_books:
             res = self._tolino_cloud.mark_finished(book_id)
@@ -215,7 +217,11 @@ class CalibrolinoController(Controller):
                             if value.get('category') == 'system':
                                 op = patch['op']
                                 name = value.get('name')
-                                if op == 'add' and name == 'collection_finished_readings_name':
+                                if (
+                                    op == 'add'
+                                    and name
+                                    == 'collection_finished_readings_name'
+                                ):
                                     del saved_patches[rev]
                                     break
                 varbox.save()
@@ -253,7 +259,9 @@ class CalibrolinoController(Controller):
                                 self._tolino_cloud.get_ebook_id(local_patch)
                                 == online_id
                             ):
-                                if tag_name == local_patch['value'].get('name'):
+                                if tag_name == local_patch['value'].get(
+                                    'name'
+                                ):
                                     patches_to_delete.add(rev)
                 for rev in patches_to_delete:
                     del saved_patches[rev]
