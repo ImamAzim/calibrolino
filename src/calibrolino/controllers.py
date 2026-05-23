@@ -253,7 +253,7 @@ class CalibrolinoController(Controller):
                                 self._tolino_cloud.get_ebook_id(local_patch)
                                 == online_id
                             ):
-                                if tag_name == local_patch['value']['name']:
+                                if tag_name == local_patch['value'].get('name'):
                                     patches_to_delete.add(rev)
                 for rev in patches_to_delete:
                     del saved_patches[rev]
