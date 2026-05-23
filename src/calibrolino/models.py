@@ -1009,7 +1009,7 @@ class TolinoCloud(object):
             logging.error(e)
         else:
             revision, patch_rev, patch = res
-        return revision, patch
+        return revision, patch_rev, patch
 
     def mark_as_not_finished(self, book_id):
         """
@@ -1025,7 +1025,7 @@ class TolinoCloud(object):
             logging.error(e)
         else:
             revision, patch_rev, patch = res
-        return revision, patch
+        return revision, patch_rev, patch
 
     def remove_tags(self, book_id, tags):
         """
