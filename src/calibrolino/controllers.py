@@ -212,6 +212,7 @@ class CalibrolinoController(Controller):
                             self._tolino_cloud.get_ebook_id(local_patch)
                             == online_id
                         ):
+                            value = patch['value']
                             if value.get('category') == 'system':
                                 op = patch['op']
                                 name = value.get('name')
