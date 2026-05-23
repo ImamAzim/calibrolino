@@ -190,35 +190,34 @@ class CalibrolinoController(Controller):
         added = 0
         for book_id in finished_books:
             res = self._tolino_cloud.mark_finished(book_id)
-            revision, patches = res
-            added += len(patches)
+            revision, patch = res
             if revision:
+                added += 1
                 saved_patches = varbox.patches
                 varbox.revision = revision
-                saved_patches.update(patches)
+                saved_patches.update(patch)
                 varbox.save()
         removed = 0
         for book_id in not_finished_books:
             res = self._tolino_cloud.mark_as_not_finished(book_id)
-            revision, patches = res
-            removed += len(patches)
+            revision, patch = res
             if revision:
+                removed += 1
                 saved_patches: dict = varbox.patches
                 varbox.revision = revision
-                patches_to_delete = set()
-                for patch in patches.values():
-                    if patch['op'] == 'remove':
-                        tag_name = patch['value']['name']
-                        online_id = self._tolino_cloud.get_ebook_id(patch)
-                        for rev, local_patch in saved_patches.items():
-                            if (
-                                self._tolino_cloud.get_ebook_id(local_patch)
-                                == online_id
-                            ):
-                                if tag_name == local_patch['value']['name']:
-                                    patches_to_delete.add(rev)
-                for rev in patches_to_delete:
-                    del saved_patches[rev]
+                if patch['op'] == 'remove':
+                    online_id = self._tolino_cloud.get_ebook_id(patch)
+                    for rev, local_patch in saved_patches.items():
+                        if (
+                            self._tolino_cloud.get_ebook_id(local_patch)
+                            == online_id
+                        ):
+                            if value.get('category') == 'system':
+                                op = patch['op']
+                                name = value.get('name')
+                                if op == 'add' and name == 'collection_finished_readings_name':
+                                    del saved_patches[rev]
+                                    break
                 varbox.save()
         return added, removed
 
