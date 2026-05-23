@@ -124,7 +124,7 @@ class CalibrolinoController(Controller):
         self._pull()
         self._push(books_to_push)
         now = time.time()
-        # varbox.last_push_date = now
+        varbox.last_push_date = now
 
     def check_sync(self):
         self._calibre_db.read_db()
