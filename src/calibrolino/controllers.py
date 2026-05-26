@@ -392,7 +392,7 @@ class CalibrolinoController(Controller):
                 self._view.showerror(e)
             else:
                 try:
-                    book_id = self._calibre_db.add_book(book_path, metadata, **options)
+                    book_id = self._calibre_db.add_book(book_path, **options)
                 except CalibrolinoException as e:
                     self._view.showerror(e)
                 else:
