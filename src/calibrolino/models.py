@@ -947,6 +947,9 @@ class TolinoCloud(object):
         options = dict()
         # options["cover" ] = cover_path.as_posix()
         keys = ['authors', 'isbn', 'languages']
+        additionnal_metadata = dict(
+                publisher=metadata[publisher],
+                )
         for key in keys:
             if metadata.get(key):
                 options[key] = metadata[key]
@@ -956,7 +959,7 @@ class TolinoCloud(object):
         if serie:
             options['series'] = serie
             options['series-index'] = serie_index
-        return epub_fp, options
+        return epub_fp, options, additionnal_metadata
 
     def upload_all_tags_of_book(self, book, online_id):
         """
