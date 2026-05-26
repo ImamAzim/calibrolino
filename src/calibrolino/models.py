@@ -443,7 +443,7 @@ class CalibreDBReader(object):
         self._close_db()
         cmd = 'set_metadata'
         options_list = list()
-        arg = book_id
+        arg = str(book_id)
         for key, value in metadata.items():
             option_i = [f'--field', f'{key}:{value}']
             options_list = options_list + option_i
