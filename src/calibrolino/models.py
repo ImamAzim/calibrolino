@@ -972,7 +972,7 @@ class TolinoCloud(object):
         # options["cover" ] = cover_path.as_posix()
         keys = ['authors', 'isbn', 'languages']
         additionnal_metadata = dict(
-                publisher=metadata[publisher],
+                publisher=metadata["publisher"],
                 )
         for key in keys:
             if metadata.get(key):
