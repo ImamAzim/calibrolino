@@ -435,6 +435,30 @@ class CalibreDBReader(object):
             self.read_db()
             return book_id
 
+    def set_metadata(self, book_id, **metadata):
+        """set metadata of books. we use here calibredb script, but could
+        be improved by the use sqlite3 directly
+
+        """
+        self._close_db()
+        cmd = 'set_metadata'
+        options_list = list()
+        arg = book_id
+        for key, value in metadata.items():
+            option_i = [f'--field', f'{key}:{value}']
+            options_list = options_list + option_i
+        full_cmd = [self._calibre_db_command, cmd] + options_list + [arg]
+        completed_process = subprocess.run(full_cmd, capture_output=True)
+        answer = completed_process.stdout.decode()
+        error = completed_process.stderr.decode()
+        if error:
+            self._load_db()
+            self.read_db()
+            raise CalibrolinoException(error)
+        else:
+            self._load_db()
+            self.read_db()
+
     def remove_book(self, book_id):
         """delete a book from the library
 
