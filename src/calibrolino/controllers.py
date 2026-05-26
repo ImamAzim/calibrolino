@@ -387,12 +387,12 @@ class CalibrolinoController(Controller):
         else:
             try:
                 res = self._tolino_cloud.download_book(online_id)
-                book_path, options = res
+                book_path, options, metadata = res
             except TolinoCloudException as e:
                 self._view.showerror(e)
             else:
                 try:
-                    book_id = self._calibre_db.add_book(book_path, **options)
+                    book_id = self._calibre_db.add_book(book_path, metadata, **options)
                 except CalibrolinoException as e:
                     self._view.showerror(e)
                 else:
