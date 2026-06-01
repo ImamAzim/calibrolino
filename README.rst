@@ -14,6 +14,8 @@ Features
 * safe: no automatic download/upload. Only the books that are both present online and in calibre will be synchronized.
 * options: auto-detect books that could be synchronize, although they have not been uploaded/downloaded with this app.
 
+.. image:: calibrolino_screenshot.png
+   :width: 600
 
 quick start
 =============
