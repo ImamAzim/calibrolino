@@ -496,7 +496,8 @@ class CalibrolinoController(Controller):
         """read the calibre library and get books"""
         try:
             self._calibre_db.read_db()
-            self._clean_local_revision()
+            if self._tolino_cloud is Not None:
+                self._clean_local_revision()
         except CalibrolinoException:
             self._view.showerror('failed to read the calibre db')
 
