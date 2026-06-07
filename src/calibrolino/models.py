@@ -954,9 +954,21 @@ class TolinoCloud(object):
         print(f'uploading {title}')
         file_path = book['file_path']
         book_id = self._try_before_login(self._client.upload, file_path)
-        self._try_before_login(self._upload_cover, book, book_id)
-        self._try_before_login(self._upload_meta, book, book_id)
-        print('book uploaded')
+        logging.info("book uploaded")
+        try:
+            self._upload_cover(book, book_id)
+        except PytolinoException as e:
+            logging.error(e)
+            logging.error("could not upload cover")
+        else:
+            logging.info("cover uploaded")
+        try:
+            self._upload_meta(book, book_id)
+        except PytolinoException as e:
+            logging.error(e)
+            logging.error("could not upload metadata")
+        else:
+            logging.info("metadata uploaded")
         return book_id
 
     def download_book(self, online_id: str):
