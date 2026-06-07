@@ -940,7 +940,7 @@ class TolinoCloud(object):
         uploaded_books = dict()
         for book in inventory:
             full_title = book['epubMetaData']['title']
-            book_id = book['publicationId']
+            book_id = book['epubMetaData']["identifier"]
             uploaded_books[book_id] = full_title
         return uploaded_books
 
